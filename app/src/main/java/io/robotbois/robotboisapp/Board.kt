@@ -8,7 +8,7 @@ package io.robotbois.robotboisapp
  * @param The size of the board (3, 4, or 5)
  * @param The info string for the board layout
  */
-class levelGrid (val size: Int, boardInfo: String){
+class Board(val size: Int, boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
     var difficulty: String
 
