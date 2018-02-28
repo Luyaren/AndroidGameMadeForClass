@@ -1,9 +1,10 @@
-package io.robotbois.robotboisapp.activities
+package io.robotbois.robotboisapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import io.robotbois.robotboisapp.R
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         bLevelSelect.setOnClickListener {
-            toast("You are going to level select!")
+            //startActivity<LevelSelectActivity>()
         }
 
         bOptions.setOnClickListener {

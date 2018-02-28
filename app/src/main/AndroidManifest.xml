@@ -20,10 +20,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".level_select"
+            android:name=".activities.LevelSelectActivity"
             android:label="@string/title_activity_level_select"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".level_play"></activity>
+        <activity android:name=".activities.LevelPlayActivity"></activity>
     </application>
 
 </manifest>

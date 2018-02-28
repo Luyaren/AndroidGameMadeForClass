@@ -12,8 +12,6 @@ class Board(val size: Int, boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
     var difficulty: String
 
-
-
     /**
      * This is the initial method to run. It creates the board
      * and sets the value of each position
@@ -26,12 +24,12 @@ class Board(val size: Int, boardInfo: String){
             }
         }
 
-        if(size == 3)
-            difficulty = "Easy"
+        difficulty = if(size == 3)
+            "Easy"
         else if(size == 4)
-            difficulty = "Medium"
+            "Medium"
         else
-            difficulty = "Hard"
+            "Hard"
     }
 
     /**
@@ -40,9 +38,20 @@ class Board(val size: Int, boardInfo: String){
      * @param The row of the board
      * @param The column of the board
      * @return The char value at that position
+     * @exception If the index is invalid
      */
-    fun boardVal(x: Int, y: Int): Char {
+    fun boardVal(x: Int, y: Int): Char{
+        if(x < 0 || y < 0 || x >= size || y >= size)
+            throw Exception("Invalid Index")
         return gridLayout[x][y]
     }
 
+    /**
+     * This method returns the difficulty of the level
+     * @return The difficulty level of the board (easy, medium, difficult
+     */
+    /*
+    fun diffGetter(): String{
+        return difficulty
+    }*/
 }
