@@ -141,11 +141,23 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.jetbrains.anko:anko-coroutines:0.10.4@jar" level="project" />
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-27.0.2" level="project" />
+<<<<<<< HEAD
+    <orderEntry type="library" name="com.android.support:appcompat-v7-27.0.2" level="project" />
+    <orderEntry type="library" name="com.android.support:support-annotations:27.0.2@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:design-27.0.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit:junit:4.12@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-core-3.0.1" level="project" />
+    <orderEntry type="library" name="com.android.support:transition-27.0.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="javax.inject:javax.inject:1@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.squareup:javawriter:2.1.1@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:recyclerview-v7-27.0.2" level="project" />
+=======
     <orderEntry type="library" name="org.jetbrains.kotlinx:kotlinx-coroutines-android:0.15@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-base-license-11.8.0" level="project" />
     <orderEntry type="library" scope="TEST" name="com.squareup:javawriter:2.1.1@jar" level="project" />
     <orderEntry type="library" name="org.jetbrains.anko:anko-sdk25-coroutines:0.10.4@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-basement-license-11.8.0" level="project" />
+>>>>>>> master
     <orderEntry type="library" name="com.android.support.constraint:constraint-layout-solver:1.0.2@jar" level="project" />
     <orderEntry type="library" name="com.android.support.constraint:constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test:runner-1.0.1" level="project" />
@@ -166,6 +178,10 @@
     <orderEntry type="library" scope="TEST" name="net.sf.kxml:kxml2:2.3.0@jar" level="project" />
     <orderEntry type="library" name="com.android.support:support-fragment-27.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:support-media-compat-27.0.2" level="project" />
+<<<<<<< HEAD
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.21@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-v4-27.0.2" level="project" />
+=======
     <orderEntry type="library" name="org.jetbrains.anko:anko-support-v4-commons:0.10.4@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-base-11.8.0" level="project" />
     <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.21@jar" level="project" />
@@ -190,5 +206,6 @@
     <orderEntry type="library" name="com.android.support:support-core-utils-27.0.2" level="project" />
     <orderEntry type="library" name="org.jetbrains.kotlinx:kotlinx-coroutines-core:0.15@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-license-11.8.0" level="project" />
+>>>>>>> master
   </component>
 </module>

@@ -19,6 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".level_select"
+            android:label="@string/title_activity_level_select"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".level_play"></activity>
     </application>
 
 </manifest>
