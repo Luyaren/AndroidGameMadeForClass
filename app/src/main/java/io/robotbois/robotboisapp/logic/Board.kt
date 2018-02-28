@@ -1,4 +1,4 @@
-package io.robotbois.robotboisapp
+package io.robotbois.robotboisapp.logic
 
 /**
  * Created by Aaron on 2/21/2018.
@@ -11,6 +11,8 @@ package io.robotbois.robotboisapp
 class Board(val size: Int, boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
     var difficulty: String
+
+
 
     /**
      * This is the initial method to run. It creates the board
@@ -39,15 +41,8 @@ class Board(val size: Int, boardInfo: String){
      * @param The column of the board
      * @return The char value at that position
      */
-    fun boardVal(x: Int, y: Int): Char{
+    fun boardVal(x: Int, y: Int): Char {
         return gridLayout[x][y]
     }
 
-    /**
-     * This method returns the difficulty of the level
-     * @return The difficulty level of the board (easy, medium, difficult
-     */
-    fun diffGetter(): String{
-        return difficulty
-    }
 }
