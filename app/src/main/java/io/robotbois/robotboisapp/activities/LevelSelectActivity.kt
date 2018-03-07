@@ -1,50 +1,35 @@
-package io.robotbois.robotboisapp
+package io.robotbois.robotboisapp.activities
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.widget.Button
-
+import io.robotbois.robotboisapp.R
+import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_select.*
+import kotlinx.android.synthetic.main.content_level_select.*
+import org.jetbrains.anko.startActivity
 
-class level_select : AppCompatActivity() {
+class LevelSelectActivity : AppCompatActivity() {
 
-    var bTestLevel: Button? = null
-    var bTestLevel2: Button? = null
-    var bTestLevel3: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_select)
         setSupportActionBar(toolbar)
 
-        var bTestLevel = findViewById<Button>(R.id.bTestLevel) as Button
-        var bTestLevel2 = findViewById<Button>(R.id.bTestLevel2) as Button
-        var bTestLevel3 = findViewById<Button>(R.id.bTestLevel3) as Button
+        NavbarManager.navbarFor(this)
 
-        bTestLevel.setOnClickListener(View.OnClickListener {
-            @Override
-            fun onClick(v: View){
-
-            }
-        })
-        bTestLevel2.setOnClickListener(View.OnClickListener {
-            @Override
-            fun onClick(v: View){
-
-            }
-        })
-        bTestLevel3.setOnClickListener(View.OnClickListener {
-            @Override
-            fun onClick(v: View){
-
-            }
-        })
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        bTestLevel.setOnClickListener {
+            startActivity<LevelPlayActivity>()
         }
+
+        bTestLevel2.setOnClickListener {
+            startActivity<LevelPlayActivity>()
+        }
+
+        bTestLevel3.setOnClickListener {
+            startActivity<LevelPlayActivity>()
+        }
+
     }
 
 }
