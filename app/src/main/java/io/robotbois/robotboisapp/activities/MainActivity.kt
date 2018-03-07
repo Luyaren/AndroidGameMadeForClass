@@ -4,21 +4,21 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import io.robotbois.robotboisapp.R
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         bStartGame.setOnClickListener {
-            toast("Starting Level!")
+            startActivity<LevelPlayActivity>()
         }
 
         bLevelSelect.setOnClickListener {
-            //startActivity<LevelSelectActivity>()
+            startActivity<LevelSelectActivity>()
         }
 
         bOptions.setOnClickListener {

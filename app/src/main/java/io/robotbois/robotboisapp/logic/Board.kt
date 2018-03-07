@@ -24,12 +24,11 @@ class Board(val size: Int, boardInfo: String){
             }
         }
 
-        difficulty = if(size == 3)
-            "Easy"
-        else if(size == 4)
-            "Medium"
-        else
-            "Hard"
+        difficulty = when (size) {
+            3 -> "Easy"
+            4 -> "Medium"
+            else -> "Hard"
+        }
     }
 
     /**
