@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RobotBois App</string>
+    <string name="title_activity_level_select">level_select</string>
 </resources>
