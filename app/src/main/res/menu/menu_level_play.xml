@@ -1,0 +1,19 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.LevelPlayActivity">
+    <item
+        android:id="@+id/action_play"
+        android:icon="@drawable/run_game"
+        android:orderInCategory="100"
+        android:title="AAA"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_stop"
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/stop_game"
+        app:showAsAction="ifRoom"/>
+
+</menu>

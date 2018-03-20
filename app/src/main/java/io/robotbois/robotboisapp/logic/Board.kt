@@ -11,12 +11,13 @@ package io.robotbois.robotboisapp.logic
 class Board(val size: Int, boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
     var difficulty: String
+    var robot = Robot(this)
 
     /**
      * This is the initial method to run. It creates the board
      * and sets the value of each position
      */
-    init{
+    init {
         for(x in 0 until size){
             gridLayout.add(x,ArrayList())
             for(y in 0 until size){
@@ -39,8 +40,8 @@ class Board(val size: Int, boardInfo: String){
      * @return The char value at that position
      * @exception If the index is invalid
      */
-    fun boardVal(x: Int, y: Int): Char{
-        if(x < 0 || y < 0 || x >= size || y >= size)
+    fun boardVal(x: Int, y: Int): Char {
+        if (x !in 0..size || y !in 0..size)
             throw Exception("Invalid Index")
         return gridLayout[x][y]
     }

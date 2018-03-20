@@ -6,7 +6,7 @@ import co.zsmb.materialdrawerkt.draweritems.badge
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
 import co.zsmb.materialdrawerkt.draweritems.divider
-import io.robotbois.robotboisapp.MainActivity
+import io.robotbois.robotboisapp.activities.MainActivity
 import io.robotbois.robotboisapp.activities.LevelSelectActivity
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast

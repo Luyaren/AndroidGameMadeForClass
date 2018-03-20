@@ -1,13 +1,14 @@
-package RobotBois
+package io.robotbois.robotboisapp
 
+import RobotBois.*
+import org.junit.Test
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 
 @DisplayName("The Robot")
 object TestRobot {
 
-   val size : Int = 4
+   private const val size : Int = 4
     @BeforeEach
     fun start(){
         direction ='U'
@@ -49,7 +50,7 @@ object TestRobot {
 
 
     @Test
-    fun ExampleSequence(){
+    fun exampleSequence(){
         for(i in 1..3){
             moveForward()
         }
@@ -67,7 +68,7 @@ object TestRobot {
     }
 
 @Test
-fun ExampleSequence2(){
+fun exampleSequence2(){
     moveForward()
     moveForward()
     moveForward()
@@ -83,9 +84,9 @@ fun ExampleSequence2(){
 
 }
     @Test
-    fun ExtermeTests(){
+    fun extremeTests(){
         for(i in 1..100){
-            if(positionY < size-1){
+            if(positionY < size -1){
                 moveForward()
             }
         }

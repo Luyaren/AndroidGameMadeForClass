@@ -1,6 +1,7 @@
-package RobotBois
+package io.robotbois.robotboisapp
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import junit.framework.Assert.assertEquals
+
 
 infix fun Any?.shouldBe(other: Any?){
     return assertEquals(other,this)
