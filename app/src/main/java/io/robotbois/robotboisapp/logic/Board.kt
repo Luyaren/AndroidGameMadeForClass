@@ -42,10 +42,10 @@ class Board(boardInfo: String){
      * @return The char value at that position
      * @exception If the index is invalid
      */
-    fun boardVal(x: Int, y: Int): Char {
-        if (x !in 0..size || y !in 0..size)
+    fun boardIndexVal(row: Int, col: Int): Char {
+        if (row !in 0..size || col !in 0..size)
             return 'W'
-        return gridLayout[x][y]
+        return gridLayout[row][col]
     }
 
     /**
@@ -53,7 +53,7 @@ class Board(boardInfo: String){
      * starting position on the board
      * @return An integer array of the row and column values
      */
-    fun initBotPos(): IntArray {
+    fun initialBotPosition(): IntArray {
         for (x in 0 until size) {
             for (y in 0 until size) {
                 if (gridLayout[x][y] == 'S') {

@@ -46,23 +46,25 @@ object GameStateManager {
     lateinit var levelData: List<String>
 
     /**
-     * This function returns the level layout given an identifying key.
-     * @param Key to identify which level to load
-     * @return The string that contains the level layout from the levels file
+     * Set board to be a new board determined by the key and level number
+     * @param Key to identify which difficulty the level is within
+     * @param Which level to load
      */
-    fun getLevelLayout(theKey: String): String{
-        for(x in 0 until levelData.size){
-            if(key!!.equals(levelData[x].subSequence(0,2))){
-                return levelData[x+1]
+    fun loadLevel(theKey: Char, level: Int){
+        var Index = 0
+        while(levelData[Index].get(0) != theKey){
+            Index++
+            if(Index >= levelData.size){
+                throw Exception("Level does not exist")
             }
         }
-        throw Exception("Level does not exist")
-    }
-
-    // Set board to be a new board with the given level data
-    fun loadLevel(location: String) {
-        board = Board(location)
-        // Add this somewhere to be called
+        for(x in 0 until level){
+            Index++
+            if(Index >= levelData.size){
+                throw Exception("Level does not exist")
+            }
+        }
+        board = Board(levelData[Index].substring(4))
     }
 
 }

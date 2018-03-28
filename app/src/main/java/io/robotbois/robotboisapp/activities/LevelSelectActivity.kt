@@ -24,22 +24,22 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
 
         NavbarManager.navbarFor(this)
 
-        var numE = 0 // Number of easy levels
-        var numM = 0 // Number of medium levels
-        var numH = 0 // Number of hard levels
+        var numEasyLevels = 0
+        var numMediumLevels = 0
+        var numHardLevels = 0
 
         // Find the number of easy, medium, and hard levels
         for (i in 0 until levelData.size) {
             when {
-                GameStateManager.levelData[i][0] == 'E' -> numE++
-                GameStateManager.levelData[i][0] == 'M' -> numM++
-                GameStateManager.levelData[i][0] == 'H' -> numH++
+                GameStateManager.levelData[i][0] == 'E' -> numEasyLevels++
+                GameStateManager.levelData[i][0] == 'M' -> numMediumLevels++
+                GameStateManager.levelData[i][0] == 'H' -> numHardLevels++
             }
         }
 
         // Adds the buttons for the different levels to their respective
         // gridlayouts
-        fun addToGrid(num: Int, IDofGrid: GridLayout, D: String){
+        fun addButtonsToGrid(num: Int, IDofGrid: GridLayout, D: String){
             for(i in 0 until num){
                 val theID = D to i.toString()
                 val tempButton = UI {
@@ -54,9 +54,9 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
         }
 
 
-        addToGrid(numE, glEasyButtons, "E")
-        addToGrid(numM, glMedButtons, "M")
-        addToGrid(numH, glHardButtons, "H")
+        addButtonsToGrid(numEasyLevels, glEasyButtons, "E")
+        addButtonsToGrid(numMediumLevels, glMedButtons, "M")
+        addButtonsToGrid(numHardLevels, glHardButtons, "H")
 
     }
 
