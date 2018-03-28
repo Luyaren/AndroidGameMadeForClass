@@ -40,7 +40,7 @@ class LevelPlayActivity : AppCompatActivity() {
 
             ///*
             // This manually loads a blank board and tells the robot to move forward
-            GameStateManager.board = Board(8, " ".repeat(64))
+            GameStateManager.board = Board(" ".repeat(64))
 
             println("Difficulty is: ${GameStateManager.board!!.difficulty}")
 

@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        GameStateManager.levelData = resources.openRawResource(R.raw.levels).bufferedReader().readLines()
+
         setContentView(R.layout.activity_main)
 
         bStartGame.setOnClickListener {

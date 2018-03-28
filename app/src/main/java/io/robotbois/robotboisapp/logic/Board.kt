@@ -8,16 +8,18 @@ package io.robotbois.robotboisapp.logic
  * @param The size of the board (3, 4, or 5)
  * @param The info string for the board layout
  */
-class Board(val size: Int, boardInfo: String){
+class Board(boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
     var difficulty: String
     var robot = Robot(this)
+    var size: Int
 
     /**
      * This is the initial method to run. It creates the board
      * and sets the value of each position
      */
     init {
+        size = Math.sqrt(boardInfo.length.toDouble()).toInt()
         for(x in 0 until size){
             gridLayout.add(x,ArrayList())
             for(y in 0 until size){
@@ -26,8 +28,8 @@ class Board(val size: Int, boardInfo: String){
         }
 
         difficulty = when (size) {
-            3 -> "Easy"
-            4 -> "Medium"
+            4 -> "Easy"
+            5 -> "Medium"
             else -> "Hard"
         }
     }
@@ -42,16 +44,23 @@ class Board(val size: Int, boardInfo: String){
      */
     fun boardVal(x: Int, y: Int): Char {
         if (x !in 0..size || y !in 0..size)
-            throw Exception("Invalid Index")
+            return 'W'
         return gridLayout[x][y]
     }
 
     /**
-     * This method returns the difficulty of the level
-     * @return The difficulty level of the board (easy, medium, difficult
+     * This method returns the position of the robot's
+     * starting position on the board
+     * @return An integer array of the row and column values
      */
-    /*
-    fun diffGetter(): String{
-        return difficulty
-    }*/
+    fun initBotPos(): IntArray {
+        for (x in 0 until size) {
+            for (y in 0 until size) {
+                if (gridLayout[x][y] == 'S') {
+                    return intArrayOf(x, y)
+                }
+            }
+        }
+        throw Exception("Not a valid board")
+    }
 }

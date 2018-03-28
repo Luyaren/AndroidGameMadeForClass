@@ -12,89 +12,122 @@
         android:id="@+id/tvLevelSelect"
         android:layout_width="217dp"
         android:layout_height="42dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Level Select"
-        android:textSize="30sp"
         android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tvEasy"
         android:layout_width="50dp"
         android:layout_height="30dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Easy"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="50dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.116" />
 
     <TextView
         android:id="@+id/tvMedium"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Medium"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="165dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.428" />
 
     <TextView
         android:id="@+id/tvHard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Hard"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="269dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.735" />
 
-    <Button
-        android:id="@+id/bTestLevel2"
-        android:layout_width="85dp"
-        android:layout_height="wrap_content"
+    <GridLayout
+        android:id="@+id/glHardButtons"
+        android:layout_width="368dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Test Level"
+        android:layout_marginTop="8dp"
+        android:columnCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="202dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.893">
 
-    <Button
-        android:id="@+id/bTestLevel3"
-        android:layout_width="89dp"
-        android:layout_height="wrap_content"
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/glMedButtons"
+        android:layout_width="368dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Test Level"
+        android:layout_marginTop="236dp"
+        android:columnCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="303dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.129">
 
-    <Button
-        android:id="@+id/bTestLevel"
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/glEasyButtons"
+        android:layout_width="368dp"
+        android:layout_height="87dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Test Level"
+        android:layout_marginTop="8dp"
+        android:columnCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="85dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.235">
+
+    </GridLayout>
 
 </android.support.constraint.ConstraintLayout>
