@@ -1,0 +1,18 @@
+Easy Levels:
+L1: Move Move Right
+L2: Right Move Left
+L3: Move Move Right
+L4: Move Left Move Right
+L5: Move Move Right
+
+Medium Levels:
+
+
+
+
+
+Hard Levels:
+
+
+
+
