@@ -9,13 +9,13 @@ import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.logic.Board
 import io.robotbois.robotboisapp.logic.Difficulty
 import io.robotbois.robotboisapp.logic.Robot
-import io.robotbois.robotboisapp.managers.GameStateManager
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import org.jetbrains.anko.UI
 import org.jetbrains.anko.imageView
 import org.jetbrains.anko.toast
 import java.util.*
+import kotlin.reflect.KFunction
 
 class LevelPlayActivity : AppCompatActivity() {
 
@@ -24,6 +24,7 @@ class LevelPlayActivity : AppCompatActivity() {
     private var levelData = ""
     private val seed = difficulty.level + levelNumber
     private val randomMaker = Random(seed.toLong())
+    private lateinit var board: Board
 
     private fun <T> List<T>.random(): T {
         return this[randomMaker.nextInt(size)]
@@ -34,15 +35,14 @@ class LevelPlayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_level_play)
         setSupportActionBar(my_toolbar)
 
+        // Grabbing data from activity parameters
         val param = intent.getStringExtra("ID")
         difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
         levelNumber = param[2].toInt()
         levelData = param.substring(4)
-
-        ////////////////
-
         lBoard.columnCount = difficulty.level
 
+        // Map of what images can be drawn for each game data character
         val drawMap = mapOf(
                 'W' to listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1),
                 'S' to listOf(R.drawable.game_player_0, R.drawable.game_player_1),
@@ -50,9 +50,9 @@ class LevelPlayActivity : AppCompatActivity() {
                 'F' to listOf(R.drawable.game_floor_0)
         )
 
-        levelData.forEachIndexed { i, char ->
+        // Populate grid with images
+        levelData.forEach { char ->
             val imageToDisplay = drawMap[char]!!.random()
-
             val tempImage = UI {
                 imageView(imageToDisplay) {
                     minimumWidth = 100
@@ -63,8 +63,8 @@ class LevelPlayActivity : AppCompatActivity() {
             lBoard.addView(tempImage)
         }
 
-        GameStateManager.board = Board(levelData)
-
+        // Set board data
+        board = Board(levelData)
         NavbarManager.navbarFor(this)
 
     }
@@ -78,13 +78,12 @@ class LevelPlayActivity : AppCompatActivity() {
         R.id.action_play -> {
             toast("PLAY!")
 
-            ///*
             // This manually loads a blank board and tells the robot to move forward
-            GameStateManager.board = Board(" ".repeat(64))
+            board = Board(" ".repeat(64))
 
-            println("Difficulty is: ${GameStateManager.board!!.difficulty}")
+            println("Difficulty is: ${board.difficulty}")
 
-            GameStateManager.process(
+            process(
                     arrayListOf(
                             Robot::moveForward,
                             arrayListOf(
@@ -96,10 +95,7 @@ class LevelPlayActivity : AppCompatActivity() {
                             Robot::moveBackward
                     ), this)
 
-            println("Should turn two times: ${GameStateManager.robot!!.numberofturns}")
-
-            //*/
-
+            println("Should turn two times: ${board.robot.numberofturns}")
             true
         }
 
@@ -114,8 +110,21 @@ class LevelPlayActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-
+    // Consumes a list of moves and moves the robot accordingly
+    private fun process(moves: ArrayList<*>, activity: LevelPlayActivity) {
+        moves.forEach { move ->
+            when (move) {
+                // If it's an ArrayList of things
+                is ArrayList<*> -> process(move, activity)
+                // If it's a robot function
+                is KFunction<*> -> {
+                    board.robot.apply {
+                        move.call(this)
+                    }
+                }
+                else -> throw Exception("Invalid move! Move was a ${move!!.javaClass}")
+            }
+        }
+    }
+    
 }
