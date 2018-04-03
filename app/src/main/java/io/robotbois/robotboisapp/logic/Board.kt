@@ -10,7 +10,7 @@ package io.robotbois.robotboisapp.logic
  */
 class Board(boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
-    var difficulty: String
+    var difficulty: Difficulty
     var robot = Robot(this)
     var size: Int
 
@@ -28,9 +28,9 @@ class Board(boardInfo: String){
         }
 
         difficulty = when (size) {
-            4 -> "Easy"
-            5 -> "Medium"
-            else -> "Hard"
+            4 -> Difficulty.EASY
+            5 -> Difficulty.MEDIUM
+            else -> Difficulty.HARD
         }
     }
 
