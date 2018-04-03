@@ -41,8 +41,7 @@ object GameStateManager {
     }
 
 
-    // TODO: Populate this with the level strings
-    //val levelData: ArrayList<String> = arrayListOf()
+    // Gets populated in MainActivity::onCreate
     lateinit var levelData: List<String>
 
     /**

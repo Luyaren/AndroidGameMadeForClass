@@ -63,6 +63,8 @@ class LevelPlayActivity : AppCompatActivity() {
             lBoard.addView(tempImage)
         }
 
+        GameStateManager.board = Board(levelData)
+
         NavbarManager.navbarFor(this)
 
     }
