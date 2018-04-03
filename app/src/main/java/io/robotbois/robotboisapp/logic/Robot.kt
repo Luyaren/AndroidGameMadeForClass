@@ -1,12 +1,12 @@
 package io.robotbois.robotboisapp.logic
 
 class Robot(private val board: Board) {
-    var numberofturns : Int = 0
-    var numberofmoveForward : Int = 0
-    var numberofmoveBackward : Int = 0
-    var direction : Char = 'U'
-    var positionX : Int  = 0
-    var positionY : Int = 0
+    var numberofturns: Int = 0
+    var numberofmoveForward: Int = 0
+    var numberofmoveBackward: Int = 0
+    var direction: Char = 'U'
+    var positionX: Int = 0
+    var positionY: Int = 0
 
 
     fun turnLeft() {
@@ -22,7 +22,7 @@ class Robot(private val board: Board) {
 
 
     fun turnRight() {
-        direction = when (direction){
+        direction = when (direction) {
             'R' -> 'D'
             'U' -> 'R'
             'L' -> 'D'
@@ -32,48 +32,52 @@ class Robot(private val board: Board) {
         numberofturns++
     }
 
-    fun moveForward () {
-        if(direction == 'U'){
-            positionY++
-            numberofmoveForward++
-        }
-        else if(direction == 'D'){
-            if(positionY > 0){
-                positionY--
+    fun moveForward() {
+        when (direction) {
+            'U' -> {
+                positionY++
                 numberofmoveForward++
             }
-        }
-        else if(direction == 'R'){
-            positionX++
-            numberofmoveForward++
-        }
-        else if(direction =='L'){
-            if(positionX > 0){
-                positionX--
+            'D' -> {
+                if (positionY > 0) {
+                    positionY--
+                    numberofmoveForward++
+                }
+            }
+            'R' -> {
+                positionX++
                 numberofmoveForward++
             }
+            'L' -> {
+                if (positionX > 0) {
+                    positionX--
+                    numberofmoveForward++
+                }
+            }
         }
-    }
 
-    fun moveBackward(){
-        if(direction == 'D'){
-            positionY++
-            numberofmoveBackward++
-        }
-        else if(direction == 'U'){
-            if(positionY > 0){
-                positionY--
-                numberofmoveBackward++
-            }
-        }
-        else if(direction == 'L'){
-            positionX++
-            numberofmoveBackward++
-        }
-        else if(direction =='R'){
-            if(positionX > 0){
-                positionX--
-                numberofmoveBackward++
+        fun moveBackward() {
+            when (direction) {
+                'U' -> {
+                    positionY--
+                    numberofmoveForward++
+                }
+                'D' -> {
+                    if (positionY > 0) {
+                        positionY++
+                        numberofmoveForward++
+                    }
+                }
+                'R' -> {
+                    positionX--
+                    numberofmoveForward++
+                }
+                'L' -> {
+                    if (positionX > 0) {
+                        positionX++
+                        numberofmoveForward++
+                    }
+                }
             }
         }
     }
