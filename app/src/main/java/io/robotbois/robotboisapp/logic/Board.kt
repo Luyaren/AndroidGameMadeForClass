@@ -63,4 +63,15 @@ class Board(boardInfo: String){
         }
         throw Exception("Not a valid board")
     }
+
+    /**
+     * @return If the robot has made it to the finish position
+     * on the board
+     */
+    fun isGameWon(): Boolean {
+        if(boardIndexVal(robot.positionX,robot.positionY) == 'F'){
+            return true
+        }
+        return false
+    }
 }

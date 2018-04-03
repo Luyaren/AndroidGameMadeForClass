@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/ptTitle"
+    <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="textPersonName"
+        android:background="@color/md_blue_100"
+        android:gravity="center_vertical|center"
         android:text="Your Score:"
-        android:textColorLink="@color/colorPrimary"
-        android:textSize="50sp" />
+        android:textColor="@color/md_amber_A700"
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/tvScore"
-        android:layout_width="502dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/md_cyan_100"
         android:gravity="center_vertical|center_horizontal"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@color/md_deep_orange_A700"
+        android:textSize="35sp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/bReset"
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+            android:background="@color/md_blue_900"
+            android:text="Reset"
+            android:textColor="@color/md_grey_100" />
+
+        <Button
+            android:id="@+id/bNextLevel"
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:background="@color/md_blue_900"
+            android:text="Next"
+            android:textColor="@color/md_grey_100" />
+    </GridLayout>
 </LinearLayout>
