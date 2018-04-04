@@ -12,6 +12,18 @@ import io.robotbois.robotboisapp.logic.Robot
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import org.jetbrains.anko.UI
+import org.jetbrains.anko.button
+import android.R.menu
+import android.view.Menu
+import org.jetbrains.anko.ScreenSize
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import io.robotbois.robotboisapp.R.layout.run_stats
+import io.robotbois.robotboisapp.logic.Board
+import io.robotbois.robotboisapp.logic.Robot
+import io.robotbois.robotboisapp.managers.GameStateManager
+import kotlinx.android.synthetic.main.run_stats.view.*
 import org.jetbrains.anko.imageView
 import org.jetbrains.anko.toast
 import java.util.*
@@ -72,10 +84,17 @@ class LevelPlayActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_level_play, menu)
+        lWinMessage.setVisibility(View.INVISIBLE)
+        bStartReset.setText("Start")
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.bStartReset->{
+            toast("PLAY")
+            bStartReset.setText("Reset")
+            true
+        }
         R.id.action_play -> {
             toast("PLAY!")
 
@@ -96,7 +115,16 @@ class LevelPlayActivity : AppCompatActivity() {
                             Robot::moveBackward
                     ), this)
 
-            println("Should turn two times: ${board.robot.numberofturns}")
+            println("Should turn two times: ${GameStateManager.robot!!.numberofturns}")
+
+            //*/
+
+            if(!GameStateManager.board!!.isGameWon()){
+                lWinMessage.setVisibility(View.VISIBLE)
+                //lWinMessage.tvScore.setText(GameStateManager.board!!.robot.numberofmoveForward)
+                lWinMessage.tvScore.setText("You suck")
+            }
+
             true
         }
 
@@ -109,6 +137,8 @@ class LevelPlayActivity : AppCompatActivity() {
             toast("This shouldn't happen!")
             false
         }
+
+
     }
 
     // Consumes a list of moves and moves the robot accordingly
