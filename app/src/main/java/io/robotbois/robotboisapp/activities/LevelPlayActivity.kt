@@ -20,12 +20,13 @@ import kotlin.reflect.KFunction
 class LevelPlayActivity : AppCompatActivity() {
 
     private var difficulty = Difficulty.EASY
-    private var levelNumber = 0
+    private var movesNeededToComplete = 0
     private var levelData = ""
-    private val seed = difficulty.level + levelNumber
+    private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
 
+    // Getting random seeded items from a list, with the level seed
     private fun <T> List<T>.random(): T {
         return this[randomMaker.nextInt(size)]
     }
@@ -38,7 +39,7 @@ class LevelPlayActivity : AppCompatActivity() {
         // Grabbing data from activity parameters
         val param = intent.getStringExtra("ID")
         difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
-        levelNumber = param[2].toInt()
+        movesNeededToComplete = param[2].toInt()
         levelData = param.substring(4)
         lBoard.columnCount = difficulty.level
 
@@ -62,7 +63,7 @@ class LevelPlayActivity : AppCompatActivity() {
             }.view
             lBoard.addView(tempImage)
         }
-
+        
         // Set board data
         board = Board(levelData)
         NavbarManager.navbarFor(this)
@@ -126,5 +127,5 @@ class LevelPlayActivity : AppCompatActivity() {
             }
         }
     }
-    
+
 }
