@@ -10,16 +10,15 @@ package io.robotbois.robotboisapp.logic
  */
 class Board(boardInfo: String){
     var gridLayout = ArrayList<ArrayList<Char>>()
-    var difficulty: String
+    var difficulty: Difficulty
     var robot = Robot(this)
-    var size: Int
+    var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
 
     /**
      * This is the initial method to run. It creates the board
      * and sets the value of each position
      */
     init {
-        size = Math.sqrt(boardInfo.length.toDouble()).toInt()
         for(x in 0 until size){
             gridLayout.add(x,ArrayList())
             for(y in 0 until size){
@@ -28,9 +27,9 @@ class Board(boardInfo: String){
         }
 
         difficulty = when (size) {
-            4 -> "Easy"
-            5 -> "Medium"
-            else -> "Hard"
+            4 -> Difficulty.EASY
+            5 -> Difficulty.MEDIUM
+            else -> Difficulty.HARD
         }
     }
 

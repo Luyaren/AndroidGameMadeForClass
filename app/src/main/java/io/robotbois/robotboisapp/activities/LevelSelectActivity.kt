@@ -2,7 +2,6 @@ package io.robotbois.robotboisapp.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
 import android.widget.GridLayout
 import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.managers.GameStateManager
@@ -10,9 +9,11 @@ import io.robotbois.robotboisapp.managers.GameStateManager.levelData
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_select.*
 import kotlinx.android.synthetic.main.content_level_select.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.UI
+import org.jetbrains.anko.button
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.io.File
+import org.jetbrains.anko.startActivity
 
 class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
 
@@ -24,39 +25,28 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
 
         NavbarManager.navbarFor(this)
 
-        var numEasyLevels = 0
-        var numMediumLevels = 0
-        var numHardLevels = 0
-
-        // Find the number of easy, medium, and hard levels
-        for (i in 0 until levelData.size) {
-            when {
-                GameStateManager.levelData[i][0] == 'E' -> numEasyLevels++
-                GameStateManager.levelData[i][0] == 'M' -> numMediumLevels++
-                GameStateManager.levelData[i][0] == 'H' -> numHardLevels++
-            }
-        }
+        val easyLevels = GameStateManager.levelData.filter { it[0] == 'E' }
+        val mediumLevels = GameStateManager.levelData.filter { it[0] == 'M' }
+        val hardLevels = GameStateManager.levelData.filter { it[0] == 'H' }
 
         // Adds the buttons for the different levels to their respective
         // gridlayouts
-        fun addButtonsToGrid(num: Int, IDofGrid: GridLayout, D: String){
-            for(i in 0 until num){
-                val theID = D to i.toString()
+        fun addLevelButtons(levels: List<String>, grid: GridLayout) {
+            levels.forEachIndexed { i, level ->
                 val tempButton = UI {
                     button(i.toString()) {
                         onClick {
-                            startActivity<LevelPlayActivity>("ID" to theID)
+                            startActivity<LevelPlayActivity>("ID" to level)
                         }
                     }
                 }.view
-                IDofGrid.addView(tempButton, i)
+                grid.addView(tempButton, i)
             }
         }
 
-
-        addButtonsToGrid(numEasyLevels, glEasyButtons, "E")
-        addButtonsToGrid(numMediumLevels, glMedButtons, "M")
-        addButtonsToGrid(numHardLevels, glHardButtons, "H")
+        addLevelButtons(easyLevels, glEasyButtons)
+        addLevelButtons(mediumLevels, glMedButtons)
+        addLevelButtons(hardLevels, glHardButtons)
 
     }
 

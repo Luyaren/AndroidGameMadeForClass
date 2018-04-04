@@ -1,48 +1,8 @@
 package io.robotbois.robotboisapp.managers
 
-import android.app.Activity
-import io.robotbois.robotboisapp.R
-import io.robotbois.robotboisapp.activities.LevelPlayActivity
-import io.robotbois.robotboisapp.activities.MainActivity
-import io.robotbois.robotboisapp.logic.Board
-import io.robotbois.robotboisapp.logic.Robot
-import java.io.File
-import java.io.InputStream
-import kotlin.reflect.KFunction
-
 object GameStateManager {
 
-    // The current game board
-    var board: Board? = null
-    // Gets the current robot from the board when used
-    val robot: Robot?
-        get() = board?.robot
-    var key: String? = null
-
-    // Consumes a list of moves and moves the robot accordingly
-    fun process(moves: ArrayList<*>, activity: LevelPlayActivity) {
-        if (robot == null) {
-            throw Exception("Robot can't process moves if robot does not exist!")
-        }
-
-        moves.forEach { move ->
-            when (move) {
-                // If it's an ArrayList of things
-                is ArrayList<*> -> process(move, activity)
-                // If it's a robot function
-                is KFunction<*> -> {
-                    robot!!.apply {
-                        move.call(this)
-                    }
-                }
-                else -> throw Exception("Invalid move! Move was a ${move!!.javaClass}")
-            }
-        }
-    }
-
-
-    // TODO: Populate this with the level strings
-    //val levelData: ArrayList<String> = arrayListOf()
+    // Gets populated in MainActivity::onCreate
     lateinit var levelData: List<String>
 
     /**
@@ -64,7 +24,7 @@ object GameStateManager {
                 throw Exception("Level does not exist")
             }
         }
-        board = Board(levelData[Index].substring(4))
+        //board = Board(levelData[Index].substring(4))
     }
 
 }

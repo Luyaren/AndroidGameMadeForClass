@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         bStartGame.setOnClickListener {
-            startActivity<LevelPlayActivity>()
+            startActivity<LevelPlayActivity>("ID" to GameStateManager.levelData[0])
         }
 
         bLevelSelect.setOnClickListener {
