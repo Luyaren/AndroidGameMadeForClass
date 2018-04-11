@@ -17,7 +17,7 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
         MutableList(size) { 'F' }
     }
     var difficulty: Difficulty
-    var robot = Robot(this, pawn, act)
+    var robot = Robot(this, act)
 
     /**
      * This is the initial method to run. It creates the board
@@ -42,25 +42,19 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
      * Resets the robot to it's default position
      */
     fun reset() {
-        val coords = initialBotPosition()
-        println("Going to pos ${coords.toList()}")
-        robot.positionX = coords[0]
-        robot.positionY = coords[1]
-        robot.resetPawn()
+        robot.position = initialBotPosition()
     }
 
     /**
      * This method returns the value at some specific
      * position on the board
-     * @param The row of the board
-     * @param The column of the board
+     * @param query The The coordinates of the tile
      * @return The char value at that position
-     * @exception If the index is invalid
      */
-    private fun boardIndexVal(row: Int, col: Int): Char {
-        if (row !in 0 until size || col !in 0 until size)
+    private fun boardIndexVal(query: Coord<Int>): Char {
+        if (query.x !in 0 until size || query.y !in 0 until size)
             return 'W'
-        return gridLayout[col][row]
+        return gridLayout[query.y][query.x]
     }
 
     /**
@@ -68,11 +62,11 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
      * starting position on the board
      * @return An integer array of the row and column values
      */
-    private fun initialBotPosition(): IntArray {
+    private fun initialBotPosition(): Coord<Int> {
         for (x in 0 until size) {
             for (y in 0 until size) {
                 if (gridLayout[y][x] == 'S') {
-                    return intArrayOf(x, y)
+                    return Coord(x, y)
                 }
             }
         }
@@ -84,7 +78,7 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
      * on the board
      */
     fun isGameWon(): Boolean {
-        if(boardIndexVal(robot.positionX, robot.positionY) == 'F'){
+        if(boardIndexVal(robot.position) == 'F'){
             return true
         }
         return false

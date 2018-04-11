@@ -5,12 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import io.robotbois.robotboisapp.R
-import io.robotbois.robotboisapp.ext.moveTo
-import io.robotbois.robotboisapp.logic.Board
-import io.robotbois.robotboisapp.logic.Difficulty
-import io.robotbois.robotboisapp.logic.Move
+import io.robotbois.robotboisapp.logic.*
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import kotlinx.android.synthetic.main.movement_buttons_level_play.*
@@ -31,6 +27,7 @@ class LevelPlayActivity : AppCompatActivity() {
     val robotIcons = listOf(R.drawable.game_player_0, R.drawable.game_player_1)
     // The view that you will move to move the robot on screen
     lateinit var robotIcon: View
+    lateinit var game: GameGUI
 
     // All masterMoveStack in the list
     val masterMoveStack = Stack<Move>()
@@ -40,30 +37,6 @@ class LevelPlayActivity : AppCompatActivity() {
     // Getting random seeded items from a list, with the level seed
     private fun <T> List<T>.random(): T {
         return this[randomMaker.nextInt(size)]
-    }
-
-    internal fun serveNextAnimation() {
-        if (processingStack.isNotEmpty()) {
-            val move = processingStack.pop()
-            when (move) {
-                Move.FORWARD -> {
-                    board.robot.moveForward()
-                }
-                Move.LEFT -> {
-                    board.robot.turnLeft()
-                }
-                Move.RIGHT -> {
-                    board.robot.turnRight()
-                }
-                else -> {
-                    println("Um?")
-                }
-            }
-        }
-
-        //board.robot.runAnimation(RobotAnimation.turn(90f))
-        //robotIcon.animate().x(500f).y(blah.toFloat()).withEndAction { serveNextAnimation() }
-        //board.robot.runAnimation(RobotAnimation.toView())
     }
 
     private fun tileIcon(char: Char): Int {
@@ -97,19 +70,9 @@ class LevelPlayActivity : AppCompatActivity() {
         //lBoard.columnCount = difficulty.level
 
         // Populate grid with images
-        /*
-        levelData.forEach { char ->
-            val imageToDisplay = tileIcon(char)
-            val tempImage = UI {
-                imageView(imageToDisplay) {
-                    minimumWidth = 150
-                    minimumHeight = 150
-                    scaleType = ImageView.ScaleType.FIT_XY
-                }
-            }.view
-            lBoard.addView(tempImage)
-        }
-        */
+
+        //val levelImages = levelData.map { char -> tileIcon(char) }
+
 
         robotIcon = UI {
             imageView(robotIcons.random()) {
@@ -117,6 +80,15 @@ class LevelPlayActivity : AppCompatActivity() {
                 minimumHeight = 150
             }
         }.view
+
+        game = GameGUI(levelData, this)
+
+        game.apply {
+            push(Coord(3, 3))
+            push(Coord(2, 3))
+            push(Coord(1, 2))
+        }
+        lBoard.addView(game)
 
         lConstraintLayout.addView(robotIcon)
         robotIcon.bringToFront()
@@ -155,9 +127,6 @@ class LevelPlayActivity : AppCompatActivity() {
         R.id.action_play -> {
             toast("PLAY!")
 
-            process()
-
-
             /*
             if(!board.isGameWon()){
                 lWinMessage.visibility = View.VISIBLE
@@ -165,11 +134,13 @@ class LevelPlayActivity : AppCompatActivity() {
             }
             */
 
+            start()
             true
         }
 
         R.id.action_stop -> {
             toast("STOP!")
+            stop()
             true
         }
 
@@ -181,11 +152,34 @@ class LevelPlayActivity : AppCompatActivity() {
 
     }
 
-    private fun process() {
+    private fun start() {
         // Refill processingStack and start serving animations
         board.reset()
+        game.popAll()
+        game.push(Coord(0, 0))
         processingStack = masterMoveStack.clone() as Stack<Move>
-        
+
+        while (processingStack.isNotEmpty()) {
+            val move = processingStack.pop()
+            when (move) {
+                Move.FORWARD -> {
+                    board.robot.moveForward()
+                }
+                Move.LEFT -> {
+                    board.robot.turnLeft()
+                }
+                Move.RIGHT -> {
+                    board.robot.turnRight()
+                }
+                else -> {
+                    println("Um?")
+                }
+            }
+        }
+    }
+
+    fun stop() {
+        game.push(Coord(0, 0))
     }
 
 }
