@@ -9,10 +9,6 @@ class Robot(private val board: Board, internal val act: LevelPlayActivity) {
     var direction: Char = 'D'
     var position = Coord(0, 0)
 
-    private fun gameSync() {
-        act.game.push(position)
-    }
-
     fun turnLeft() {
         direction = when (direction) {
             'R' -> 'U'
@@ -22,7 +18,6 @@ class Robot(private val board: Board, internal val act: LevelPlayActivity) {
             else -> direction
         }
         numberofturns++
-        gameSync()
     }
 
 
@@ -35,14 +30,12 @@ class Robot(private val board: Board, internal val act: LevelPlayActivity) {
             else -> direction
         }
         numberofturns++
-        gameSync()
     }
 
     fun moveForward() {
-        println("MOVING FORWARD")
         when (direction) {
             'U' -> {
-                position.y++
+                position.y--
                 numberofmoveForward++
             }
             'D' -> {
@@ -57,12 +50,11 @@ class Robot(private val board: Board, internal val act: LevelPlayActivity) {
             }
             'L' -> {
                 if (position.x >= 0) {
-                    position.x++
+                    position.x--
                     numberofmoveForward++
                 }
             }
         }
-        gameSync()
     }
 
 }

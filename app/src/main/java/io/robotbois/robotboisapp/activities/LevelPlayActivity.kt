@@ -15,6 +15,9 @@ import org.jetbrains.anko.imageView
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.*
+import android.widget.ArrayAdapter
+
+
 
 class LevelPlayActivity : AppCompatActivity() {
 
@@ -33,6 +36,15 @@ class LevelPlayActivity : AppCompatActivity() {
     val masterMoveStack = Stack<Move>()
     // All masterMoveStack in the current list that need to be executed
     var processingStack = Stack<Move>()
+
+    private fun refreshCommandList() {
+        lCommandList.adapter = ArrayAdapter<String>(
+                this,
+                R.layout.command_list_item,
+                masterMoveStack.toList().map { it.description }
+        )
+        lCommandList.invalidate()
+    }
 
     // Getting random seeded items from a list, with the level seed
     private fun <T> List<T>.random(): T {
@@ -95,11 +107,25 @@ class LevelPlayActivity : AppCompatActivity() {
         
         // Set board data
         board = Board(levelData, robotIcon, this)
+        // Create navbar
         NavbarManager.navbarFor(this)
 
-        bForward.onClick { masterMoveStack.push(Move.FORWARD) }
-        bLeft.onClick { masterMoveStack.push(Move.LEFT) }
-        bRight.onClick { masterMoveStack.push(Move.RIGHT) }
+        bForward.onClick {
+            masterMoveStack.push(Move.FORWARD)
+            refreshCommandList()
+        }
+
+        bLeft.onClick {
+            masterMoveStack.push(Move.LEFT)
+            refreshCommandList()
+        }
+
+        bRight.onClick {
+            masterMoveStack.push(Move.RIGHT)
+            refreshCommandList()
+        }
+
+
 
     }
 
@@ -154,9 +180,7 @@ class LevelPlayActivity : AppCompatActivity() {
 
     private fun start() {
         // Refill processingStack and start serving animations
-        board.reset()
-        game.popAll()
-        game.push(Coord(0, 0))
+        stop()
         processingStack = masterMoveStack.clone() as Stack<Move>
 
         while (processingStack.isNotEmpty()) {
@@ -175,11 +199,14 @@ class LevelPlayActivity : AppCompatActivity() {
                     println("Um?")
                 }
             }
+            game.push(board.robot.position)
         }
     }
 
-    fun stop() {
-        game.push(Coord(0, 0))
+    private fun stop() {
+        board.reset()
+        println("STARTING AT ${board.startPosition}")
+        game.reset(board.startPosition)
     }
 
 }

@@ -1,9 +1,9 @@
 package io.robotbois.robotboisapp.logic
 
-enum class Move {
-    FORWARD,
-    LEFT,
-    RIGHT,
-    S1,
-    S2
+enum class Move(val description: String) {
+    FORWARD("Move Forward"),
+    LEFT("Turn Left"),
+    RIGHT("Turn Right"),
+    S1("Subroutine 1"),
+    S2("Subroutine 2")
 }

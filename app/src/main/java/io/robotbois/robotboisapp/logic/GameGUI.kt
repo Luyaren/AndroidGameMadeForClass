@@ -19,18 +19,21 @@ class GameGUI(val tiles: String, context: Context) : View(context) {
     var moveQueue = mutableListOf<Coord<Int>>()
 
     fun push(c: Coord<Int>) {
+        println("PUSHING $c")
         moveQueue.add(c)
     }
 
-    fun popAll() {
+    fun reset(startPos: Coord<Int>) {
         moveQueue.clear()
+        robot = pixelCoord(startPos)
+        target = robot
     }
 
     private fun drawTiles(canvas: Canvas) {
         painter.color = Color.BLACK
         painter.strokeWidth = 0f
         tiles.forEachIndexed { i, tile ->
-            val px = tilePixelCoord(Coord(i / boardSize, i % boardSize))
+            val px = pixelCoord(Coord(i / boardSize, i % boardSize))
             canvas.drawRect(px.x, px.y, px.x + TILE_SIZE, px.y + TILE_SIZE, painter)
         }
     }
@@ -44,7 +47,7 @@ class GameGUI(val tiles: String, context: Context) : View(context) {
     /**
      * Given the tile's coordinate (e.g. [2, 3]) returns it's pixel coordinate on the canvas
      */
-    private fun tilePixelCoord(coord: Coord<Int>): Coord<Float> {
+    private fun pixelCoord(coord: Coord<Int>): Coord<Float> {
         val x = coord.x * (TILE_SIZE + TILE_PADD)
         val y = coord.y * (TILE_SIZE + TILE_PADD)
         return Coord(x, y)
@@ -58,7 +61,7 @@ class GameGUI(val tiles: String, context: Context) : View(context) {
         if (isPlayerAtTarget() && moveQueue.isNotEmpty()) {
             val next = moveQueue.first()
             moveQueue.removeAt(0)
-            target = tilePixelCoord(next)
+            target = pixelCoord(next)
         }
     }
 
@@ -66,7 +69,8 @@ class GameGUI(val tiles: String, context: Context) : View(context) {
     private fun drawPlayer(canvas: Canvas) {
         robot = (robot.toDouble() + ((target - robot) * 0.1)).toFloat()
         painter.color = Color.parseColor("#CD5C5C")
-        canvas.drawCircle(robot.x + (TILE_SIZE / 2), robot.y + (TILE_SIZE / 2), TILE_SIZE / 2, painter)
+        //canvas.drawCircle(robot.x + (TILE_SIZE / 2), robot.y + (TILE_SIZE / 2), TILE_SIZE / 2, painter)
+        canvas.drawRect(robot.x, robot.y, robot.x + TILE_SIZE, robot.y + TILE_SIZE, painter)
     }
 
     override fun onDraw(canvas: Canvas) {

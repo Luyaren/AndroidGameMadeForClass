@@ -3,7 +3,7 @@ package io.robotbois.robotboisapp.logic
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class Coord<T : Number>(var x: T, var y: T) {
+data class Coord<T : Number>(var x: T, var y: T) {
 
     operator fun plus(other: Coord<T>): Coord<Double> {
         return Coord(x.toDouble() + other.x.toDouble(), y.toDouble() + other.y.toDouble())

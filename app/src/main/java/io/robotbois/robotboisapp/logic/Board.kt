@@ -2,7 +2,6 @@ package io.robotbois.robotboisapp.logic
 
 import android.view.View
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
-import io.robotbois.robotboisapp.ext.moveTo
 
 /**
  * Created by Aaron on 2/21/2018.
@@ -42,7 +41,8 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
      * Resets the robot to it's default position
      */
     fun reset() {
-        robot.position = initialBotPosition()
+        robot.position = startPosition
+        robot.direction = 'D'
     }
 
     /**
@@ -62,16 +62,17 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
      * starting position on the board
      * @return An integer array of the row and column values
      */
-    private fun initialBotPosition(): Coord<Int> {
-        for (x in 0 until size) {
-            for (y in 0 until size) {
-                if (gridLayout[y][x] == 'S') {
-                    return Coord(x, y)
+    val startPosition: Coord<Int>
+        get() {
+            for (x in 0 until size) {
+                for (y in 0 until size) {
+                    if (gridLayout[y][x] == 'S') {
+                        return Coord(x, y)
+                    }
                 }
             }
+            throw Exception("Not a valid board")
         }
-        throw Exception("Not a valid board")
-    }
 
     /**
      * @return If the robot has made it to the finish position
