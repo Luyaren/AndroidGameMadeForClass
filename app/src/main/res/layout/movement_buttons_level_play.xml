@@ -3,33 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="4">
+    android:weightSum="5">
 
     <Button
         android:id="@+id/bForward"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Forward" />
 
     <Button
-        android:id="@+id/bBack"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Back" />
-
-    <Button
         android:id="@+id/bRight"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Right" />
+        android:text="Turn Right" />
 
     <Button
         android:id="@+id/bLeft"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Left" />
+        android:text="Turn Left" />
+
+    <Button
+        android:id="@+id/bSubOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="S2" />
+
+    <Button
+        android:id="@+id/bSubTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="S1" />
+
 </LinearLayout>

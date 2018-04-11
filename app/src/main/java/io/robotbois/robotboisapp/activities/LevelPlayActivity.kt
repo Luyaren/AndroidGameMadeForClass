@@ -7,16 +7,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import io.robotbois.robotboisapp.R
-import io.robotbois.robotboisapp.ext.moveTo
-import io.robotbois.robotboisapp.logic.*
+import io.robotbois.robotboisapp.logic.Board
+import io.robotbois.robotboisapp.logic.Difficulty
+import io.robotbois.robotboisapp.logic.Robot
+import io.robotbois.robotboisapp.managers.GameStateManager
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
-import kotlinx.android.synthetic.main.movement_buttons_level_play.*
+import kotlinx.android.synthetic.main.run_stats.view.*
 import org.jetbrains.anko.UI
 import org.jetbrains.anko.imageView
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.*
+import kotlin.reflect.KFunction
 
 class LevelPlayActivity : AppCompatActivity() {
 
