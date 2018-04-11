@@ -1,18 +1,22 @@
 package io.robotbois.robotboisapp.logic
 
+import android.view.View
+import io.robotbois.robotboisapp.activities.LevelPlayActivity
+
 /**
  * Created by Aaron on 2/21/2018.
  * This class contains the board.
  * All values at different positions are
  * stored and the size of the board is stored
- * @param The size of the board (3, 4, or 5)
- * @param The info string for the board layout
  */
-class Board(boardInfo: String){
-    var gridLayout = ArrayList<ArrayList<Char>>()
-    var difficulty: Difficulty
-    var robot = Robot(this)
+class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
+    //var gridLayout = ArrayList<ArrayList<Char>>()
     var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
+    var gridLayout = MutableList(size) {
+        MutableList(size) { 'F' }
+    }
+    var difficulty: Difficulty
+    var robot = Robot(this, pawn, act)
 
     /**
      * This is the initial method to run. It creates the board
@@ -20,17 +24,27 @@ class Board(boardInfo: String){
      */
     init {
         for(x in 0 until size){
-            gridLayout.add(x,ArrayList())
             for(y in 0 until size){
-                gridLayout[x].add(boardInfo[x*size+y])
+                gridLayout[x][y] = boardInfo[x*size+y]
             }
         }
+
 
         difficulty = when (size) {
             4 -> Difficulty.EASY
             5 -> Difficulty.MEDIUM
             else -> Difficulty.HARD
         }
+    }
+
+    /**
+     * Resets the robot to it's default position
+     */
+    fun reset() {
+        val coords = initialBotPosition()
+        println("Going to pos ${coords.toList()}")
+        robot.positionX = coords[0]
+        robot.positionY = coords[1]
     }
 
     /**
@@ -41,10 +55,10 @@ class Board(boardInfo: String){
      * @return The char value at that position
      * @exception If the index is invalid
      */
-    fun boardIndexVal(row: Int, col: Int): Char {
+    private fun boardIndexVal(row: Int, col: Int): Char {
         if (row !in 0..size || col !in 0..size)
             return 'W'
-        return gridLayout[row][col]
+        return gridLayout[col][row]
     }
 
     /**
@@ -52,10 +66,10 @@ class Board(boardInfo: String){
      * starting position on the board
      * @return An integer array of the row and column values
      */
-    fun initialBotPosition(): IntArray {
+    private fun initialBotPosition(): IntArray {
         for (x in 0 until size) {
             for (y in 0 until size) {
-                if (gridLayout[x][y] == 'S') {
+                if (gridLayout[y][x] == 'S') {
                     return intArrayOf(x, y)
                 }
             }
@@ -68,7 +82,7 @@ class Board(boardInfo: String){
      * on the board
      */
     fun isGameWon(): Boolean {
-        if(boardIndexVal(robot.positionX,robot.positionY) == 'F'){
+        if(boardIndexVal(robot.positionX, robot.positionY) == 'F'){
             return true
         }
         return false
