@@ -1,5 +1,6 @@
 package io.robotbois.robotboisapp.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -13,12 +14,11 @@ import kotlinx.android.synthetic.main.movement_buttons_level_play.*
 import org.jetbrains.anko.UI
 import org.jetbrains.anko.imageView
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.toast
 import java.util.*
 import android.widget.ArrayAdapter
 
 
-
+@SuppressLint("SetTextI18n")
 class LevelPlayActivity : AppCompatActivity() {
 
     private var difficulty = Difficulty.EASY
@@ -60,15 +60,6 @@ class LevelPlayActivity : AppCompatActivity() {
         }.random()
     }
 
-    // Returns the tile that relates to the given board tile index
-    fun tileViewAt(x: Int, y: Int): View? {
-        if ((x !in 0..board.size) || (y !in 0..board.size)) {
-            return null
-        }
-        println("XY IS $x, $y")
-        return lBoard.getChildAt((board.size * y) + x)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_play)
@@ -79,12 +70,8 @@ class LevelPlayActivity : AppCompatActivity() {
         difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
         movesNeededToComplete = param[2].toInt()
         levelData = param.substring(4)
-        //lBoard.columnCount = difficulty.level
-
-        // Populate grid with images
 
         //val levelImages = levelData.map { char -> tileIcon(char) }
-
 
         robotIcon = UI {
             imageView(robotIcons.random()) {
@@ -125,16 +112,6 @@ class LevelPlayActivity : AppCompatActivity() {
             refreshCommandList()
         }
 
-
-
-    }
-
-    /**
-     * Do draw updates in onWindowFocusChanged, not onCreate
-     */
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        //val floorStart = lBoard.getChildAt(levelData.indexOf('S'))
-        //robotIcon.moveTo(floorStart)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -145,14 +122,8 @@ class LevelPlayActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.bStartReset -> {
-            bStartReset.text = "Reset"
-            true
-        }
 
         R.id.action_play -> {
-            toast("PLAY!")
-
             /*
             if(!board.isGameWon()){
                 lWinMessage.visibility = View.VISIBLE
@@ -160,27 +131,21 @@ class LevelPlayActivity : AppCompatActivity() {
             }
             */
 
-            start()
+            startAnimation()
             true
         }
 
         R.id.action_stop -> {
-            toast("STOP!")
-            stop()
+            resetAnimation()
             true
         }
 
-        else -> {
-            toast("This shouldn't happen!")
-            false
-        }
-
-
+        else -> false
     }
 
-    private fun start() {
-        // Refill processingStack and start serving animations
-        stop()
+    private fun startAnimation() {
+        // Refill processingStack and startAnimation serving animations
+        resetAnimation()
         processingStack = masterMoveStack.clone() as Stack<Move>
 
         while (processingStack.isNotEmpty()) {
@@ -200,13 +165,14 @@ class LevelPlayActivity : AppCompatActivity() {
                 }
             }
             game.push(board.robot.position)
+            println("PUSHED! ${board.robot.position}")
         }
     }
 
-    private fun stop() {
+    private fun resetAnimation() {
         board.reset()
-        println("STARTING AT ${board.startPosition}")
         game.reset(board.startPosition)
+        println("STARTING AT ${board.startPosition}")
     }
 
 }
