@@ -2,6 +2,7 @@ package io.robotbois.robotboisapp.logic
 
 import android.view.View
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
+import io.robotbois.robotboisapp.ext.moveTo
 
 /**
  * Created by Aaron on 2/21/2018.
@@ -45,6 +46,7 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
         println("Going to pos ${coords.toList()}")
         robot.positionX = coords[0]
         robot.positionY = coords[1]
+        robot.resetPawn()
     }
 
     /**
@@ -56,7 +58,7 @@ class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
      * @exception If the index is invalid
      */
     private fun boardIndexVal(row: Int, col: Int): Char {
-        if (row !in 0..size || col !in 0..size)
+        if (row !in 0 until size || col !in 0 until size)
             return 'W'
         return gridLayout[col][row]
     }

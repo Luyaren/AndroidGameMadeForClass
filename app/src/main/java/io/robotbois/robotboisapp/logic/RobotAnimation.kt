@@ -4,7 +4,7 @@ import android.view.View
 import io.robotbois.robotboisapp.ext.globalX
 import io.robotbois.robotboisapp.ext.globalY
 
-class RobotAnimation(var x: Float?, var y: Float?, var rot: Float?) {
+class RobotAnimation(var x: Float?, var y: Float?, var rot: Float?, doot: Robot.() -> Unit = {}) {
 
     val animation: Robot.() -> Unit = {
         var proto = pawn.animate()

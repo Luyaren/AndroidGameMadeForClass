@@ -18,9 +18,14 @@ class Robot(private val board: Board, val pawn: View, internal val act: LevelPla
     private fun animateSync() {
         act.apply { toast("$positionX, $positionY") }
 
-        pawn.moveTo(act.tileViewAt(positionX, positionY)!!)
-        apply(RobotAnimation(pawn.globalX, pawn.globalY, 0f).animation)
+        val targetTile = act.tileViewAt(positionX, positionY)!!
+        apply(RobotAnimation(targetTile.globalX, targetTile.globalY, 0f).animation)
+        pawn.moveTo(targetTile)
+    }
 
+    fun resetPawn() {
+        val currentTile = act.tileViewAt(positionX, positionY)!!
+        pawn.moveTo(currentTile)
     }
 
     fun turnLeft() {

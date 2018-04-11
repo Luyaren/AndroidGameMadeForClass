@@ -7,18 +7,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import io.robotbois.robotboisapp.R
+import io.robotbois.robotboisapp.ext.moveTo
 import io.robotbois.robotboisapp.logic.Board
 import io.robotbois.robotboisapp.logic.Difficulty
-import io.robotbois.robotboisapp.logic.Robot
-import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.logic.Move
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
-import kotlinx.android.synthetic.main.run_stats.view.*
+import kotlinx.android.synthetic.main.movement_buttons_level_play.*
 import org.jetbrains.anko.UI
 import org.jetbrains.anko.imageView
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.*
-import kotlin.reflect.KFunction
 
 class LevelPlayActivity : AppCompatActivity() {
 
@@ -94,9 +94,10 @@ class LevelPlayActivity : AppCompatActivity() {
         difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
         movesNeededToComplete = param[2].toInt()
         levelData = param.substring(4)
-        lBoard.columnCount = difficulty.level
+        //lBoard.columnCount = difficulty.level
 
         // Populate grid with images
+        /*
         levelData.forEach { char ->
             val imageToDisplay = tileIcon(char)
             val tempImage = UI {
@@ -108,6 +109,7 @@ class LevelPlayActivity : AppCompatActivity() {
             }.view
             lBoard.addView(tempImage)
         }
+        */
 
         robotIcon = UI {
             imageView(robotIcons.random()) {
@@ -133,8 +135,8 @@ class LevelPlayActivity : AppCompatActivity() {
      * Do draw updates in onWindowFocusChanged, not onCreate
      */
     override fun onWindowFocusChanged(hasFocus: Boolean) {
-        val floorStart = lBoard.getChildAt(levelData.indexOf('S'))
-        robotIcon.moveTo(floorStart)
+        //val floorStart = lBoard.getChildAt(levelData.indexOf('S'))
+        //robotIcon.moveTo(floorStart)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -183,7 +185,7 @@ class LevelPlayActivity : AppCompatActivity() {
         // Refill processingStack and start serving animations
         board.reset()
         processingStack = masterMoveStack.clone() as Stack<Move>
-        serveNextAnimation()
+        
     }
 
 }
