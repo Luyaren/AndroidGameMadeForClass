@@ -86,6 +86,10 @@ class LevelPlayActivity : AppCompatActivity() {
             bStartReset.text = "Reset"
             true
         }
+        R.id.bHints->{
+            tvHints.setText("Become a dropout because there is no way you are smart enough for college")
+            true
+        }
         R.id.action_play -> {
             toast("PLAY!")
 
