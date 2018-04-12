@@ -44,5 +44,18 @@ data class Coord<T : Number>(var x: T, var y: T) {
         return Coord(x, y)
     }
 
+
+    val left : Coord<Double>
+        get() = Coord(x.toDouble() - 1, y.toDouble() )
+
+    val right : Coord<Double>
+        get() = Coord(x.toDouble() + 1, y.toDouble())
+
+    val up : Coord<Double>
+        get() = Coord(x.toDouble(), y.toDouble() - 1)
+
+    val down : Coord<Double>
+        get() = Coord(x.toDouble(), y.toDouble() + 1)
+
 }
 

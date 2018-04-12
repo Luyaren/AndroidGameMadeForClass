@@ -51,7 +51,7 @@ class Board(boardInfo: String, pawn: View){
      * @param query The The coordinates of the tile
      * @return The char value at that position
      */
-    private fun boardIndexVal(query: Coord<Int>): Char {
+    internal fun boardIndexVal(query: Coord<Int>): Char {
         if (query.x !in 0 until size || query.y !in 0 until size)
             return 'W'
         return gridLayout[query.y][query.x]
