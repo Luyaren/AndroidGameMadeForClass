@@ -33,32 +33,38 @@ class LevelPlayActivity : AppCompatActivity() {
     lateinit var game: GameGUI
 
     // All masterMoveStack in the list
-    val masterMoveStack = Stack<Move>()
+    val masterMoveQueue = mutableListOf<Move>()
     // All masterMoveStack in the current list that need to be executed
-    var processingStack = Stack<Move>()
+    var processingQueue = mutableListOf<Move>()
 
     private fun refreshCommandList() {
         lCommandList.adapter = ArrayAdapter<String>(
                 this,
                 R.layout.command_list_item,
-                masterMoveStack.toList().map { it.description }
+                masterMoveQueue.map { it.description }
         )
         lCommandList.invalidate()
     }
+
 
     // Getting random seeded items from a list, with the level seed
     private fun <T> List<T>.random(): T {
         return this[randomMaker.nextInt(size)]
     }
 
-    private fun tileIcon(char: Char): Int {
-        return when (char) {
-            'W' -> listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1)
-            'E' -> listOf(R.drawable.game_end_0)
-            'F', 'S' -> listOf(R.drawable.game_floor_0)
-            else -> listOf(R.drawable.game_end_0)
-        }.random()
+
+    private fun tileImage(char: Char): View {
+        return UI {
+            imageView(
+                    when (char) {
+                        'W' -> listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1)
+                        'E' -> listOf(R.drawable.game_end_0)
+                        'F', 'S' -> listOf(R.drawable.game_floor_0)
+                        else -> listOf(R.drawable.game_end_0)
+                    }.random())
+        }.view
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,34 +87,28 @@ class LevelPlayActivity : AppCompatActivity() {
         }.view
 
         game = GameGUI(levelData, this)
-
-        game.apply {
-            push(Coord(3, 3))
-            push(Coord(2, 3))
-            push(Coord(1, 2))
-        }
         lBoard.addView(game)
 
         lConstraintLayout.addView(robotIcon)
         robotIcon.bringToFront()
         
         // Set board data
-        board = Board(levelData, robotIcon, this)
+        board = Board(levelData, robotIcon)
         // Create navbar
         NavbarManager.navbarFor(this)
 
         bForward.onClick {
-            masterMoveStack.push(Move.FORWARD)
+            masterMoveQueue.add(Move.FORWARD)
             refreshCommandList()
         }
 
         bLeft.onClick {
-            masterMoveStack.push(Move.LEFT)
+            masterMoveQueue.add(Move.LEFT)
             refreshCommandList()
         }
 
         bRight.onClick {
-            masterMoveStack.push(Move.RIGHT)
+            masterMoveQueue.add(Move.RIGHT)
             refreshCommandList()
         }
 
@@ -122,7 +122,6 @@ class LevelPlayActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-
         R.id.action_play -> {
             /*
             if(!board.isGameWon()){
@@ -130,7 +129,6 @@ class LevelPlayActivity : AppCompatActivity() {
                 lWinMessage.tvScore.text = "Confetti!"
             }
             */
-
             startAnimation()
             true
         }
@@ -146,10 +144,13 @@ class LevelPlayActivity : AppCompatActivity() {
     private fun startAnimation() {
         // Refill processingStack and startAnimation serving animations
         resetAnimation()
-        processingStack = masterMoveStack.clone() as Stack<Move>
+        processingQueue.clear()
+        processingQueue.addAll(masterMoveQueue)
 
-        while (processingStack.isNotEmpty()) {
-            val move = processingStack.pop()
+        while (processingQueue.isNotEmpty()) {
+            val move = processingQueue.first()
+            processingQueue.removeAt(0)
+
             when (move) {
                 Move.FORWARD -> {
                     board.robot.moveForward()
@@ -164,8 +165,7 @@ class LevelPlayActivity : AppCompatActivity() {
                     println("Um?")
                 }
             }
-            game.push(board.robot.position)
-            println("PUSHED! ${board.robot.position}")
+            game.push(board.robot.position.clone())
         }
     }
 

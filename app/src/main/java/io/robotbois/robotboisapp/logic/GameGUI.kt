@@ -19,8 +19,8 @@ class GameGUI(val tiles: String, context: Context) : View(context) {
     var moveQueue = mutableListOf<Coord<Int>>()
 
     fun push(c: Coord<Int>) {
-        println("PUSHING $c")
         moveQueue.add(c)
+        println("QUEUE NOW HAS: $moveQueue")
     }
 
     fun reset(startPos: Coord<Int>) {

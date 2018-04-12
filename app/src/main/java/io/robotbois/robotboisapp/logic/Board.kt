@@ -9,14 +9,14 @@ import io.robotbois.robotboisapp.activities.LevelPlayActivity
  * All values at different positions are
  * stored and the size of the board is stored
  */
-class Board(boardInfo: String, pawn: View, act: LevelPlayActivity){
+class Board(boardInfo: String, pawn: View){
     //var gridLayout = ArrayList<ArrayList<Char>>()
     var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
     var gridLayout = MutableList(size) {
         MutableList(size) { 'F' }
     }
     var difficulty: Difficulty
-    var robot = Robot(this, act)
+    var robot = Robot(this)
 
     /**
      * This is the initial method to run. It creates the board

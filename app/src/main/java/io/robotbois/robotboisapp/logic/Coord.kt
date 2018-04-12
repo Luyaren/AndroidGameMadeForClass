@@ -40,5 +40,9 @@ data class Coord<T : Number>(var x: T, var y: T) {
         return (this - other).magnitude
     }
 
+    fun clone(): Coord<T> {
+        return Coord(x, y)
+    }
+
 }
 

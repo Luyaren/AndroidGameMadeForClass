@@ -2,7 +2,7 @@ package io.robotbois.robotboisapp.logic
 
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
 
-class Robot(private val board: Board, internal val act: LevelPlayActivity) {
+class Robot(private val board: Board) {
     var numberofturns: Int = 0
     var numberofmoveForward: Int = 0
     var numberofmoveBackward: Int = 0
