@@ -1,13 +1,13 @@
 package io.robotbois.robotboisapp.logic
 
+import io.robotbois.robotboisapp.activities.LevelPlayActivity
+
 class Robot(private val board: Board) {
     var numberofturns: Int = 0
     var numberofmoveForward: Int = 0
     var numberofmoveBackward: Int = 0
-    var direction: Char = 'U'
-    var positionX: Int = 0
-    var positionY: Int = 0
-
+    var direction: Char = 'D'
+    var position = Coord(0, 0)
 
     fun turnLeft() {
         direction = when (direction) {
@@ -35,51 +35,27 @@ class Robot(private val board: Board) {
     fun moveForward() {
         when (direction) {
             'U' -> {
-                positionY++
+                position.y--
                 numberofmoveForward++
             }
             'D' -> {
-                if (positionY > 0) {
-                    positionY--
+                if (position.y >= 0) {
+                    position.y++
                     numberofmoveForward++
                 }
             }
             'R' -> {
-                positionX++
+                position.x++
                 numberofmoveForward++
             }
             'L' -> {
-                if (positionX > 0) {
-                    positionX--
+                if (position.x >= 0) {
+                    position.x--
                     numberofmoveForward++
-                }
-            }
-        }
-
-        fun moveBackward() {
-            when (direction) {
-                'U' -> {
-                    positionY--
-                    numberofmoveForward++
-                }
-                'D' -> {
-                    if (positionY > 0) {
-                        positionY++
-                        numberofmoveForward++
-                    }
-                }
-                'R' -> {
-                    positionX--
-                    numberofmoveForward++
-                }
-                'L' -> {
-                    if (positionX > 0) {
-                        positionX++
-                        numberofmoveForward++
-                    }
                 }
             }
         }
     }
+
 }
 

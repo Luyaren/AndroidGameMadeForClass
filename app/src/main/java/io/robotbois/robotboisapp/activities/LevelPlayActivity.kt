@@ -1,25 +1,25 @@
 package io.robotbois.robotboisapp.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import io.robotbois.robotboisapp.R
-import io.robotbois.robotboisapp.logic.Board
-import io.robotbois.robotboisapp.logic.Difficulty
-import io.robotbois.robotboisapp.logic.Robot
-import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.logic.*
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
-import kotlinx.android.synthetic.main.run_stats.view.*
+import kotlinx.android.synthetic.main.movement_buttons_level_play.*
 import org.jetbrains.anko.UI
 import org.jetbrains.anko.imageView
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
-import kotlin.reflect.KFunction
+import android.widget.ArrayAdapter
+import io.robotbois.robotboisapp.logic.Queue
 
+
+@SuppressLint("SetTextI18n")
 class LevelPlayActivity : AppCompatActivity() {
 
     private var difficulty = Difficulty.EASY
@@ -28,11 +28,44 @@ class LevelPlayActivity : AppCompatActivity() {
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
+    val robotIcons = listOf(R.drawable.game_player_0, R.drawable.game_player_1)
+    // The view that you will move to move the robot on screen
+    lateinit var robotIcon: View
+    lateinit var game: GameGUI
+
+    // All masterMoveStack in the list
+    val masterMoveQueue = Queue<Move>()
+    // All masterMoveStack in the current list that need to be executed
+    var processingQueue = Queue<Move>()
+
+    private fun refreshCommandList() {
+        lCommandList.adapter = ArrayAdapter<String>(
+                this,
+                R.layout.command_list_item,
+                masterMoveQueue.map { it.description }
+        )
+        lCommandList.invalidate()
+    }
+
 
     // Getting random seeded items from a list, with the level seed
     private fun <T> List<T>.random(): T {
         return this[randomMaker.nextInt(size)]
     }
+
+
+    private fun tileImage(char: Char): View {
+        return UI {
+            imageView(
+                    when (char) {
+                        'W' -> listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1)
+                        'E' -> listOf(R.drawable.game_end_0)
+                        'F', 'S' -> listOf(R.drawable.game_floor_0)
+                        else -> listOf(R.drawable.game_end_0)
+                    }.random())
+        }.view
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,32 +77,41 @@ class LevelPlayActivity : AppCompatActivity() {
         difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
         movesNeededToComplete = param[2].toInt()
         levelData = param.substring(4)
-        lBoard.columnCount = difficulty.level
 
-        // Map of what images can be drawn for each game data character
-        val drawMap = mapOf(
-                'W' to listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1),
-                'S' to listOf(R.drawable.game_player_0, R.drawable.game_player_1),
-                'E' to listOf(R.drawable.game_end_0),
-                'F' to listOf(R.drawable.game_floor_0)
-        )
+        //val levelImages = levelData.map { char -> tileIcon(char) }
 
-        // Populate grid with images
-        levelData.forEach { char ->
-            val imageToDisplay = drawMap[char]!!.random()
-            val tempImage = UI {
-                imageView(imageToDisplay) {
-                    minimumWidth = 100
-                    minimumHeight = 100
-                    scaleType = ImageView.ScaleType.FIT_XY
-                }
-            }.view
-            lBoard.addView(tempImage)
-        }
+        robotIcon = UI {
+            imageView(robotIcons.random()) {
+                minimumWidth = 150
+                minimumHeight = 150
+            }
+        }.view
+
+        game = GameGUI(levelData, this)
+        lBoard.addView(game)
+
+        lConstraintLayout.addView(robotIcon)
+        robotIcon.bringToFront()
         
         // Set board data
-        board = Board(levelData)
+        board = Board(levelData, robotIcon)
+        // Create navbar
         NavbarManager.navbarFor(this)
+
+        bForward.onClick {
+            masterMoveQueue.add(Move.FORWARD)
+            refreshCommandList()
+        }
+
+        bLeft.onClick {
+            masterMoveQueue.add(Move.LEFT)
+            refreshCommandList()
+        }
+
+        bRight.onClick {
+            masterMoveQueue.add(Move.RIGHT)
+            refreshCommandList()
+        }
 
     }
 
@@ -81,73 +123,55 @@ class LevelPlayActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.bStartReset->{
-            toast("PLAY")
-            bStartReset.text = "Reset"
-            true
-        }
-        R.id.bHints->{
-            tvHints.setText("Become a dropout because there is no way you are smart enough for college")
-            true
-        }
         R.id.action_play -> {
-            toast("PLAY!")
-
-            // This manually loads a blank board and tells the robot to move forward
-            board = Board(" ".repeat(64))
-
-            println("Difficulty is: ${board.difficulty}")
-
-            process(
-                    arrayListOf(
-                            Robot::moveForward,
-                            arrayListOf(
-                                    Robot::turnRight,
-                                    Robot::moveForward
-                            ),
-                            Robot::moveForward,
-                            Robot::turnRight
-                    ), this)
-
-
-            //*/
-
+            /*
             if(!board.isGameWon()){
                 lWinMessage.visibility = View.VISIBLE
-                lWinMessage.tvScore.text = "You suck"
+                lWinMessage.tvScore.text = "Confetti!"
             }
-
+            */
+            startAnimation()
             true
         }
 
         R.id.action_stop -> {
-            toast("STOP!")
+            resetAnimation()
             true
         }
 
-        else -> {
-            toast("This shouldn't happen!")
-            false
-        }
-
-
+        else -> false
     }
 
-    // Consumes a list of moves and moves the robot accordingly
-    private fun process(moves: ArrayList<*>, activity: LevelPlayActivity) {
-        moves.forEach { move ->
+    private fun startAnimation() {
+        // Refill processingStack and startAnimation serving animations
+        resetAnimation()
+        processingQueue.setValues(masterMoveQueue)
+
+        while (processingQueue.isNotEmpty()) {
+            val move = processingQueue.dequeue()
+
             when (move) {
-                // If it's an ArrayList of things
-                is ArrayList<*> -> process(move, activity)
-                // If it's a robot function
-                is KFunction<*> -> {
-                    board.robot.apply {
-                        move.call(this)
-                    }
+                Move.FORWARD -> {
+                    board.robot.moveForward()
                 }
-                else -> throw Exception("Invalid move! Move was a ${move!!.javaClass}")
+                Move.LEFT -> {
+                    board.robot.turnLeft()
+                }
+                Move.RIGHT -> {
+                    board.robot.turnRight()
+                }
+                else -> {
+                    println("Um?")
+                }
             }
+            game.push(board.robot.position.clone())
         }
+    }
+
+    private fun resetAnimation() {
+        board.reset()
+        game.reset(board.startPosition)
+        println("STARTING AT ${board.startPosition}")
     }
 
 }
