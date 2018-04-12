@@ -9,7 +9,7 @@ import io.robotbois.robotboisapp.activities.LevelPlayActivity
  * All values at different positions are
  * stored and the size of the board is stored
  */
-class Board(boardInfo: String, pawn: View){
+class Board(boardInfo: String){
     //var gridLayout = ArrayList<ArrayList<Char>>()
     var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
     var gridLayout = MutableList(size) {

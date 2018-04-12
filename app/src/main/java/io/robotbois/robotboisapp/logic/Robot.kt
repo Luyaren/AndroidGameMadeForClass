@@ -26,7 +26,7 @@ class Robot(private val board: Board) {
             'R' -> 'D'
             'U' -> 'R'
             'L' -> 'D'
-            'D' -> 'R'
+            'D' -> 'L'
             else -> direction
         }
         numberofturns++
