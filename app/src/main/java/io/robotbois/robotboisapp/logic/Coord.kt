@@ -5,8 +5,12 @@ import kotlin.math.sqrt
 
 data class Coord<T : Number>(var x: T, var y: T) {
 
-    operator fun plus(other: Coord<T>): Coord<Double> {
-        return Coord(x.toDouble() + other.x.toDouble(), y.toDouble() + other.y.toDouble())
+    operator fun plus(other: Any): Coord<Double> {
+        return when(other) {
+            is Coord<*> -> Coord(x.toDouble() + other.x.toDouble(), y.toDouble() + other.y.toDouble())
+            is Number -> Coord(x.toDouble() + other.toDouble(), y.toDouble() + other.toDouble())
+            else -> throw Exception("Can't add a coord to a ${other::class}!")
+        }
     }
 
     operator fun minus(other: Coord<T>): Coord<Double> {

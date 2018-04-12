@@ -11,6 +11,7 @@ import kotlin.math.sqrt
 
 
 class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : View(context) {
+    val playerImage = (player as BitmapDrawable).bitmap
     val bitmaps = tiles.map { (it as BitmapDrawable).bitmap }
     val painter = Paint()
     var robot = Coord(0f, 0f)
@@ -33,13 +34,9 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
         painter.color = Color.BLACK
         painter.strokeWidth = 0f
         bitmaps.forEachIndexed { i, bitmap ->
-            val px = pixelCoord(Coord(i / boardSize, i % boardSize)).toInt()
-            //canvas.drawRect(px.x, px.y, px.x + TILE_SIZE, px.y + TILE_SIZE, painter)
-            canvas.drawBitmap(bitmap,
-                    null,
-                    Rect(px.x, px.y, px.x + TILE_SIZE, px.y + TILE_SIZE),
-                    painter
-            )
+            val px = pixelCoord(Coord(i % boardSize, i / boardSize)).toInt()
+            val sz = px + TILE_SIZE
+            drawImage(canvas, bitmap, px, sz.toInt())
         }
     }
 
@@ -47,6 +44,10 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
         painter.style = Paint.Style.FILL
         painter.color = Color.WHITE
         canvas.drawPaint(painter)
+    }
+
+    private fun drawImage(canvas: Canvas, bitmap: Bitmap, position: Coord<Int>, size: Coord<Int>) {
+        canvas.drawBitmap(bitmap, null, Rect(position.x, position.y, size.x, size.y), painter)
     }
 
     /**
@@ -68,11 +69,11 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
         }
     }
 
-
+    // Magic! (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
     private fun drawPlayer(canvas: Canvas) {
-        robot = (robot.toDouble() + ((target - robot) * 0.1)).toFloat() // Magic! (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
+        robot = (robot.toDouble() + ((target - robot) * 0.1)).toFloat()
         painter.color = Color.parseColor("#CD5C5C")
-        canvas.drawRect(robot.x, robot.y, robot.x + TILE_SIZE, robot.y + TILE_SIZE, painter)
+        drawImage(canvas, playerImage, robot.toInt(), (robot + TILE_SIZE).toInt())
     }
 
     override fun onDraw(canvas: Canvas) {

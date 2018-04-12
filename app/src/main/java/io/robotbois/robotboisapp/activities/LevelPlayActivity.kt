@@ -15,7 +15,10 @@ import kotlinx.android.synthetic.main.movement_buttons_level_play.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 import android.widget.ArrayAdapter
+import io.robotbois.robotboisapp.ext.transpose
 import io.robotbois.robotboisapp.logic.Queue
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 @SuppressLint("SetTextI18n")
@@ -27,7 +30,7 @@ class LevelPlayActivity : AppCompatActivity() {
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
-    val robotImages = listOf(R.drawable.game_jimbot)
+    val robotImages = listOf(R.drawable.jimbot)
     // The view that you will move to move the robot on screen
     lateinit var robotImage: Drawable
     lateinit var game: GameGUI
@@ -55,10 +58,10 @@ class LevelPlayActivity : AppCompatActivity() {
 
     private fun tileImage(char: Char): Drawable {
         return resources.getDrawable(when (char) {
-            'W' -> listOf(R.drawable.game_stahp, R.drawable.game_puddle)
-            'E' -> listOf(R.drawable.game_flag)
-            'F', 'S' -> listOf(R.drawable.game_floor)
-            else -> listOf(R.drawable.game_floor)
+            'W' -> listOf(R.drawable.stahp, R.drawable.puddle)
+            'E' -> listOf(R.drawable.flag)
+            'F', 'S' -> listOf(R.drawable.flooring)
+            else -> listOf(R.drawable.flooring)
         }.random())
     }
 
