@@ -16,6 +16,7 @@ import org.jetbrains.anko.imageView
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 import android.widget.ArrayAdapter
+import io.robotbois.robotboisapp.logic.Queue
 
 
 @SuppressLint("SetTextI18n")
@@ -33,9 +34,9 @@ class LevelPlayActivity : AppCompatActivity() {
     lateinit var game: GameGUI
 
     // All masterMoveStack in the list
-    val masterMoveQueue = mutableListOf<Move>()
+    val masterMoveQueue = Queue<Move>()
     // All masterMoveStack in the current list that need to be executed
-    var processingQueue = mutableListOf<Move>()
+    var processingQueue = Queue<Move>()
 
     private fun refreshCommandList() {
         lCommandList.adapter = ArrayAdapter<String>(
@@ -144,12 +145,10 @@ class LevelPlayActivity : AppCompatActivity() {
     private fun startAnimation() {
         // Refill processingStack and startAnimation serving animations
         resetAnimation()
-        processingQueue.clear()
-        processingQueue.addAll(masterMoveQueue)
+        processingQueue.setValues(masterMoveQueue)
 
         while (processingQueue.isNotEmpty()) {
-            val move = processingQueue.first()
-            processingQueue.removeAt(0)
+            val move = processingQueue.dequeue()
 
             when (move) {
                 Move.FORWARD -> {
