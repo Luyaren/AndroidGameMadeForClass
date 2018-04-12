@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="levelcomplete.svg">
+   sodipodi:docname="levelincomplete.svg"
+   inkscape:export-filename="C:\Users\Kitsune\Desktop\projectGraphics\levelincomplete.png"
+   inkscape:export-xdpi="76.190002"
+   inkscape:export-ydpi="76.190002">
   <defs
      id="defs2">
     <marker
@@ -96,7 +99,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.66"
-     inkscape:cx="59.385823"
+     inkscape:cx="-193.64448"
      inkscape:cy="466.14911"
      inkscape:document-units="mm"
      inkscape:current-layer="layer3"
@@ -123,7 +126,8 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(0,-93)">
+     transform="translate(0,-93)"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="fill:#9d3c04;fill-opacity:1;stroke:none;stroke-width:3.66499996;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -180,7 +184,8 @@
      id="layer2"
      inkscape:label="Layer 2"
      style="display:inline"
-     transform="translate(0,-93)">
+     transform="translate(0,-93)"
+     sodipodi:insensitive="true">
     <circle
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.47385621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4516"
@@ -193,12 +198,5 @@
      id="layer3"
      inkscape:label="Layer 3"
      style="display:inline"
-     transform="translate(0,-93)">
-    <path
-       style="display:inline;fill:#00be81;fill-opacity:1;stroke:#007500;stroke-width:0.72696948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:5.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 37.585118,197.49693 24.365223,51.64252 c 48.471289,-41.25677 49.885839,-63.53859 94.651959,-120.72721 0,0 -11.22548,-0.76691 -22.23022,-2.05203 -6.1145,-0.71404 -38.077189,76.09588 -68.474287,99.7431 -6.268904,-13.59377 -1.506157,-4.62852 -13.915548,-30.11718 -7.688715,1.36802 -14.397127,1.5108 -14.397127,1.5108 z"
-       id="path4523"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccsccc" />
-  </g>
+     transform="translate(0,-93)" />
 </svg>

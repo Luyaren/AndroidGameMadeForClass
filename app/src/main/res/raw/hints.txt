@@ -1,0 +1,10 @@
+M Move up two, turn right, move forward, turn left.
+M Move forward four, turn left, move forward two, turn left, move foward four.
+M Try to create L shapes in movement.
+M Move foward three.
+M Try to create hut shapes.
+H Move foward four times.
+H Move forward, turn right, move forward, turn left.
+H Move foward three times, turn right move, move foward twice, turn left.
+H Manipulate hints from first and second hard levels.
+H Move forward two, turn left, move foward two, turn left, move forward four.

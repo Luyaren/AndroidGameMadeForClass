@@ -9,13 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="204mm"
+   height="204mm"
+   viewBox="0 0 204 204"
    version="1.1"
    id="svg840"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="stahp.svg">
+   sodipodi:docname="stahp.svg"
+   inkscape:export-filename="C:\Users\Kitsune\Desktop\projectGraphics\stahp.png"
+   inkscape:export-xdpi="63.75"
+   inkscape:export-ydpi="63.75">
   <defs
      id="defs834" />
   <sodipodi:namedview
@@ -26,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="497.68718"
-     inkscape:cy="531.39595"
+     inkscape:cx="-14.271956"
+     inkscape:cy="399.55809"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,7 +38,11 @@
      inkscape:window-height="1051"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata837">
     <rdf:RDF>
@@ -44,14 +51,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-2.8901689,-41.595218)">
     <rect
        style="fill:#a44300;fill-opacity:1;stroke:none;stroke-width:0.54240227;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect844"
