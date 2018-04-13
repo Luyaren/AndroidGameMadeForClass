@@ -9,7 +9,7 @@ import io.robotbois.robotboisapp.activities.LevelPlayActivity
  * All values at different positions are
  * stored and the size of the board is stored
  */
-class Board(boardInfo: String){
+class Board(boardInfo: String, pawn: View){
     //var gridLayout = ArrayList<ArrayList<Char>>()
     var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
     var gridLayout = MutableList(size) {
@@ -51,7 +51,7 @@ class Board(boardInfo: String){
      * @param query The The coordinates of the tile
      * @return The char value at that position
      */
-    private fun boardIndexVal(query: Coord<Int>): Char {
+    internal fun boardIndexVal(query: Coord<Int>): Char {
         if (query.x !in 0 until size || query.y !in 0 until size)
             return 'W'
         return gridLayout[query.y][query.x]

@@ -1,26 +1,25 @@
 package io.robotbois.robotboisapp.logic
 
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.view.View
 import io.robotbois.robotboisapp.R
 import java.util.*
 import kotlin.math.sqrt
 
 
-class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : View(context) {
-    val playerImage = (player as BitmapDrawable).bitmap
-    val bitmaps = tiles.map { (it as BitmapDrawable).bitmap }
+class GameGUI(val tiles: String, context: Context) : View(context) {
     val painter = Paint()
     var robot = Coord(0f, 0f)
     var target = Coord(0f, 0f)
-    val boardSize = sqrt(bitmaps.size.toDouble()).toInt()
-    var moveQueue = Queue<Coord<Int>>()
+    val boardSize = sqrt(tiles.length.toDouble()).toInt()
+    var moveQueue = mutableListOf<Coord<Int>>()
 
     fun push(c: Coord<Int>) {
-        moveQueue.enqueue(c)
+        moveQueue.add(c)
         println("QUEUE NOW HAS: $moveQueue")
     }
 
@@ -33,10 +32,9 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
     private fun drawTiles(canvas: Canvas) {
         painter.color = Color.BLACK
         painter.strokeWidth = 0f
-        bitmaps.forEachIndexed { i, bitmap ->
-            val px = pixelCoord(Coord(i % boardSize, i / boardSize)).toInt()
-            val sz = px + TILE_SIZE
-            drawImage(canvas, bitmap, px, sz.toInt())
+        tiles.forEachIndexed { i, tile ->
+            val px = pixelCoord(Coord(i / boardSize, i % boardSize))
+            canvas.drawRect(px.x, px.y, px.x + TILE_SIZE, px.y + TILE_SIZE, painter)
         }
     }
 
@@ -46,17 +44,13 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
         canvas.drawPaint(painter)
     }
 
-    private fun drawImage(canvas: Canvas, bitmap: Bitmap, position: Coord<Int>, size: Coord<Int>) {
-        canvas.drawBitmap(bitmap, null, Rect(position.x, position.y, size.x, size.y), painter)
-    }
-
     /**
      * Given the tile's coordinate (e.g. [2, 3]) returns it's pixel coordinate on the canvas
      */
     private fun pixelCoord(coord: Coord<Int>): Coord<Float> {
         val x = coord.x * (TILE_SIZE + TILE_PADD)
         val y = coord.y * (TILE_SIZE + TILE_PADD)
-        return Coord(x, y).toFloat()
+        return Coord(x, y)
     }
 
     private fun isPlayerAtTarget(): Boolean {
@@ -65,19 +59,26 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
 
     private fun updatePlayerTarget() {
         if (isPlayerAtTarget() && moveQueue.isNotEmpty()) {
-            target = pixelCoord(moveQueue.dequeue())
+            val next = moveQueue.first()
+            moveQueue.removeAt(0)
+            target = pixelCoord(next)
         }
     }
 
-    // Magic! (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
+
     private fun drawPlayer(canvas: Canvas) {
         robot = (robot.toDouble() + ((target - robot) * 0.1)).toFloat()
         painter.color = Color.parseColor("#CD5C5C")
-        drawImage(canvas, playerImage, robot.toInt(), (robot + TILE_SIZE).toInt())
+        //canvas.drawCircle(robot.x + (TILE_SIZE / 2), robot.y + (TILE_SIZE / 2), TILE_SIZE / 2, painter)
+        canvas.drawRect(robot.x, robot.y, robot.x + TILE_SIZE, robot.y + TILE_SIZE, painter)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        //val d = resources.getDrawable(R.drawable.game_floor_0)
+        //d.bounds = Rect(0, 0, 50, 50)
+        //d.draw(canvas)
+
         drawBackground(canvas)
         drawTiles(canvas)
         updatePlayerTarget()
@@ -86,8 +87,8 @@ class GameGUI(tiles: List<Drawable>, val player: Drawable, context: Context) : V
     }
 
     companion object {
-        const val TILE_SIZE = 150
-        const val TILE_PADD = 5
+        const val TILE_SIZE = 150f
+        const val TILE_PADD = 5f
     }
 
 }

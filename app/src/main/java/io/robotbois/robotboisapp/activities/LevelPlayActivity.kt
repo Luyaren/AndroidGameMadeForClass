@@ -1,7 +1,6 @@
 package io.robotbois.robotboisapp.activities
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -12,13 +11,12 @@ import io.robotbois.robotboisapp.logic.*
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import kotlinx.android.synthetic.main.movement_buttons_level_play.*
+import org.jetbrains.anko.UI
+import org.jetbrains.anko.imageView
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 import android.widget.ArrayAdapter
-import io.robotbois.robotboisapp.ext.transpose
 import io.robotbois.robotboisapp.logic.Queue
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 
 @SuppressLint("SetTextI18n")
@@ -30,9 +28,9 @@ class LevelPlayActivity : AppCompatActivity() {
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
-    val robotImages = listOf(R.drawable.jimbot)
+    val robotIcons = listOf(R.drawable.game_player_0, R.drawable.game_player_1)
     // The view that you will move to move the robot on screen
-    lateinit var robotImage: Drawable
+    lateinit var robotIcon: View
     lateinit var game: GameGUI
 
     // All masterMoveStack in the list
@@ -56,13 +54,16 @@ class LevelPlayActivity : AppCompatActivity() {
     }
 
 
-    private fun tileImage(char: Char): Drawable {
-        return resources.getDrawable(when (char) {
-            'W' -> listOf(R.drawable.stahp, R.drawable.puddle)
-            'E' -> listOf(R.drawable.flag)
-            'F', 'S' -> listOf(R.drawable.flooring)
-            else -> listOf(R.drawable.flooring)
-        }.random())
+    private fun tileImage(char: Char): View {
+        return UI {
+            imageView(
+                    when (char) {
+                        'W' -> listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1)
+                        'E' -> listOf(R.drawable.game_end_0)
+                        'F', 'S' -> listOf(R.drawable.game_floor_0)
+                        else -> listOf(R.drawable.game_end_0)
+                    }.random())
+        }.view
     }
 
 
@@ -77,32 +78,38 @@ class LevelPlayActivity : AppCompatActivity() {
         movesNeededToComplete = param[2].toInt()
         levelData = param.substring(4)
 
-        val levelImages = levelData.map { char -> tileImage(char) }
+        //val levelImages = levelData.map { char -> tileIcon(char) }
 
-        robotImage = resources.getDrawable(robotImages.random())
+        robotIcon = UI {
+            imageView(robotIcons.random()) {
+                minimumWidth = 150
+                minimumHeight = 150
+            }
+        }.view
 
+        game = GameGUI(levelData, this)
+        lBoard.addView(game)
+
+        lConstraintLayout.addView(robotIcon)
+        robotIcon.bringToFront()
+        
         // Set board data
-        board = Board(levelData)
+        board = Board(levelData, robotIcon)
         // Create navbar
         NavbarManager.navbarFor(this)
 
-        game = GameGUI(levelImages, robotImage, this)
-        resetAnimation()
-        lBoard.addView(game)
-
-
         bForward.onClick {
-            masterMoveQueue.enqueue(Move.FORWARD)
+            masterMoveQueue.add(Move.FORWARD)
             refreshCommandList()
         }
 
         bLeft.onClick {
-            masterMoveQueue.enqueue(Move.LEFT)
+            masterMoveQueue.add(Move.LEFT)
             refreshCommandList()
         }
 
         bRight.onClick {
-            masterMoveQueue.enqueue(Move.RIGHT)
+            masterMoveQueue.add(Move.RIGHT)
             refreshCommandList()
         }
 
@@ -164,6 +171,7 @@ class LevelPlayActivity : AppCompatActivity() {
     private fun resetAnimation() {
         board.reset()
         game.reset(board.startPosition)
+        println("STARTING AT ${board.startPosition}")
     }
 
 }

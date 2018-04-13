@@ -1,6 +1,7 @@
-package io.robotbois.robotboisapp.logic
+import io.robotbois.robotboisapp.logic.Board
 
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
+import io.robotbois.robotboisapp.logic.Coord
 
 class Robot(private val board: Board) {
     var numberofturns: Int = 0
@@ -9,53 +10,65 @@ class Robot(private val board: Board) {
     var direction: Char = 'D'
     var position = Coord(0, 0)
 
-    fun turnLeft() {
+
+    fun turnLeft() : Boolean {
         direction = when (direction) {
             'R' -> 'U'
             'U' -> 'L'
             'L' -> 'D'
             'D' -> 'R'
-            else -> direction
+            else -> return false
         }
         numberofturns++
+        return true
     }
 
 
-    fun turnRight() {
+    fun turnRight() : Boolean {
         direction = when (direction) {
             'R' -> 'D'
             'U' -> 'R'
             'L' -> 'D'
-            'D' -> 'L'
-            else -> direction
+            'D' -> 'R'
+            else -> return false
         }
         numberofturns++
+        return true
     }
 
-    fun moveForward() {
+    fun moveForward() : Boolean{
         when (direction) {
             'U' -> {
-                position.y--
-                numberofmoveForward++
+                if ('W' != board.boardIndexVal(position.up.toInt())) {
+                    position.y--
+                    numberofmoveForward++
+                } else
+                    return false
             }
             'D' -> {
-                if (position.y >= 0) {
+                if ('W' != board.boardIndexVal(position.down.toInt())) {
                     position.y++
                     numberofmoveForward++
-                }
+                } else
+                    return false
             }
             'R' -> {
-                position.x++
-                numberofmoveForward++
-            }
-            'L' -> {
-                if (position.x >= 0) {
+                if ('W' != board.boardIndexVal(position.right.toInt())) {
                     position.x--
                     numberofmoveForward++
-                }
+                } else
+                    return false
             }
+            'L' -> {
+                if ('W' != board.boardIndexVal(position.left.toInt())) {
+                    position.x++
+                    numberofmoveForward++
+                } else
+                    return false
+            }
+        }
+        return true
         }
     }
 
-}
 
