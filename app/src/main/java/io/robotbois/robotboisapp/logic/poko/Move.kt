@@ -1,4 +1,4 @@
-package io.robotbois.robotboisapp.logic
+package io.robotbois.robotboisapp.logic.poko
 
 enum class Move(val description: String) {
     FORWARD("Move Forward"),

@@ -1,6 +1,7 @@
 package io.robotbois.robotboisapp.activities
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -11,12 +12,13 @@ import io.robotbois.robotboisapp.logic.*
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import kotlinx.android.synthetic.main.movement_buttons_level_play.*
-import org.jetbrains.anko.UI
-import org.jetbrains.anko.imageView
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 import android.widget.ArrayAdapter
-import io.robotbois.robotboisapp.logic.Queue
+import io.robotbois.robotboisapp.logic.poko.Queue
+import io.robotbois.robotboisapp.logic.gui.GameGUI
+import io.robotbois.robotboisapp.logic.poko.Move
+import io.robotbois.robotboisapp.logic.poko.MoveType.*
 
 
 @SuppressLint("SetTextI18n")
@@ -28,9 +30,9 @@ class LevelPlayActivity : AppCompatActivity() {
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
-    val robotIcons = listOf(R.drawable.game_player_0, R.drawable.game_player_1)
+    val robotImages = listOf(R.drawable.jimbot)
     // The view that you will move to move the robot on screen
-    lateinit var robotIcon: View
+    lateinit var robotImage: Drawable
     lateinit var game: GameGUI
 
     // All masterMoveStack in the list
@@ -54,16 +56,13 @@ class LevelPlayActivity : AppCompatActivity() {
     }
 
 
-    private fun tileImage(char: Char): View {
-        return UI {
-            imageView(
-                    when (char) {
-                        'W' -> listOf(R.drawable.game_obstacle_0, R.drawable.game_obstacle_1)
-                        'E' -> listOf(R.drawable.game_end_0)
-                        'F', 'S' -> listOf(R.drawable.game_floor_0)
-                        else -> listOf(R.drawable.game_end_0)
-                    }.random())
-        }.view
+    private fun tileImage(char: Char): Drawable {
+        return resources.getDrawable(when (char) {
+            'W' -> listOf(R.drawable.stahp, R.drawable.puddle)
+            'E' -> listOf(R.drawable.flag)
+            'F', 'S' -> listOf(R.drawable.flooring)
+            else -> listOf(R.drawable.flooring)
+        }.random())
     }
 
 
@@ -78,38 +77,32 @@ class LevelPlayActivity : AppCompatActivity() {
         movesNeededToComplete = param[2].toInt()
         levelData = param.substring(4)
 
-        //val levelImages = levelData.map { char -> tileIcon(char) }
+        val levelImages = levelData.map { char -> tileImage(char) }
 
-        robotIcon = UI {
-            imageView(robotIcons.random()) {
-                minimumWidth = 150
-                minimumHeight = 150
-            }
-        }.view
+        robotImage = resources.getDrawable(robotImages.random())
 
-        game = GameGUI(levelData, this)
-        lBoard.addView(game)
-
-        lConstraintLayout.addView(robotIcon)
-        robotIcon.bringToFront()
-        
         // Set board data
-        board = Board(levelData, robotIcon)
+        board = Board(levelData)
         // Create navbar
         NavbarManager.navbarFor(this)
 
+        game = GameGUI(levelImages, robotImage, this)
+        resetAnimation()
+        lBoard.addView(game)
+
+
         bForward.onClick {
-            masterMoveQueue.add(Move.FORWARD)
+            masterMoveQueue.enqueue(Move.FORWARD)
             refreshCommandList()
         }
 
         bLeft.onClick {
-            masterMoveQueue.add(Move.LEFT)
+            masterMoveQueue.enqueue(Move.LEFT)
             refreshCommandList()
         }
 
         bRight.onClick {
-            masterMoveQueue.add(Move.RIGHT)
+            masterMoveQueue.enqueue(Move.RIGHT)
             refreshCommandList()
         }
 
@@ -149,29 +142,30 @@ class LevelPlayActivity : AppCompatActivity() {
 
         while (processingQueue.isNotEmpty()) {
             val move = processingQueue.dequeue()
-
             when (move) {
                 Move.FORWARD -> {
                     board.robot.moveForward()
+                    game.push(board.robot.position.clone())
+                    println("Pushed ${board.robot.position.clone()}")
                 }
                 Move.LEFT -> {
                     board.robot.turnLeft()
+                    game.push(Angle(-90))
                 }
                 Move.RIGHT -> {
                     board.robot.turnRight()
+                    game.push(Angle(90))
                 }
                 else -> {
-                    println("Um?")
+                    throw Exception("Unsupported Move type! I got a $move")
                 }
             }
-            game.push(board.robot.position.clone())
         }
     }
 
     private fun resetAnimation() {
         board.reset()
-        game.reset(board.startPosition)
-        println("STARTING AT ${board.startPosition}")
+        game.reset(board.startPosition, board.startDirection)
     }
 
 }

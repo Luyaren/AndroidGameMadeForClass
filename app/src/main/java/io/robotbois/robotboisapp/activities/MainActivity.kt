@@ -5,7 +5,6 @@ import android.os.Bundle
 import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
 import io.robotbois.robotboisapp.activities.LevelSelectActivity
-import io.robotbois.robotboisapp.logic.Robot
 import io.robotbois.robotboisapp.managers.GameStateManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
@@ -29,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         bOptions.setOnClickListener {
             toast("Options!")
-
         }
 
     }
