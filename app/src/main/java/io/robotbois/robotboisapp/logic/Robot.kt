@@ -1,7 +1,6 @@
 import io.robotbois.robotboisapp.logic.Board
 
-import io.robotbois.robotboisapp.activities.LevelPlayActivity
-import io.robotbois.robotboisapp.logic.Coord
+import io.robotbois.robotboisapp.logic.poko.MoveType.*
 
 class Robot(private val board: Board) {
     var numberofturns: Int = 0
@@ -28,9 +27,9 @@ class Robot(private val board: Board) {
         direction = when (direction) {
             'R' -> 'D'
             'U' -> 'R'
-            'L' -> 'D'
-            'D' -> 'R'
-            else -> return false
+            'L' -> 'U'
+            'D' -> 'L'
+            else -> direction
         }
         numberofturns++
         return true
@@ -39,29 +38,30 @@ class Robot(private val board: Board) {
     fun moveForward() : Boolean{
         when (direction) {
             'U' -> {
-                if ('W' != board.boardIndexVal(position.up.toInt())) {
+                if ('W' != board.boardIndexVal(position.up)) {
                     position.y--
                     numberofmoveForward++
                 } else
                     return false
             }
             'D' -> {
-                if ('W' != board.boardIndexVal(position.down.toInt())) {
+                if ('W' != board.boardIndexVal(position.down)) {
                     position.y++
                     numberofmoveForward++
                 } else
+                    println("DOOT")
                     return false
             }
             'R' -> {
-                if ('W' != board.boardIndexVal(position.right.toInt())) {
-                    position.x--
+                if ('W' != board.boardIndexVal(position.right)) {
+                    position.x++
                     numberofmoveForward++
                 } else
                     return false
             }
             'L' -> {
-                if ('W' != board.boardIndexVal(position.left.toInt())) {
-                    position.x++
+                if ('W' != board.boardIndexVal(position.left)) {
+                    position.x--
                     numberofmoveForward++
                 } else
                     return false

@@ -1,7 +1,7 @@
 package io.robotbois.robotboisapp.logic
 
-import android.view.View
-import io.robotbois.robotboisapp.activities.LevelPlayActivity
+import Robot
+import io.robotbois.robotboisapp.logic.poko.MoveType.*
 
 /**
  * Created by Aaron on 2/21/2018.
@@ -9,8 +9,7 @@ import io.robotbois.robotboisapp.activities.LevelPlayActivity
  * All values at different positions are
  * stored and the size of the board is stored
  */
-class Board(boardInfo: String, pawn: View){
-    //var gridLayout = ArrayList<ArrayList<Char>>()
+class Board(boardInfo: String){
     var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
     var gridLayout = MutableList(size) {
         MutableList(size) { 'F' }
@@ -72,6 +71,17 @@ class Board(boardInfo: String, pawn: View){
                 }
             }
             throw Exception("Not a valid board")
+        }
+
+    val startDirection: Angle
+        get() {
+            return Angle(when (robot.direction) {
+                'U' -> 0
+                'L' -> 90
+                'D' -> 180
+                'R' -> 270
+                else -> throw Exception("Robot is facing an invalid direction!")
+            })
         }
 
     /**
