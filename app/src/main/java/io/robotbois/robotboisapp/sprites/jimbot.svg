@@ -16,7 +16,7 @@
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="jimbot.svg"
-   inkscape:export-filename="C:\Users\Kitsune\Desktop\projectGraphics\jimbot.png"
+   inkscape:export-filename="C:\Users\Kitsune\Desktop\project\projectGraphics\jimbot.png"
    inkscape:export-xdpi="63.75"
    inkscape:export-ydpi="63.75">
   <defs
@@ -29,12 +29,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.58"
-     inkscape:cx="90.983316"
-     inkscape:cy="454.56079"
+     inkscape:cx="260.2273"
+     inkscape:cy="331.93828"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1018"
+     inkscape:window-width="1418"
      inkscape:window-height="733"
      inkscape:window-x="113"
      inkscape:window-y="77"
@@ -82,7 +82,7 @@
        inkscape:transform-center-y="5.9763271"
        transform="scale(1,-1)" />
     <circle
-       style="fill:#00964f;fill-opacity:1;stroke:none;stroke-width:1.07700002;stroke-linejoin:miter;stroke-miterlimit:5.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#8ad3ff;fill-opacity:1;stroke:none;stroke-width:1.07700002;stroke-linejoin:miter;stroke-miterlimit:5.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path816"
        cx="143.85229"
        cy="-221.94164"
@@ -141,7 +141,7 @@
        inkscape:transform-center-y="-16.139585"
        transform="scale(1,-1)" />
     <circle
-       style="fill:#56a69d;fill-opacity:1;stroke:none;stroke-width:1.07700002;stroke-linejoin:miter;stroke-miterlimit:5.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#f48801;fill-opacity:1;stroke:none;stroke-width:1.07700002;stroke-linejoin:miter;stroke-miterlimit:5.80000019;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path816-6"
        cx="53.418465"
        cy="-222.10698"

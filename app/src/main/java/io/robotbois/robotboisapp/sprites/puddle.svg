@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="204mm"
@@ -16,11 +17,23 @@
    id="svg840"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="puddle.svg"
-   inkscape:export-filename="C:\Users\Kitsune\Desktop\projectGraphics\puddle.png"
+   inkscape:export-filename="C:\Users\Kitsune\Desktop\project\projectGraphics\puddle.png"
    inkscape:export-xdpi="63.75"
    inkscape:export-ydpi="63.75">
   <defs
      id="defs834">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient842">
+      <stop
+         style="stop-color:#63cfc0;stop-opacity:1;"
+         offset="0"
+         id="stop838" />
+      <stop
+         style="stop-color:#6499af;stop-opacity:1"
+         offset="1"
+         id="stop840" />
+    </linearGradient>
     <inkscape:path-effect
        effect="bspline"
        id="path-effect1410"
@@ -31,6 +44,17 @@
        apply_no_weight="true"
        apply_with_weight="true"
        only_selected="false" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient842"
+       id="radialGradient846"
+       cx="115.71449"
+       cy="184.95163"
+       fx="115.71449"
+       fy="184.95163"
+       r="82.346931"
+       gradientTransform="matrix(0.76849174,-2.3367416e-4,1.6128917e-4,0.53039899,23.68257,91.559763)"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -40,8 +64,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="58.294381"
-     inkscape:cy="469.07462"
+     inkscape:cx="166.07912"
+     inkscape:cy="453.07194"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -183,7 +207,7 @@
        x="159.0493"
        y="93.270828" />
     <path
-       style="fill:#63cfc0;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:url(#radialGradient846);fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 98.88974,121.24107 c 18.58393,1.57485 44.16032,-1.57495 61.23202,4.28357 17.0717,5.85852 25.63926,20.72576 24.56843,35.97073 -1.07084,15.24497 -11.7801,30.8679 -12.85108,47.43612 -1.07098,16.56823 7.49632,34.08078 4.03166,44.16019 -3.46465,10.0794 -18.96157,12.72521 -29.41898,16.50492 -10.45741,3.77971 -15.87497,8.69331 -21.85992,5.48031 -5.98495,-3.21301 -12.5362,-14.55171 -18.96165,-15.11883 -6.425452,-0.56711 -12.725105,9.63832 -18.898931,8.6303 -6.173826,-1.00802 -12.221262,-13.22888 -24.946188,-15.11881 -12.724926,-1.88994 -32.127875,6.55161 -38.857174,-0.67391 -6.729299,-7.22552 -0.830461,-29.94232 10.571819,-43.36033 11.40228,-13.41801 28.28545,-17.44981 30.175315,-24.50522 1.889866,-7.05541 -11.213551,-17.13496 -21.544944,-27.08838 -10.331393,-9.95341 -17.890899,-19.78077 -14.929938,-28.22229 2.960961,-8.44151 16.442167,-15.4971 28.978128,-15.87504 12.535962,-0.37794 24.127504,5.92181 42.711433,7.49667 z"
        id="path1408"
        inkscape:connector-curvature="0"

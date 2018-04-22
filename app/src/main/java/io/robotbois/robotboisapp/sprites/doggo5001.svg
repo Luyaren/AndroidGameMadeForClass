@@ -16,7 +16,7 @@
    id="svg6032"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="doggo5001.svg"
-   inkscape:export-filename="C:\Users\Kitsune\Desktop\projectGraphics\doggo5001.png"
+   inkscape:export-filename="C:\Users\Kitsune\Desktop\project\projectGraphics\doggo5001.png"
    inkscape:export-xdpi="63.75"
    inkscape:export-ydpi="63.75">
   <defs
@@ -79,9 +79,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="-214.29307"
-     inkscape:cy="391.33749"
+     inkscape:zoom="1.4"
+     inkscape:cx="216.87284"
+     inkscape:cy="352.09234"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -139,7 +139,7 @@
        ry="3.4745038" />
     <path
        sodipodi:type="star"
-       style="fill:#000000;fill-opacity:0.86069647;stroke:#000000;stroke-width:0.26458332;stroke-opacity:0"
+       style="fill:#000000;fill-opacity:0.98369563;stroke:#000000;stroke-width:0.26458332;stroke-opacity:0"
        id="path6609"
        sodipodi:sides="3"
        sodipodi:cx="66.817372"
@@ -156,7 +156,7 @@
        inkscape:transform-center-y="4.8108498" />
     <path
        sodipodi:type="star"
-       style="fill:#000000;fill-opacity:0.86069647;stroke:#000000;stroke-width:0.26458332;stroke-opacity:0"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.26458332;stroke-opacity:0"
        id="path6609-6"
        sodipodi:sides="3"
        sodipodi:cx="-138.29628"
@@ -173,7 +173,7 @@
        inkscape:transform-center-y="4.8108498"
        transform="scale(-1,1)" />
     <path
-       style="fill:#274800;fill-opacity:0.94527366;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#393a41;fill-opacity:1;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 55.605098,160.71856 c 1.202774,-2.40536 9.147527,2.5261 11.917275,7.397 2.769748,4.8709 0.364087,9.68222 -2.041339,14.49307 -5.539333,-9.74232 -11.078711,-19.48471 -9.875936,-21.89007 z"
        id="path6628"
        inkscape:connector-curvature="0"
@@ -181,7 +181,7 @@
        inkscape:original-d="m 48.863035,153.38168 c 7.945027,4.93121 15.889782,9.86267 23.834276,14.7944 -2.405086,4.81043 -7.216277,14.43255 -7.216277,14.43255 0,0 -11.078399,-19.48489 -16.617999,-29.22695 z"
        sodipodi:nodetypes="cccc" />
     <path
-       style="fill:#274800;fill-opacity:0.94527366;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#393a41;fill-opacity:1;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 148.9469,159.87682 c -1.20278,-2.40536 -9.14753,2.5261 -11.91728,7.397 -2.76975,4.8709 -0.36409,9.68222 2.04134,14.49307 5.53933,-9.74232 11.07871,-19.48471 9.87594,-21.89007 z"
        id="path6628-3"
        inkscape:connector-curvature="0"
@@ -255,8 +255,8 @@
     <circle
        style="fill:#da0300;fill-opacity:0.75124356;stroke:#000000;stroke-width:0.14952195;stroke-opacity:0"
        id="path6667-5"
-       cx="84.189896"
-       cy="141.71642"
+       cx="82.677994"
+       cy="143.60629"
        r="3.3983996" />
   </g>
 </svg>
