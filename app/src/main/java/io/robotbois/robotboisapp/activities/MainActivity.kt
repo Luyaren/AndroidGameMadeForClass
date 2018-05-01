@@ -1,11 +1,15 @@
 package io.robotbois.robotboisapp.activities
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
 import io.robotbois.robotboisapp.activities.LevelSelectActivity
 import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.managers.MusicManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 
@@ -13,6 +17,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        MusicManager.intializer(applicationContext)
+        MusicManager.stopGameMusic()
+        MusicManager.playMenuMusic(applicationContext)
 
         GameStateManager.levelData = resources.openRawResource(R.raw.levels).bufferedReader().readLines()
 
@@ -28,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
         bOptions.setOnClickListener {
             toast("Options!")
+        }
+
+        bTutorial.setOnClickListener {
+            toast("Tutorial")
         }
 
     }

@@ -1,15 +1,21 @@
 package io.robotbois.robotboisapp.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import io.robotbois.robotboisapp.R
@@ -32,10 +38,20 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.*
+import io.robotbois.robotboisapp.R.id.bStartReset
+import io.robotbois.robotboisapp.logic.poko.MoveType.*
+import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.managers.GameStateManager.levelData
+import io.robotbois.robotboisapp.managers.MusicManager
+import kotlinx.android.synthetic.main.navigation_buttons.view.*
+import kotlinx.android.synthetic.main.run_stats.view.*
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+import java.io.FileWriter
 
 
 @SuppressLint("SetTextI18n")
-class LevelPlayActivity : AppCompatActivity() {
+open class LevelPlayActivity : AppCompatActivity() {
 
     private var whichView = theView.MAIN
     private var difficulty = Difficulty.EASY
@@ -133,12 +149,18 @@ class LevelPlayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_level_play)
         setSupportActionBar(my_toolbar)
 
-        // Grabbing data from activity parameters
-        val param = intent.getStringExtra("ID")
-        difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
+        MusicManager.stopMenuMusic()
+        MusicManager.playGameMusic(applicationContext)
 
-        movesNeededToComplete = param[2].toInt()
-        levelData = param.substring(4)
+        // Grabbing data from activity parameters
+        val param = intent.getStringExtra("ID").split(" ")
+        when {
+            param[0].equals("E") -> difficulty = Difficulty.EASY
+            param[0].equals("M") -> difficulty = Difficulty.MEDIUM
+            else -> difficulty = Difficulty.HARD
+        }
+        movesNeededToComplete = param[1].toInt()
+        levelData = param[2]
 
         val levelImages = levelData.map { char -> tileImage(char) }
 
@@ -153,6 +175,24 @@ class LevelPlayActivity : AppCompatActivity() {
         resetAnimation()
         lBoard.addView(game)
 
+        bHints.onClick {
+            val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
+            val levelScoreEditor = levelScores.edit()
+            val hintsLeft = levelScores.getInt("Hints", 5)
+            if(tvHints.text.equals(" ")) {
+                if (hintsLeft > 0) {
+                    var hintMessage = ""
+                    for (i in 3 until param.size) {
+                        hintMessage += param[i] + " "
+                    }
+                    tvHints.setText(hintMessage)
+                    levelScoreEditor.putInt("Hints", hintsLeft - 1)
+                    levelScoreEditor.commit()
+                } else {
+                    tvHints.setText("You do not have enough hint points.")
+                }
+            }
+        }
 
         listItems = ArrayAdapter(
                 this,
@@ -233,26 +273,50 @@ class LevelPlayActivity : AppCompatActivity() {
             R.id.action_play -> {
 
                 if(board.isGameWon()){
+                    // Determine score
+                    val movesMade = board.robot.totalMoves
+                    val playerScore = 65*(-3*(movesNeededToComplete - movesMade)) + 35*(movesMade/movesNeededToComplete)
 
-                    val builder = AlertDialog.Builder(this)
-
-                    val scoreView = layoutInflater.inflate(R.layout.run_stats, null).apply {
-                        tvScore.text = "Yay"
-                        bLevelSelect.onClick {
-                            startActivity<LevelSelectActivity>()
+                    // Determine where in the level data file this level is from and how many
+                    // easy and medium levels there are
+                    var thisLevel = 0;
+                    var numEasyLevels = 0
+                    var numMedLevels = 0
+                    var numHardLevels = 0
+                    for(i in 0 until GameStateManager.levelData.size){
+                        val aLevel = GameStateManager.levelData[i].split(" ")
+                        if(aLevel[2].equals(levelData)){
+                            thisLevel = i
+                            toast(i.toString())
                         }
-                        bReset.onClick {
-                            resetAnimation()
-                        }
-                        bNextLevel.onClick {
-                            toast("budump")
+                        when {
+                            aLevel[0].equals("E") -> numEasyLevels++
+                            aLevel[0].equals("M") -> numMedLevels++
+                            aLevel[0].equals("H") -> numHardLevels++
                         }
                     }
 
+                    // Write new score to be saved
+                    updateScoreRecords(playerScore, thisLevel, numEasyLevels, numMedLevels)
+
+                    // Display completion pop-up
+                    val builder = AlertDialog.Builder(this)
+                    val scoreView = layoutInflater.inflate(R.layout.run_stats, null)
+                    scoreView.tvScore.text = playerScore.toString()
+                    scoreView.bLevelSelect.onClick {
+                        startActivity<LevelSelectActivity>()
+                    }
+                    scoreView.bReset.onClick {
+                        clearQueues()
+                        resetAnimation()
+                    }
+                    scoreView.bNextLevel.onClick {
+                        startActivity<LevelPlayActivity>("ID" to GameStateManager.levelData[thisLevel+
+                                1%(numEasyLevels+numMedLevels+numHardLevels)])
+                    }
                     builder.setView(scoreView)
                     val dialog = builder.create()
                     dialog.show()
-                    toast("Hello!!")
                 }
 
                 startAnimation()
@@ -347,4 +411,35 @@ class LevelPlayActivity : AppCompatActivity() {
         game.reset(board.startPosition, board.startDirection)
     }
 
+    private fun updateScoreRecords(playerScore: Int, thisLevel: Int, numEasyLevels: Int, numMedLevels: Int){
+        val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
+        val levelScoreEditor = levelScores.edit()
+        var position = thisLevel
+        when (difficulty) {
+            Difficulty.MEDIUM -> {
+                position -= numEasyLevels
+                if(levelScores.getInt("M"+position.toString(),0) < playerScore) {
+                    levelScoreEditor.putInt("Hints",levelScores.getInt("Hints",5)+1)
+                    levelScoreEditor.putInt("M" + position.toString(), playerScore)
+                    levelScoreEditor.commit()
+                }
+            }
+            Difficulty.HARD -> {
+                position -= numEasyLevels+numMedLevels
+                if(levelScores.getInt("H"+position.toString(),0) < playerScore) {
+                    levelScoreEditor.putInt("Hints",levelScores.getInt("Hints",5)+1)
+                    levelScoreEditor.putInt("H" + position.toString(), playerScore)
+                    levelScoreEditor.commit()
+                }
+            }
+            else -> {
+                if(levelScores.getInt("E"+position.toString(),0) < playerScore) {
+                    levelScoreEditor.putInt("Hints",levelScores.getInt("Hints",5)+1)
+                    levelScoreEditor.putInt("E" + position.toString(), playerScore)
+                    levelScoreEditor.commit()
+                }
+            }
+        }
+
+    }
 }
