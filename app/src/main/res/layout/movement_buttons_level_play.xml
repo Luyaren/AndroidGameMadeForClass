@@ -10,34 +10,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Forward" />
+        android:text="Forward"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/bRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Turn Right" />
+        android:text="Turn Right"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/bLeft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Turn Left" />
+        android:text="Turn Left"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/bSubOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="S2" />
+        android:text="S1"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/bSubTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="S1" />
+        android:text="S2" />
 
 </LinearLayout>

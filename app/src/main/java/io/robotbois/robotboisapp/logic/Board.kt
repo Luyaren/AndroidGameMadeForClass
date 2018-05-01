@@ -10,11 +10,11 @@ import io.robotbois.robotboisapp.logic.poko.MoveType.*
  * stored and the size of the board is stored
  */
 class Board(boardInfo: String){
-    var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
-    var gridLayout = MutableList(size) {
+    private var size: Int = Math.sqrt(boardInfo.length.toDouble()).toInt()
+    private var gridLayout = MutableList(size) {
         MutableList(size) { 'F' }
     }
-    var difficulty: Difficulty
+    private var difficulty: Difficulty
     var robot = Robot(this)
 
     /**
@@ -42,6 +42,9 @@ class Board(boardInfo: String){
     fun reset() {
         robot.position = startPosition
         robot.direction = 'D'
+        robot.numberofmoveBackward = 0
+        robot.numberofmoveBackward = 0
+        robot.numberofturns = 0
     }
 
     /**
@@ -89,9 +92,14 @@ class Board(boardInfo: String){
      * on the board
      */
     fun isGameWon(): Boolean {
-        if(boardIndexVal(robot.position) == 'F'){
+        if(robot.tile == 'E') {
             return true
         }
         return false
+    }
+
+    fun runScore(): Int {
+
+        return 100000000
     }
 }

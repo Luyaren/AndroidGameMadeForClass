@@ -9,6 +9,11 @@ class Robot(private val board: Board) {
     var direction: Char = 'D'
     var position = Coord(0, 0)
 
+    val totalMoves: Int
+        get() = numberofturns + numberofmoveForward + numberofmoveBackward
+
+    val tile: Char
+        get() = board.boardIndexVal(position)
 
     fun turnLeft() : Boolean {
         direction = when (direction) {
@@ -49,7 +54,6 @@ class Robot(private val board: Board) {
                     position.y++
                     numberofmoveForward++
                 } else
-                    println("DOOT")
                     return false
             }
             'R' -> {

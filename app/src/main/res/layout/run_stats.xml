@@ -29,25 +29,37 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:columnCount="3">
 
         <Button
             android:id="@+id/bReset"
-            android:layout_width="190dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/md_blue_900"
             android:text="Reset"
+            android:textColor="@color/md_grey_100"
+            android:layout_column="0"/>
+
+        <Button
+            android:id="@+id/bLevelSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:background="@color/md_blue_900"
+            android:text="Level Select"
             android:textColor="@color/md_grey_100" />
 
         <Button
             android:id="@+id/bNextLevel"
-            android:layout_width="190dp"
-            android:layout_height="50dp"
-            android:layout_column="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="2"
             android:layout_row="0"
             android:background="@color/md_blue_900"
             android:text="Next"
-            android:textColor="@color/md_grey_100" />
+            android:textColor="@android:color/background_light" />
     </GridLayout>
 </LinearLayout>

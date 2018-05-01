@@ -23,4 +23,8 @@ class Queue<T> : ArrayList<T>() {
         }
     }
 
+    override fun clone(): Queue<T> {
+        return super.clone() as Queue<T>
+    }
+
 }
