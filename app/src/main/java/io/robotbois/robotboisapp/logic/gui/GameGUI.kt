@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import io.robotbois.robotboisapp.activities.LevelPlayActivity
 import io.robotbois.robotboisapp.logic.poko.MoveType.*
 import io.robotbois.robotboisapp.logic.poko.Queue
 import io.robotbois.robotboisapp.logic.poko.MoveType
@@ -12,7 +13,7 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 
 
-class GameGUI(tiles: List<Drawable>, player: Drawable, context: Context) : View(context) {
+class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivity) : View(act) {
     private val playerImage = (player as BitmapDrawable).bitmap!!
     private val bitmaps = tiles.map { (it as BitmapDrawable).bitmap }
     private val painter = Paint()
@@ -82,8 +83,8 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, context: Context) : View(
 
     private fun updatePlayerTarget() {
         if (isPlayerAtTarget() && queue.isNotEmpty()) {
+            act.highlightNext()
             val newTarget = queue.dequeue()
-            println("Updating target... $newTarget")
             when (newTarget) {
                 is Coord<*> -> {
                     transformation = TransformationType.MOVE

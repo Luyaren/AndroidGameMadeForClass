@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Main"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/bSubOneList"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Sub 1"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/bSubTwoList"
@@ -26,5 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="SUB 2"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/bDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Delete"
+        android:textSize="12sp" />
 </LinearLayout>
