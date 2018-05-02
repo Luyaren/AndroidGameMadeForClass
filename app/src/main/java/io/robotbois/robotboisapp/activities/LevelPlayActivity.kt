@@ -1,6 +1,7 @@
 package io.robotbois.robotboisapp.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
@@ -8,10 +9,10 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.TextView
 import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.logic.Board
 import io.robotbois.robotboisapp.logic.Difficulty
@@ -21,7 +22,8 @@ import io.robotbois.robotboisapp.logic.poko.MoveType.Angle
 import io.robotbois.robotboisapp.logic.poko.Queue
 import io.robotbois.robotboisapp.logic.poko.Subroutine
 import io.robotbois.robotboisapp.logic.poko.SubroutinePointer
-import io.robotbois.robotboisapp.logic.theView
+import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.managers.MusicManager
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import kotlinx.android.synthetic.main.movement_buttons_level_play.*
@@ -35,21 +37,18 @@ import java.util.*
 
 
 @SuppressLint("SetTextI18n")
-class LevelPlayActivity : AppCompatActivity() {
+open class LevelPlayActivity : AppCompatActivity() {
 
-    private var whichView = theView.MAIN
     private var difficulty = Difficulty.EASY
     private var movesNeededToComplete = 0
     private var levelData = ""
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
-    val robotImages = listOf(R.drawable.jimbot)
+    private val robotImages = listOf(R.drawable.jimbot)
     // The view that you will move to move the robot on screen
-    lateinit var robotImage: Drawable
-    lateinit var game: GameGUI
-
-    val isInDialogue = false
+    private lateinit var robotImage: Drawable
+    private lateinit var game: GameGUI
 
     private val queues = listOf<Queue<Move>>(
             Queue(), // Main Routine
@@ -67,21 +66,13 @@ class LevelPlayActivity : AppCompatActivity() {
     private val currentMove: SubroutinePointer
         get() = moves[moveIndex]
 
-    private lateinit var listItems: ArrayAdapter<String>
 
-    private fun repopulateListView() {
-        listItems.clear()
-        val itemsToAdd = activeQueue.map { it.description }
-        listItems.addAll(itemsToAdd)
-    }
-
-    private fun select(p: SubroutinePointer) {
-        lCommandList.smoothScrollToPosition(p.index)
-        val children = (0 until lCommandList.childCount).map { lCommandList.getChildAt(it) }
-        children.forEachIndexed { i, view ->
-            view.background = when(i) {
-                p.index -> ColorDrawable(Color.WHITE)
-                else -> ColorDrawable(Color.TRANSPARENT)
+    private fun updateGrid() {
+        lGrid.childrenSequence().forEachIndexed { i, tv ->
+            if (i in 0 until activeQueue.size) {
+                (tv as TextView).text = activeQueue[i].char.toString()
+            } else {
+                (tv as TextView).text = " "
             }
         }
     }
@@ -106,12 +97,30 @@ class LevelPlayActivity : AppCompatActivity() {
     }
 
     private fun switchList(s: Subroutine) {
+        whitewashGrid()
+        val oldActiveQueue = activeQueueIndex
         activeQueueIndex = when(s) {
             Subroutine.MAIN -> 0
             Subroutine.ONE -> 1
             Subroutine.TWO -> 2
         }
-        repopulateListView()
+        if (activeQueueIndex != oldActiveQueue) {
+            updateGrid()
+        }
+        highlightCurrentQueueButton()
+    }
+
+    private fun colorGrid() {
+        if (currentMove.index > 0) {
+            lGrid.getChildAt(currentMove.index - 1).background = ColorDrawable(Color.TRANSPARENT)
+        }
+        lGrid.getChildAt(currentMove.index).background = ColorDrawable(Color.LTGRAY)
+    }
+
+    private fun whitewashGrid() {
+        lGrid.childrenSequence().forEach {
+            it.background = ColorDrawable(Color.TRANSPARENT)
+        }
     }
 
     private fun highlightCurrentQueueButton() {
@@ -133,12 +142,18 @@ class LevelPlayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_level_play)
         setSupportActionBar(my_toolbar)
 
-        // Grabbing data from activity parameters
-        val param = intent.getStringExtra("ID")
-        difficulty = Difficulty.values().find { level -> level.toString()[0] == param[0] }!!
+        MusicManager.stopMenuMusic()
+        MusicManager.playGameMusic(applicationContext)
 
-        movesNeededToComplete = param[2].toInt()
-        levelData = param.substring(4)
+        // Grabbing data from activity parameters
+        val param = intent.getStringExtra("ID").split(" ")
+        when {
+            param[0].equals("E") -> difficulty = Difficulty.EASY
+            param[0].equals("M") -> difficulty = Difficulty.MEDIUM
+            else -> difficulty = Difficulty.HARD
+        }
+        movesNeededToComplete = param[1].toInt()
+        levelData = param[2]
 
         val levelImages = levelData.map { char -> tileImage(char) }
 
@@ -153,78 +168,101 @@ class LevelPlayActivity : AppCompatActivity() {
         resetAnimation()
         lBoard.addView(game)
 
+        /*
+        bHints.onClick {
+            val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
+            val levelScoreEditor = levelScores.edit()
+            val hintsLeft = levelScores.getInt("Hints", 5)
+            if(tvHints.text.equals(" ")) {
+                if (hintsLeft > 0) {
+                    var hintMessage = ""
+                    for (i in 3 until param.size) {
+                        hintMessage += param[i] + " "
+                    }
+                    tvHints.setText(hintMessage)
+                    levelScoreEditor.putInt("Hints", hintsLeft - 1)
+                    levelScoreEditor.commit()
+                } else {
+                    tvHints.setText("You do not have enough hint points.")
+                }
+            }
+        }
+        */
 
-        listItems = ArrayAdapter(
-                this,
-                R.layout.command_list_item,
-                mutableListOf("1", "2", "3")
-        )
 
-        lCommandList.apply {
-            adapter = listItems
-            choiceMode = ListView.CHOICE_MODE_SINGLE
+        lGrid.apply {
+            columnCount = GRID_COLS
+            rowCount = GRID_ROWS
         }
 
 
         bForward.onClick {
             activeQueue.enqueue(Move.FORWARD)
-            repopulateListView()
+            updateGrid()
         }
 
         bLeft.onClick {
             activeQueue.enqueue(Move.LEFT)
-            repopulateListView()
+            updateGrid()
         }
 
         bRight.onClick {
             activeQueue.enqueue(Move.RIGHT)
-            repopulateListView()
+            updateGrid()
         }
 
         bSubOne.onClick {
             activeQueue.enqueue(Move.S1)
-            repopulateListView()
+            updateGrid()
         }
 
         bSubTwo.onClick {
             activeQueue.enqueue(Move.S2)
-            repopulateListView()
+            updateGrid()
         }
 
         bNavigationButtons.bMainList.onClick {
             activeQueueIndex = 0
-            repopulateListView()
+            updateGrid()
             highlightCurrentQueueButton()
         }
 
         bNavigationButtons.bSubOneList.onClick {
             activeQueueIndex = 1
-            repopulateListView()
+            updateGrid()
             highlightCurrentQueueButton()
         }
 
         bNavigationButtons.bSubTwoList.onClick {
             activeQueueIndex = 2
-            repopulateListView()
+            updateGrid()
             highlightCurrentQueueButton()
         }
 
         bNavigationButtons.bDelete.onClick {
             if (activeQueue.isNotEmpty()) {
                 activeQueue.removeAt(activeQueue.size - 1)
-                repopulateListView()
             }
-
+            updateGrid()
+            whitewashGrid()
         }
 
-
         highlightCurrentQueueButton()
+    }
 
+    /**
+     * Called after onCreate and once the view is all initialized
+     */
+    override fun onResume() {
+        super.onResume()
+        (0 until GRID_COLS * GRID_ROWS).forEach {
+            lGrid.addView(gridCell(' '))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_level_play, menu)
-        bStartReset.text = "Start"
+        //bStartReset.text = "Start"
         return true
     }
 
@@ -233,26 +271,50 @@ class LevelPlayActivity : AppCompatActivity() {
             R.id.action_play -> {
 
                 if(board.isGameWon()){
+                    // Determine score
+                    val movesMade = board.robot.totalMoves
+                    val playerScore = 65*(-3*(movesNeededToComplete - movesMade)) + 35*(movesMade/movesNeededToComplete)
 
-                    val builder = AlertDialog.Builder(this)
-
-                    val scoreView = layoutInflater.inflate(R.layout.run_stats, null).apply {
-                        tvScore.text = "Yay"
-                        bLevelSelect.onClick {
-                            startActivity<LevelSelectActivity>()
+                    // Determine where in the level data file this level is from and how many
+                    // easy and medium levels there are
+                    var thisLevel = 0;
+                    var numEasyLevels = 0
+                    var numMedLevels = 0
+                    var numHardLevels = 0
+                    for(i in 0 until GameStateManager.levelData.size){
+                        val aLevel = GameStateManager.levelData[i].split(" ")
+                        if(aLevel[2].equals(levelData)){
+                            thisLevel = i
+                            toast(i.toString())
                         }
-                        bReset.onClick {
-                            resetAnimation()
-                        }
-                        bNextLevel.onClick {
-                            toast("budump")
+                        when {
+                            aLevel[0].equals("E") -> numEasyLevels++
+                            aLevel[0].equals("M") -> numMedLevels++
+                            aLevel[0].equals("H") -> numHardLevels++
                         }
                     }
 
+                    // Write new score to be saved
+                    updateScoreRecords(playerScore, thisLevel, numEasyLevels, numMedLevels)
+
+                    // Display completion pop-up
+                    val builder = AlertDialog.Builder(this)
+                    val scoreView = layoutInflater.inflate(R.layout.run_stats, null)
+                    scoreView.tvScore.text = playerScore.toString()
+                    scoreView.bLevelSelect.onClick {
+                        startActivity<LevelSelectActivity>()
+                    }
+                    scoreView.bReset.onClick {
+                        clearQueues()
+                        resetAnimation()
+                    }
+                    scoreView.bNextLevel.onClick {
+                        startActivity<LevelPlayActivity>("ID" to GameStateManager.levelData[thisLevel+
+                                1%(numEasyLevels+numMedLevels+numHardLevels)])
+                    }
                     builder.setView(scoreView)
                     val dialog = builder.create()
                     dialog.show()
-                    toast("Hello!!")
                 }
 
                 startAnimation()
@@ -336,7 +398,7 @@ class LevelPlayActivity : AppCompatActivity() {
     fun highlightNext() {
         println(currentMove)
         switchList(currentMove.subroutine)
-        select(currentMove)
+        colorGrid()
         moveIndex++
     }
 
@@ -345,6 +407,51 @@ class LevelPlayActivity : AppCompatActivity() {
         moves.clear()
         board.reset()
         game.reset(board.startPosition, board.startDirection)
+    }
+
+    private fun updateScoreRecords(playerScore: Int, thisLevel: Int, numEasyLevels: Int, numMedLevels: Int){
+        val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
+        val levelScoreEditor = levelScores.edit()
+        var position = thisLevel
+        when (difficulty) {
+            Difficulty.MEDIUM -> {
+                position -= numEasyLevels
+                if(levelScores.getInt("M"+position.toString(),0) < playerScore) {
+                    levelScoreEditor.putInt("Hints",levelScores.getInt("Hints",5)+1)
+                    levelScoreEditor.putInt("M" + position.toString(), playerScore)
+                    levelScoreEditor.commit()
+                }
+            }
+            Difficulty.HARD -> {
+                position -= numEasyLevels+numMedLevels
+                if(levelScores.getInt("H"+position.toString(),0) < playerScore) {
+                    levelScoreEditor.putInt("Hints",levelScores.getInt("Hints",5)+1)
+                    levelScoreEditor.putInt("H" + position.toString(), playerScore)
+                    levelScoreEditor.commit()
+                }
+            }
+            else -> {
+                if(levelScores.getInt("E"+position.toString(),0) < playerScore) {
+                    levelScoreEditor.putInt("Hints",levelScores.getInt("Hints",5)+1)
+                    levelScoreEditor.putInt("E" + position.toString(), playerScore)
+                    levelScoreEditor.commit()
+                }
+            }
+        }
+
+    }
+    private fun gridCell(c: Char): TextView {
+        return TextView(this).apply {
+            text = c.toString()
+            width = 100
+            height = 100
+            gravity = Gravity.CENTER
+        }
+    }
+
+    companion object {
+        private const val GRID_ROWS = 5
+        private const val GRID_COLS = 5
     }
 
 }

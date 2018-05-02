@@ -16,8 +16,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/md_deep_purple_A700"
         android:text="Level Select"
         android:textAlignment="center"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,13 +30,16 @@
 
     <TextView
         android:id="@+id/tvEasy"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/accent"
+        android:gravity="center"
         android:text="Easy"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,88 +50,97 @@
 
     <TextView
         android:id="@+id/tvMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/accent"
+        android:gravity="center"
         android:text="Medium"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428" />
+        app:layout_constraintVertical_bias="0.428"
+        tools:background="@color/accent" />
 
     <TextView
         android:id="@+id/tvHard"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/accent"
+        android:gravity="center"
         android:text="Hard"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.735" />
+        app:layout_constraintVertical_bias="0.735"
+        tools:background="@color/colorAccent" />
 
     <GridLayout
         android:id="@+id/glHardButtons"
-        android:layout_width="368dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:columnCount="4"
+        android:columnCount="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.893">
+        app:layout_constraintTop_toBottomOf="@+id/glMedButtons"
+        app:layout_constraintVertical_bias="0.703">
 
     </GridLayout>
 
     <GridLayout
         android:id="@+id/glMedButtons"
-        android:layout_width="368dp"
-        android:layout_height="82dp"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="236dp"
-        android:columnCount="4"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="244dp"
+        android:columnCount="5"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129">
+        app:layout_constraintVertical_bias="0.238">
 
     </GridLayout>
 
     <GridLayout
         android:id="@+id/glEasyButtons"
-        android:layout_width="368dp"
-        android:layout_height="87dp"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:columnCount="4"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:columnCount="5"
+        app:layout_constraintBottom_toTopOf="@+id/glMedButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.235">
+        app:layout_constraintVertical_bias="0.62">
 
     </GridLayout>
 
