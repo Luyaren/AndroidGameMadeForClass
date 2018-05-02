@@ -2,22 +2,17 @@ package io.robotbois.robotboisapp.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.TextView
 import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.logic.Board
 import io.robotbois.robotboisapp.logic.Difficulty
@@ -27,7 +22,8 @@ import io.robotbois.robotboisapp.logic.poko.MoveType.Angle
 import io.robotbois.robotboisapp.logic.poko.Queue
 import io.robotbois.robotboisapp.logic.poko.Subroutine
 import io.robotbois.robotboisapp.logic.poko.SubroutinePointer
-import io.robotbois.robotboisapp.logic.theView
+import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.managers.MusicManager
 import io.robotbois.robotboisapp.managers.NavbarManager
 import kotlinx.android.synthetic.main.activity_level_play.*
 import kotlinx.android.synthetic.main.movement_buttons_level_play.*
@@ -38,34 +34,21 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.*
-import io.robotbois.robotboisapp.R.id.bStartReset
-import io.robotbois.robotboisapp.logic.poko.MoveType.*
-import io.robotbois.robotboisapp.managers.GameStateManager
-import io.robotbois.robotboisapp.managers.GameStateManager.levelData
-import io.robotbois.robotboisapp.managers.MusicManager
-import kotlinx.android.synthetic.main.navigation_buttons.view.*
-import kotlinx.android.synthetic.main.run_stats.view.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import java.io.FileWriter
 
 
 @SuppressLint("SetTextI18n")
 open class LevelPlayActivity : AppCompatActivity() {
 
-    private var whichView = theView.MAIN
     private var difficulty = Difficulty.EASY
     private var movesNeededToComplete = 0
     private var levelData = ""
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
-    val robotImages = listOf(R.drawable.jimbot)
+    private val robotImages = listOf(R.drawable.jimbot)
     // The view that you will move to move the robot on screen
-    lateinit var robotImage: Drawable
-    lateinit var game: GameGUI
-
-    val isInDialogue = false
+    private lateinit var robotImage: Drawable
+    private lateinit var game: GameGUI
 
     private val queues = listOf<Queue<Move>>(
             Queue(), // Main Routine
@@ -83,21 +66,13 @@ open class LevelPlayActivity : AppCompatActivity() {
     private val currentMove: SubroutinePointer
         get() = moves[moveIndex]
 
-    private lateinit var listItems: ArrayAdapter<String>
 
-    private fun repopulateListView() {
-        listItems.clear()
-        val itemsToAdd = activeQueue.map { it.description }
-        listItems.addAll(itemsToAdd)
-    }
-
-    private fun select(p: SubroutinePointer) {
-        lCommandList.smoothScrollToPosition(p.index)
-        val children = (0 until lCommandList.childCount).map { lCommandList.getChildAt(it) }
-        children.forEachIndexed { i, view ->
-            view.background = when(i) {
-                p.index -> ColorDrawable(Color.WHITE)
-                else -> ColorDrawable(Color.TRANSPARENT)
+    private fun updateGrid() {
+        lGrid.childrenSequence().forEachIndexed { i, tv ->
+            if (i in 0 until activeQueue.size) {
+                (tv as TextView).text = activeQueue[i].char.toString()
+            } else {
+                (tv as TextView).text = " "
             }
         }
     }
@@ -122,12 +97,30 @@ open class LevelPlayActivity : AppCompatActivity() {
     }
 
     private fun switchList(s: Subroutine) {
+        whitewashGrid()
+        val oldActiveQueue = activeQueueIndex
         activeQueueIndex = when(s) {
             Subroutine.MAIN -> 0
             Subroutine.ONE -> 1
             Subroutine.TWO -> 2
         }
-        repopulateListView()
+        if (activeQueueIndex != oldActiveQueue) {
+            updateGrid()
+        }
+        highlightCurrentQueueButton()
+    }
+
+    private fun colorGrid() {
+        if (currentMove.index > 0) {
+            lGrid.getChildAt(currentMove.index - 1).background = ColorDrawable(Color.TRANSPARENT)
+        }
+        lGrid.getChildAt(currentMove.index).background = ColorDrawable(Color.LTGRAY)
+    }
+
+    private fun whitewashGrid() {
+        lGrid.childrenSequence().forEach {
+            it.background = ColorDrawable(Color.TRANSPARENT)
+        }
     }
 
     private fun highlightCurrentQueueButton() {
@@ -175,6 +168,7 @@ open class LevelPlayActivity : AppCompatActivity() {
         resetAnimation()
         lBoard.addView(game)
 
+        /*
         bHints.onClick {
             val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
             val levelScoreEditor = levelScores.edit()
@@ -193,78 +187,82 @@ open class LevelPlayActivity : AppCompatActivity() {
                 }
             }
         }
+        */
 
-        listItems = ArrayAdapter(
-                this,
-                R.layout.command_list_item,
-                mutableListOf("1", "2", "3")
-        )
 
-        lCommandList.apply {
-            adapter = listItems
-            choiceMode = ListView.CHOICE_MODE_SINGLE
+        lGrid.apply {
+            columnCount = GRID_COLS
+            rowCount = GRID_ROWS
         }
 
 
         bForward.onClick {
             activeQueue.enqueue(Move.FORWARD)
-            repopulateListView()
+            updateGrid()
         }
 
         bLeft.onClick {
             activeQueue.enqueue(Move.LEFT)
-            repopulateListView()
+            updateGrid()
         }
 
         bRight.onClick {
             activeQueue.enqueue(Move.RIGHT)
-            repopulateListView()
+            updateGrid()
         }
 
         bSubOne.onClick {
             activeQueue.enqueue(Move.S1)
-            repopulateListView()
+            updateGrid()
         }
 
         bSubTwo.onClick {
             activeQueue.enqueue(Move.S2)
-            repopulateListView()
+            updateGrid()
         }
 
         bNavigationButtons.bMainList.onClick {
             activeQueueIndex = 0
-            repopulateListView()
+            updateGrid()
             highlightCurrentQueueButton()
         }
 
         bNavigationButtons.bSubOneList.onClick {
             activeQueueIndex = 1
-            repopulateListView()
+            updateGrid()
             highlightCurrentQueueButton()
         }
 
         bNavigationButtons.bSubTwoList.onClick {
             activeQueueIndex = 2
-            repopulateListView()
+            updateGrid()
             highlightCurrentQueueButton()
         }
 
         bNavigationButtons.bDelete.onClick {
             if (activeQueue.isNotEmpty()) {
                 activeQueue.removeAt(activeQueue.size - 1)
-                repopulateListView()
             }
-
+            updateGrid()
+            whitewashGrid()
         }
 
-
         highlightCurrentQueueButton()
+    }
 
+    /**
+     * Called after onCreate and once the view is all initialized
+     */
+    override fun onResume() {
+        super.onResume()
+        (0 until GRID_COLS * GRID_ROWS).forEach {
+            lGrid.addView(gridCell(' '))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_level_play, menu)
-        bStartReset.text = "Start"
+        //bStartReset.text = "Start"
         return true
     }
 
@@ -400,7 +398,7 @@ open class LevelPlayActivity : AppCompatActivity() {
     fun highlightNext() {
         println(currentMove)
         switchList(currentMove.subroutine)
-        select(currentMove)
+        colorGrid()
         moveIndex++
     }
 
@@ -442,4 +440,18 @@ open class LevelPlayActivity : AppCompatActivity() {
         }
 
     }
+    private fun gridCell(c: Char): TextView {
+        return TextView(this).apply {
+            text = c.toString()
+            width = 100
+            height = 100
+            gravity = Gravity.CENTER
+        }
+    }
+
+    companion object {
+        private const val GRID_ROWS = 5
+        private const val GRID_COLS = 5
+    }
+
 }
