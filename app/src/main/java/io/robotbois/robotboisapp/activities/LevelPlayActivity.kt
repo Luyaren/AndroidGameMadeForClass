@@ -45,7 +45,7 @@ open class LevelPlayActivity : AppCompatActivity() {
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
-    private val robotImages = listOf(R.drawable.jimbot)
+    //private val robotImages = listOf(R.drawable.jimbot)
     // The view that you will move to move the robot on screen
     private lateinit var robotImage: Drawable
     private lateinit var game: GameGUI
@@ -157,7 +157,8 @@ open class LevelPlayActivity : AppCompatActivity() {
 
         val levelImages = levelData.map { char -> tileImage(char) }
 
-        robotImage = resources.getDrawable(robotImages.random())
+        val robotImages = getSharedPreferences("robotskin", Context.MODE_PRIVATE)
+        robotImage = resources.getDrawable(robotImages.getInt("skin",R.drawable.jimbot))
 
         // Set board data
         board = Board(levelData)
@@ -186,8 +187,8 @@ open class LevelPlayActivity : AppCompatActivity() {
                     tvHints.setText("You do not have enough hint points.")
                 }
             }
-        }
-        */
+        }*/
+
 
 
         lGrid.apply {
