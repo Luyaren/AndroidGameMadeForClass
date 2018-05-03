@@ -27,4 +27,12 @@ class Queue<T> : ArrayList<T>() {
         return super.clone() as Queue<T>
     }
 
+    fun peek(): T? {
+        if (size > 0) {
+            return this[0]
+        } else {
+            return null
+        }
+    }
+
 }

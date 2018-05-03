@@ -1,6 +1,5 @@
 package io.robotbois.robotboisapp.logic.gui
 
-import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -18,11 +17,16 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
     private val bitmaps = tiles.map { (it as BitmapDrawable).bitmap }
     private val painter = Paint()
 
+    private var prevTime = 0L
+    private var delta = 0L
+    private var timer = Wait(WAIT_TIME)
+
     private var robotCoord = Coord(0, 0)
     private var targetCoord = Coord(0, 0)
 
     private var robotAngle = Angle(0)
     private var targetAngle = Angle(0)
+
 
     private val boardSize = sqrt(bitmaps.size.toDouble()).toInt()
     private var queue = Queue<MoveType>()
@@ -31,11 +35,23 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
 
     private enum class TransformationType {
         MOVE,
-        TURN
+        TURN,
+        WAIT
     }
 
     fun push(m: MoveType) {
-        queue.enqueue(m.clone())
+        val peeked = queue.peek()
+        var itemToEnqueue = m.clone()
+
+        // If the robot wouldn't be moving, we enqueue a Wait instead
+        if (peeked is Coord<*> && m is Coord<*>) {
+            val moveAmount = peeked.toInt() distanceTo m.toInt()
+            if (moveAmount < 0.05) {
+                itemToEnqueue = Wait(WAIT_TIME)
+            }
+        }
+        //println(queue.map { it::class })
+        queue.enqueue(itemToEnqueue)
     }
 
     fun reset(startPos: Coord<Int>, startDir: Angle) {
@@ -78,21 +94,27 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
         return when (transformation) {
             TransformationType.MOVE -> robotCoord distanceTo targetCoord < TILE_SIZE / 10
             TransformationType.TURN -> abs( (robotAngle - targetAngle).degrees ) < 5
+            TransformationType.WAIT -> timer.isOver
         }
     }
 
     private fun updatePlayerTarget() {
         if (isPlayerAtTarget() && queue.isNotEmpty()) {
             act.highlightNext()
-            val newTarget = queue.dequeue()
-            when (newTarget) {
+            val newMove = queue.dequeue()
+            when (newMove) {
                 is Coord<*> -> {
                     transformation = TransformationType.MOVE
-                    targetCoord = pixelCoord(newTarget).toInt()
+                    targetCoord = pixelCoord(newMove).toInt()
                 }
                 is Angle -> {
                     transformation = TransformationType.TURN
-                    targetAngle += newTarget
+                    targetAngle += newMove
+                }
+                is Wait -> {
+                    println("Got a WAIT")
+                    transformation = TransformationType.WAIT
+                    timer = newMove
                 }
             }
         }
@@ -102,6 +124,8 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
     private fun drawPlayer(canvas: Canvas) {
         robotCoord = (robotCoord.toDouble() + ((targetCoord - robotCoord) * MOVE_SPEED)).toInt()
         robotAngle = (robotAngle + ((targetAngle - robotAngle) * TURN_SPEED))
+        timer += delta
+
         canvas.rotate(
                 robotAngle.degrees.toFloat(),
                 robotCoord.x.toFloat() + (TILE_SIZE / 2),
@@ -116,6 +140,12 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
         drawTiles(canvas)
         updatePlayerTarget()
         drawPlayer(canvas)
+        val nowTime = System.currentTimeMillis()
+        delta = nowTime - prevTime
+        prevTime = nowTime
+
+
+
         invalidate() // Tells the Canvas to call onDraw again when it can
     }
 
@@ -124,6 +154,7 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
         const val TILE_PADD = 5
         const val MOVE_SPEED = 0.1
         const val TURN_SPEED = 0.1
+        const val WAIT_TIME = 750L // ms
     }
 
 }

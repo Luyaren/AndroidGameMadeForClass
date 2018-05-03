@@ -273,24 +273,25 @@ open class LevelPlayActivity : AppCompatActivity() {
                 if(board.isGameWon()){
                     // Determine score
                     val movesMade = board.robot.totalMoves
+                    // What sorcery is this
                     val playerScore = 65*(-3*(movesNeededToComplete - movesMade)) + 35*(movesMade/movesNeededToComplete)
 
                     // Determine where in the level data file this level is from and how many
                     // easy and medium levels there are
-                    var thisLevel = 0;
+                    var thisLevel = 0
                     var numEasyLevels = 0
                     var numMedLevels = 0
                     var numHardLevels = 0
                     for(i in 0 until GameStateManager.levelData.size){
                         val aLevel = GameStateManager.levelData[i].split(" ")
-                        if(aLevel[2].equals(levelData)){
+                        if(aLevel[2] == levelData){
                             thisLevel = i
                             toast(i.toString())
                         }
                         when {
-                            aLevel[0].equals("E") -> numEasyLevels++
-                            aLevel[0].equals("M") -> numMedLevels++
-                            aLevel[0].equals("H") -> numHardLevels++
+                            aLevel[0] == "E" -> numEasyLevels++
+                            aLevel[0] == "M" -> numMedLevels++
+                            aLevel[0] == "H" -> numHardLevels++
                         }
                     }
 

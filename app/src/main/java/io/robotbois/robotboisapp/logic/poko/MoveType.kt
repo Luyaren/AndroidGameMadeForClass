@@ -1,11 +1,31 @@
 package io.robotbois.robotboisapp.logic.poko
 
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 sealed class MoveType {
 
     abstract fun clone(): MoveType
+
+    class Wait(val target: Long, var time: Long = 0L) : MoveType() {
+        override fun clone(): Wait {
+            return Wait(target, time)
+        }
+
+        operator fun plusAssign(o: Long) {
+            if (time + o > target) {
+                time = target
+            } else {
+                time += o
+            }
+        }
+
+        val isOver: Boolean
+            get() = time >= target
+
+    }
 
     class Angle(deg: Number) : MoveType() {
 
