@@ -23,7 +23,8 @@
             android:name=".activities.LevelSelectActivity"
             android:label="@string/title_activity_level_select"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.LevelPlayActivity"></activity>
+        <activity android:name=".activities.LevelPlayActivity" />
+        <activity android:name=".activities.OptionsActvity"></activity>
     </application>
 
 </manifest>

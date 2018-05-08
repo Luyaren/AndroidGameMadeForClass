@@ -1,0 +1,67 @@
+package io.robotbois.robotboisapp.activities
+
+import android.content.Context
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import io.robotbois.robotboisapp.R
+import io.robotbois.robotboisapp.managers.GameStateManager
+import io.robotbois.robotboisapp.managers.MusicManager
+import io.robotbois.robotboisapp.managers.NavbarManager
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_options_actvity.*
+import kotlinx.android.synthetic.main.robot_skin_select.view.*
+import kotlinx.android.synthetic.main.run_stats.view.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+
+class OptionsActvity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_options_actvity)
+
+        MusicManager.stopGameMusic()
+        MusicManager.playMenuMusic(applicationContext)
+        NavbarManager.navbarFor(this)
+
+        bMain.onClick {
+            startActivity<MainActivity>()
+        }
+        bSound.onClick {
+            toast("Change the sound option")
+        }
+        bRobotSkin.onClick {
+            val robotImages = getSharedPreferences("robotskin", Context.MODE_PRIVATE)
+            val robotImagesEditor = robotImages.edit()
+
+            val builder = AlertDialog.Builder(this@OptionsActvity)
+            val scoreView = layoutInflater.inflate(R.layout.robot_skin_select, null)
+            scoreView.ivBird.onClick {
+                robotImagesEditor.putInt("skin", R.drawable.crobot)
+                robotImagesEditor.commit()
+                toast("0")
+            }
+            scoreView.ivMouse.onClick {
+                robotImagesEditor.putInt("skin", R.drawable.doggo5001)
+                robotImagesEditor.commit()
+                toast("1")
+            }
+            scoreView.ivRoomba.onClick {
+                robotImagesEditor.putInt("skin", R.drawable.jimbot)
+                robotImagesEditor.commit()
+                toast("2")
+            }
+            scoreView.ivSpider.onClick {
+                robotImagesEditor.putInt("skin", R.drawable.bug)
+                robotImagesEditor.commit()
+                toast("3")
+            }
+            builder.setView(scoreView)
+            val dialog = builder.create()
+            dialog.show()
+
+        }
+    }
+}

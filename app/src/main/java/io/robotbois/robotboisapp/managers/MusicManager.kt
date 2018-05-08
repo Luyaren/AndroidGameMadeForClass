@@ -15,7 +15,7 @@ object MusicManager{
     fun intializer(cont: Context){
         if(hasStarted == 0) {
             menuMusic = MediaPlayer.create(cont, R.raw.automaton)
-            gameMusic = MediaPlayer.create(cont, R.raw.mechanism)
+            gameMusic = MediaPlayer.create(cont, R.raw.gearbox)
             hasStarted = 1
         }
     }
@@ -36,7 +36,7 @@ object MusicManager{
 
     fun playGameMusic(cont: Context): Unit {
         if(!gameMusic.isPlaying) {
-            gameMusic = MediaPlayer.create(cont, R.raw.mechanism)
+            gameMusic = MediaPlayer.create(cont, R.raw.gearbox)
             gameMusic.setLooping(true)
             gameMusic.start()
         }

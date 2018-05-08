@@ -3,7 +3,6 @@ package io.robotbois.robotboisapp.logic.gui
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.view.View
 import io.robotbois.robotboisapp.activities.LevelPlayActivity
 import io.robotbois.robotboisapp.logic.poko.MoveType.*
 import io.robotbois.robotboisapp.logic.poko.Queue
@@ -12,7 +11,7 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 
 
-class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivity) : View(act) {
+class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivity) : SquareView(act) {
     private val playerImage = (player as BitmapDrawable).bitmap!!
     private val bitmaps = tiles.map { (it as BitmapDrawable).bitmap }
     private val painter = Paint()
@@ -31,6 +30,9 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
     private val boardSize = sqrt(bitmaps.size.toDouble()).toInt()
     private var queue = Queue<MoveType>()
     private var transformation = TransformationType.MOVE
+
+    private val boardPixelWidth: Int
+        get() = (boardSize * (TILE_SIZE + TILE_PADD)) - TILE_PADD
 
 
     private enum class TransformationType {
@@ -66,7 +68,7 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
         painter.strokeWidth = 0f
         bitmaps.forEachIndexed { i, bitmap ->
             val px = pixelCoord(Coord(i % boardSize, i / boardSize)).toInt()
-            val sz = px + TILE_SIZE
+            val sz = Coord(TILE_SIZE, TILE_SIZE)
             drawImage(canvas, bitmap, px, sz.toInt())
         }
     }
@@ -77,8 +79,11 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
         canvas.drawPaint(painter)
     }
 
+    // All drawing of images gets done here
     private fun drawImage(canvas: Canvas, bitmap: Bitmap, position: Coord<Int>, size: Coord<Int>) {
-        canvas.drawBitmap(bitmap, null, Rect(position.x, position.y, size.x, size.y), painter)
+        canvas.drawBitmap(bitmap, null, Rect(
+                position.x, position.y, position.x + size.x, position.y + size.y
+        ), painter)
     }
 
     /**
@@ -117,6 +122,8 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
                     timer = newMove
                 }
             }
+        } else if (isPlayerAtTarget() && queue.isEmpty()) {
+            act.checkForWin()
         }
     }
 
@@ -131,7 +138,7 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
                 robotCoord.x.toFloat() + (TILE_SIZE / 2),
                 robotCoord.y.toFloat() + (TILE_SIZE / 2)
         )
-        drawImage(canvas, playerImage, robotCoord, (robotCoord + TILE_SIZE).toInt())
+        drawImage(canvas, playerImage, robotCoord, Coord(TILE_SIZE, TILE_SIZE))
     }
 
     override fun onDraw(canvas: Canvas) {
