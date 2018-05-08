@@ -12,7 +12,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/TopHalf"
         android:layout_width="match_parent"
-        android:layout_height="294dp"
+        android:layout_height="300dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -25,7 +25,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/lBoard"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
 
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
