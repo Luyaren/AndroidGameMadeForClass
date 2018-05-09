@@ -22,15 +22,27 @@ object MusicManager{
 
     fun playMenuMusic(cont: Context): Unit {
         if(!menuMusic.isPlaying) {
-            menuMusic = MediaPlayer.create(cont, R.raw.automaton)
-            menuMusic.setLooping(true)
-            menuMusic.start()
+                menuMusic = MediaPlayer.create(cont, R.raw.automaton)
+                menuMusic.setLooping(true)
+                menuMusic.start()
         }
     }
 
     fun stopMenuMusic(): Unit {
         if(menuMusic.isPlaying) {
             menuMusic.stop()
+        }
+    }
+
+    fun pauseMenuMusic(): Unit {
+        if(menuMusic.isPlaying) {
+            menuMusic.pause()
+        }
+    }
+
+    fun resumeMenuMusic(): Unit {
+        if(!menuMusic.isPlaying) {
+            menuMusic.start()
         }
     }
 

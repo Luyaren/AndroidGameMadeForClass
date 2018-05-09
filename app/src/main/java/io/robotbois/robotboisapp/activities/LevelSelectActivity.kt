@@ -62,4 +62,14 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
 
     }
 
+    override fun onPause(){
+        super.onPause();
+        MusicManager.stopMenuMusic()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        MusicManager.playMenuMusic(applicationContext)
+    }
+
 }

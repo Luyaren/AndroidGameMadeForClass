@@ -6,5 +6,6 @@ package io.robotbois.robotboisapp.logic
 enum class Difficulty(val level: Int) {
     EASY(4),
     MEDIUM(5),
-    HARD(6)
+    HARD(6),
+    TUTORIAL(7)
 }
