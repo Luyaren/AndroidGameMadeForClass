@@ -1,6 +1,7 @@
 package io.robotbois.robotboisapp.activities
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -14,6 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import io.robotbois.robotboisapp.R
+import io.robotbois.robotboisapp.R.id.*
 import io.robotbois.robotboisapp.ext.get
 import io.robotbois.robotboisapp.ext.random
 import io.robotbois.robotboisapp.logic.Board
@@ -207,6 +209,7 @@ open class LevelPlayActivity : AppCompatActivity() {
         }*/
 
 
+
         lGrid.apply {
             columnCount = GRID_COLS
             rowCount = GRID_ROWS
@@ -248,6 +251,23 @@ open class LevelPlayActivity : AppCompatActivity() {
         highlightCurrentQueueButton()
     }
 
+    override fun onBackPressed(){
+        startActivity<LevelSelectActivity>()
+    }
+
+    override fun onPause(){
+        super.onPause();
+        MusicManager.stopGameMusic()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        MusicManager.playGameMusic(applicationContext)
+    }
+
+    /**
+     * Called after onCreate and once the view is all initialized
+     */
     override fun onResume() {
         super.onResume()
         // Giving something these layout params specifies equal weights in a GridLayout
@@ -400,6 +420,7 @@ open class LevelPlayActivity : AppCompatActivity() {
             // Display completion pop-up
             val builder = AlertDialog.Builder(this)
             val scoreView = layoutInflater.inflate(R.layout.run_stats, null)
+            var dialog = Dialog(this)
             scoreView.tvScore.text = playerScore.toString()
             scoreView.bLevelSelect.onClick {
                 startActivity<LevelSelectActivity>()
@@ -407,13 +428,15 @@ open class LevelPlayActivity : AppCompatActivity() {
             scoreView.bReset.onClick {
                 clearQueues()
                 resetAnimation()
+                dialog.hide()
+                updateGrid()
             }
             scoreView.bNextLevel.onClick {
                 startActivity<LevelPlayActivity>("ID" to GameStateManager.levelData[thisLevel+
                         1%(GameStateManager.levelData.size)])
             }
             builder.setView(scoreView)
-            val dialog = builder.create()
+            dialog = builder.create()
             dialog.show()
         }
     }

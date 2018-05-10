@@ -24,7 +24,8 @@
             android:label="@string/title_activity_level_select"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.LevelPlayActivity" />
-        <activity android:name=".activities.OptionsActvity"></activity>
+        <activity android:name=".activities.OptionsActvity" />
+        <activity android:name=".activities.TutorialActivity"></activity>
     </application>
 
 </manifest>

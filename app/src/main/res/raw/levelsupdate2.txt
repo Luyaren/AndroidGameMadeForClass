@@ -1,15 +1,15 @@
-E 8 15 EWSFFFWFWFWFFFFF Move Move Right
-E 3 11 SFWFWFFWFWFFFFWE Right Left Right
-E 5 12 WSFFFWWFFFFFEWWW Move Move Right
-E 3 10 SWFFFFWEWFFFFFFW Move Left Move Right
-E 4 13 WFFFFFWFFWFFSWFE Move Move Right
-M 5 10 FFFEWFWWFWFWFFFFFFWFFSFFF Move up two, turn right, move forward, turn left.
-M 9 18 FSWEFFWFWFFWFWFFWFWFFFFFF Move forward four, turn left, move forward two, turn left, move foward four.
-M 5 12 WFFEWFFWWWWFFFFFWFWFFFFFS Try to create L shapes in movement.
-M 5 10 WFWFWFFFFFWFWWFFFFWFFEFWS Move foward three.
-M 7 20 FFWEFFFSWFFWWFFFFWFWFFFFF Try to create hut shapes.
-H 3 24 WWWWWEFFFFFFFWWWWWFFFFFFWWWWWFSFFFFF Move foward four times.
-H 1 29 FWFFFWWFFWFWFFWFFWEWFFWFWFFWFFSFWFFF Move forward, turn right, move forward, turn left.
-H 1 15 FWFFFFFWFWFWFFFWEFFWFFWFFWFWFFSFWFFW Move foward three times, turn right move, move foward twice, turn left.
-H 4 22 FWFFFFWFFWFEFFFFWFWFWFFWFWWWFFSFFFFF Manipulate hints from first and second hard levels.
-H 2 11 FWWWFFFSFWFEWFFFWFFFFFFFWWFFFFFWFFFF Move forward two, turn left, move foward two, turn left, move forward four.
+E 8 15 EWSFFFHFWFHFFFFF Move Move Right
+E 3 11 SFWFWFFHFWFFFFWE Right Left Right
+E 5 12 WSFFFHWFFFFFEWWW Move Move Right
+E 3 10 SPFFFFWEHFFFFFFW Move Left Move Right
+E 4 13 WFFFFFHFFWFFSWFE Move Move Right
+M 5 10 FFFEWFHWFWFWFFFFFFHFFSFFF Move up two, turn right, move forward, turn left.
+M 9 18 FSWEFFHFWFFHFWFFLFWFFFFFF Move forward four, turn left, move forward two, turn left, move foward four.
+M 5 12 WFFEHFFWLLWFFFFFHFWFFFFFS Try to create L shapes in movement.
+M 5 10 WFLFWFFFFFWFLWFFFFHFFEFWS Move foward three.
+M 7 20 FFWEFFFSHFFWLFFFFWFLFFFFF Try to create hut shapes.
+H 3 24 WHHHWEFFFFFFFLLLWWFFFFFFWWWWWFSFFFFF Move foward four times.
+H 1 29 FWFFFLLFFWFWFFWFFWEWFFHFWFFWFFSFWFFF Move forward, turn right, move forward, turn left.
+H 1 15 FWFFFFFLFWFWFFFWEFFWFFHFFWFHFFSFWFFW Move foward three times, turn right move, move foward twice, turn left.
+H 4 22 FLFFFFWFFLFEFFFFHFWFWFFHFWWLFFSFFFFF Manipulate hints from first and second hard levels.
+H 2 11 FLLLFFFSFHFEWFFFWFFFFFFFLLFFFFFWFFFF Move forward two, turn left, move foward two, turn left, move forward four.

@@ -1,9 +1,11 @@
 package io.robotbois.robotboisapp.activities
 
+import android.app.Dialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.widget.LinearLayout
 import io.robotbois.robotboisapp.R
 import io.robotbois.robotboisapp.managers.GameStateManager
 import io.robotbois.robotboisapp.managers.MusicManager
@@ -37,31 +39,42 @@ class OptionsActvity : AppCompatActivity() {
             val robotImagesEditor = robotImages.edit()
 
             val builder = AlertDialog.Builder(this@OptionsActvity)
+            var dialog = Dialog(this@OptionsActvity)
             val scoreView = layoutInflater.inflate(R.layout.robot_skin_select, null)
             scoreView.ivBird.onClick {
                 robotImagesEditor.putInt("skin", R.drawable.crobot)
                 robotImagesEditor.commit()
-                toast("0")
+                dialog.hide()
             }
             scoreView.ivMouse.onClick {
                 robotImagesEditor.putInt("skin", R.drawable.doggo5001)
                 robotImagesEditor.commit()
-                toast("1")
+                dialog.hide()
             }
             scoreView.ivRoomba.onClick {
                 robotImagesEditor.putInt("skin", R.drawable.jimbot)
                 robotImagesEditor.commit()
-                toast("2")
+                dialog.hide()
             }
             scoreView.ivSpider.onClick {
                 robotImagesEditor.putInt("skin", R.drawable.bug)
                 robotImagesEditor.commit()
-                toast("3")
+                dialog.hide()
             }
             builder.setView(scoreView)
-            val dialog = builder.create()
+            dialog = builder.create()
             dialog.show()
 
         }
+    }
+
+    override fun onPause(){
+        super.onPause();
+        MusicManager.stopMenuMusic()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        MusicManager.playMenuMusic(applicationContext)
     }
 }
