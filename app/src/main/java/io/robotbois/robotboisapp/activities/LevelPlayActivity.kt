@@ -457,7 +457,7 @@ open class LevelPlayActivity : AppCompatActivity() {
     private fun updateScoreRecords(playerScore: Int, thisLevel: Int){
         val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
         val levelScoreEditor = levelScores.edit()
-        var position = thisLevel
+        var position = thisLevel-1 // Remove tutorial level row because difficulties start from zero
         fun writeStuff(levelChar: Char) {
             if(levelScores.getInt(levelChar + position.toString(),0) < playerScore) {
                 levelScoreEditor.putInt("Hints",levelScores.getInt("Hints", 5) + 1)

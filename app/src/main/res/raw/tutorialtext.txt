@@ -1,14 +1,6 @@
 This is a game about programming robots. Your goal is to get your robot from the start to the end in as few moves as possible.
-
-The Main Command Set:
-This set of instructions is what will be executed (in order) when you press the "go" button
-
-Subroutines: 
-Subroutines are sets of instructions that are executes (in order) when called upon by another set of instructions (such as Main or other Subroutines). There are two Subroutines: S1 and S2.
-
-Inputting Instructions:
-To input an instruction, you must first select the desired set you wish to put your instruction into by pushing the corresponding button on the left. Then, you may input your desired instructions by pushing the corresponding buttons on the bank to the right. To remove an instruction from a set, you may push it on its set list on the left to delete it.
-
-Obstacles:
-Obstacles impede your path. If you run into a solid obstacle, you will not move forward. However, some obstacles may have unintended consequences when you bump into them...
+The Main Command Set: This set of instructions is what will be executed (in order) when you press the "go" button
+Subroutines: Subroutines are sets of instructions that are executes (in order) when called upon by another set of instructions (such as Main or other Subroutines). There are two Subroutines: S1 and S2.
+Inputting Instructions: To input an instruction, you must first select the desired set you wish to put your instruction into by pushing the corresponding button on the left. Then, you may input your desired instructions by pushing the corresponding buttons on the bank to the right. To remove an instruction from a set, you may push it on its set list on the left to delete it.
+Obstacles: Obstacles impede your path. If you run into a solid obstacle, you will not move forward. However, some obstacles may have unintended consequences when you bump into them...
 

@@ -10,12 +10,14 @@ object MusicManager{
 
     lateinit var menuMusic: MediaPlayer
     lateinit var gameMusic: MediaPlayer
+    lateinit var optionsSelectMusic: MediaPlayer
     var hasStarted = 0
 
     fun intializer(cont: Context){
         if(hasStarted == 0) {
             menuMusic = MediaPlayer.create(cont, R.raw.automaton)
             gameMusic = MediaPlayer.create(cont, R.raw.gearbox)
+            optionsSelectMusic = MediaPlayer.create(cont, R.raw.chill)
             hasStarted = 1
         }
     }
@@ -59,4 +61,19 @@ object MusicManager{
             gameMusic.stop()
         }
     }
+
+    fun playOptionsSelectMusic(cont: Context): Unit {
+        if(!optionsSelectMusic.isPlaying) {
+            optionsSelectMusic = MediaPlayer.create(cont, R.raw.chill)
+            optionsSelectMusic.setLooping(true)
+            optionsSelectMusic.start()
+        }
+    }
+
+    fun stopOptionsSelectMusic(): Unit {
+        if(optionsSelectMusic.isPlaying) {
+            optionsSelectMusic.stop()
+        }
+    }
+
 }
