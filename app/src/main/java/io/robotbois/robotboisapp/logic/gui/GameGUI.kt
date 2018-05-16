@@ -75,7 +75,7 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
 
     private fun drawBackground(canvas: Canvas) {
         painter.style = Paint.Style.FILL
-        painter.color = Color.WHITE
+        painter.color = Color.BLACK
         canvas.drawPaint(painter)
     }
 

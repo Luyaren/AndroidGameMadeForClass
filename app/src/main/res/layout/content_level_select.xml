@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="io.robotbois.robotboisapp.activities.LevelSelectActivity"
     tools:showIn="@layout/activity_level_select">
@@ -16,10 +17,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/md_deep_purple_A700"
+        android:background="#000000"
         android:text="Level Select"
         android:textAlignment="center"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="#ffffff"
+
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +38,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/accent"
+        android:background="#772014"
         android:gravity="center"
         android:text="Easy"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,18 +58,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/accent"
+        android:background="#772014"
         android:gravity="center"
         android:text="Medium"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428"
-        tools:background="@color/accent" />
+        app:layout_constraintVertical_bias="0.428" />
 
     <TextView
         android:id="@+id/tvHard"
@@ -77,18 +78,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/accent"
+        android:background="#772014"
         android:gravity="center"
         android:text="Hard"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.735"
-        tools:background="@color/colorAccent" />
+        app:layout_constraintVertical_bias="0.735" />
 
     <GridLayout
         android:id="@+id/glHardButtons"

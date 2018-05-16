@@ -25,7 +25,9 @@ class OptionsActvity : AppCompatActivity() {
         setContentView(R.layout.activity_options_actvity)
 
         MusicManager.stopGameMusic()
-        MusicManager.playMenuMusic(applicationContext)
+        MusicManager.stopMenuMusic()
+        MusicManager.playOptionsSelectMusic(applicationContext)
+
         NavbarManager.navbarFor(this)
 
         bMain.onClick {
@@ -70,11 +72,11 @@ class OptionsActvity : AppCompatActivity() {
 
     override fun onPause(){
         super.onPause();
-        MusicManager.stopMenuMusic()
+        MusicManager.stopOptionsSelectMusic()
     }
 
     override fun onRestart() {
         super.onRestart()
-        MusicManager.playMenuMusic(applicationContext)
+        MusicManager.playOptionsSelectMusic(applicationContext)
     }
 }

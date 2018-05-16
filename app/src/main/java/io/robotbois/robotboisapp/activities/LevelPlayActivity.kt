@@ -7,7 +7,9 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -48,12 +50,14 @@ open class LevelPlayActivity : AppCompatActivity() {
     private val seed = difficulty.level + movesNeededToComplete
     private val randomMaker = Random(seed.toLong())
     private lateinit var board: Board
+
     private var isGameWon = false
+
     //private val robotImages = listOf(R.drawable.jimbot)
     // The view that you will move to move the robot on screen
     private lateinit var robotImage: Drawable
     private lateinit var game: GameGUI
-
+    private lateinit var media : MediaPlayer
     private val queues = listOf<Queue<Move>>(
             Queue(), // Main Routine
             Queue(), // Subroutine 1
@@ -364,7 +368,10 @@ open class LevelPlayActivity : AppCompatActivity() {
         resetAnimation()
         moves = discreteMoves()
         //moves.forEach { println(it) }
+        media = MediaPlayer()
+        media.start()
         moves.forEach { pointer ->
+            //   media.setOnCompletionListener {
             when (pointer.move) {
                 Move.FORWARD -> {
                     board.robot.moveForward()
@@ -398,7 +405,6 @@ open class LevelPlayActivity : AppCompatActivity() {
                 else -> throw Exception("Unsupported Move type! I got a ${pointer.move}")
             }
         }
-
     }
 
     fun checkForWin() {
@@ -444,6 +450,11 @@ open class LevelPlayActivity : AppCompatActivity() {
     fun highlightNext() {
         println(currentMove)
         switchList(currentMove.subroutine)
+        currentMove.move.sound?.let {
+            media.stop()
+            media = MediaPlayer.create(this, it)
+            media.start()
+        }
         moveIndex++
     }
 
@@ -457,7 +468,7 @@ open class LevelPlayActivity : AppCompatActivity() {
     private fun updateScoreRecords(playerScore: Int, thisLevel: Int){
         val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
         val levelScoreEditor = levelScores.edit()
-        var position = thisLevel
+        var position = thisLevel-1 // Remove tutorial level row because difficulties start from zero
         fun writeStuff(levelChar: Char) {
             if(levelScores.getInt(levelChar + position.toString(),0) < playerScore) {
                 levelScoreEditor.putInt("Hints",levelScores.getInt("Hints", 5) + 1)

@@ -23,10 +23,12 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_select)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
 
         MusicManager.stopGameMusic()
-        MusicManager.playMenuMusic(applicationContext)
+        MusicManager.stopMenuMusic()
+        MusicManager.playOptionsSelectMusic(applicationContext)
+
         NavbarManager.navbarFor(this)
 
         val easyLevels = GameStateManager.levelData.filter { it[0] == 'E' }
@@ -64,12 +66,12 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onPause(){
         super.onPause();
-        MusicManager.stopMenuMusic()
+        MusicManager.stopOptionsSelectMusic()
     }
 
     override fun onRestart() {
         super.onRestart()
-        MusicManager.playMenuMusic(applicationContext)
+        MusicManager.playOptionsSelectMusic(applicationContext)
     }
 
 }
