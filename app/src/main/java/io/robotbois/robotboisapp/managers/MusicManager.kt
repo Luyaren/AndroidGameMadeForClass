@@ -3,7 +3,7 @@ package io.robotbois.robotboisapp.managers
 import android.content.Context
 import android.media.MediaPlayer
 import io.robotbois.robotboisapp.R
-import io.robotbois.robotboisapp.managers.MusicManager.gameMusic
+//import io.robotbois.robotboisapp.managers.MusicManager.gameMusic
 import io.robotbois.robotboisapp.managers.MusicManager.menuMusic
 
 object MusicManager{
@@ -57,7 +57,7 @@ object MusicManager{
     }
 
     fun stopGameMusic(): Unit {
-        if(gameMusic.isPlaying) {
+        if (gameMusic.isPlaying) {
             gameMusic.stop()
         }
     }

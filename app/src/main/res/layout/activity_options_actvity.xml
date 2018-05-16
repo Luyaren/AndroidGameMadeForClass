@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0f0f0f"
     tools:context=".activities.OptionsActvity"
     android:theme="@style/Theme.AppCompat">
 
 
     <Button
         android:id="@+id/bMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="84dp"
+        android:background="@drawable/main_button_oval"
         android:text="Main"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,11 +25,12 @@
 
     <Button
         android:id="@+id/bRobotSkin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="88dp"
+        android:background="@drawable/main_button_oval"
         android:text="Robot Skin"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,12 +39,13 @@
 
     <Button
         android:id="@+id/bSound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/main_button_oval"
         android:text="Sound: ON"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,6 +64,7 @@
         android:gravity="center_horizontal"
         android:inputType="textPersonName"
         android:text="Options"
+        android:textColor="#ffffff"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"

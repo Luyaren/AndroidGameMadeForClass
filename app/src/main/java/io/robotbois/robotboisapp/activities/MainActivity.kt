@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 
         MusicManager.intializer(applicationContext)
-        MusicManager.stopGameMusic()
+      //  MusicManager.stopGameMusic()
         MusicManager.playMenuMusic(applicationContext)
 
         GameStateManager.levelData = resources.openRawResource(R.raw.levels).bufferedReader().readLines()

@@ -23,7 +23,7 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_select)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
 
         MusicManager.stopGameMusic()
         MusicManager.stopMenuMusic()
