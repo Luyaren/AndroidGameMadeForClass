@@ -1,6 +1,7 @@
 package io.robotbois.robotboisapp.activities
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.GridLayout
@@ -24,6 +25,8 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_select)
         //setSupportActionBar(toolbar)
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         MusicManager.stopGameMusic()
         MusicManager.stopMenuMusic()
@@ -62,6 +65,13 @@ class LevelSelectActivity : AppCompatActivity(), AnkoLogger {
         addLevelButtons(mediumLevels, glMedButtons, "M")
         addLevelButtons(hardLevels, glHardButtons, "H")
 
+        bReturnMain.onClick{
+            startActivity<MainActivity>()
+        }
+    }
+
+    override fun onBackPressed(){
+        startActivity<MainActivity>()
     }
 
     override fun onPause(){

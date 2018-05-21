@@ -2,6 +2,7 @@ package io.robotbois.robotboisapp.activities
 
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -23,6 +24,8 @@ class OptionsActvity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options_actvity)
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         MusicManager.stopGameMusic()
         MusicManager.stopMenuMusic()

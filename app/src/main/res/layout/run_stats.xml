@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical">
 
     <TextView
@@ -10,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/md_blue_100"
+        android:background="#000000"
         android:gravity="center_vertical|center"
         android:text="Your Score:"
-        android:textColor="@color/md_amber_A700"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="40sp" />
 
     <TextView
@@ -21,26 +22,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/md_cyan_100"
+        android:background="#000000"
         android:gravity="center_vertical|center_horizontal"
         android:text="TextView"
-        android:textColor="@color/md_deep_orange_A700"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="35sp" />
 
     <GridLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_gravity="center"
         android:columnCount="3">
 
         <Button
             android:id="@+id/bReset"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/md_blue_900"
+            android:layout_column="0"
+            android:background="#772014"
             android:text="Reset"
-            android:textColor="@color/md_grey_100"
-            android:layout_column="0"/>
+            android:textColor="@color/md_grey_100" />
 
         <Button
             android:id="@+id/bLevelSelect"
@@ -48,7 +50,7 @@
             android:layout_height="match_parent"
             android:layout_column="1"
             android:layout_row="0"
-            android:background="@color/md_blue_900"
+            android:background="#772014"
             android:text="Level Select"
             android:textColor="@color/md_grey_100" />
 
@@ -58,7 +60,7 @@
             android:layout_height="match_parent"
             android:layout_column="2"
             android:layout_row="0"
-            android:background="@color/md_blue_900"
+            android:background="#772014"
             android:text="Next"
             android:textColor="@android:color/background_light" />
     </GridLayout>

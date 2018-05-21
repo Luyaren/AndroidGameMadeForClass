@@ -2,6 +2,8 @@ package io.robotbois.robotboisapp.activities
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.media.MediaPlayer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -19,9 +21,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //this.requestedOrientation(SCREEN_ORIENTATION_PORTRAIT)
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         MusicManager.intializer(applicationContext)
-      //  MusicManager.stopGameMusic()
+        MusicManager.stopGameMusic()
+        MusicManager.stopOptionsSelectMusic()
         MusicManager.playMenuMusic(applicationContext)
 
         GameStateManager.levelData = resources.openRawResource(R.raw.levels).bufferedReader().readLines()

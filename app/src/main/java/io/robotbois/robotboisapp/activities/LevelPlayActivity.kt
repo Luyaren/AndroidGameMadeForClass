@@ -3,6 +3,7 @@ package io.robotbois.robotboisapp.activities
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
@@ -43,8 +44,12 @@ import java.util.*
 @SuppressLint("SetTextI18n")
 open class LevelPlayActivity : AppCompatActivity() {
 
+    private var numMainCalls = 0
+    private var numSubOneCalls = 0
+    private var numSubTwoCalls = 0
     private var difficulty = Difficulty.EASY
     private var movesNeededToComplete = 0
+    private var mainCallsNeededToComplete = 0
     private var levelRawData = ""
     private var levelData = ""
     private val seed = difficulty.level + movesNeededToComplete
@@ -164,7 +169,10 @@ open class LevelPlayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_level_play)
         setSupportActionBar(my_toolbar)
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         MusicManager.stopMenuMusic()
+        MusicManager.stopOptionsSelectMusic()
         MusicManager.playGameMusic(applicationContext)
 
         // Grabbing data from activity parameters
@@ -175,8 +183,9 @@ open class LevelPlayActivity : AppCompatActivity() {
             else -> Difficulty.HARD
         }
         levelRawData = intent.getStringExtra("ID")
-        movesNeededToComplete = param[1].toInt()
-        levelData = param[2]
+        movesNeededToComplete = param[2].toInt()
+        mainCallsNeededToComplete = param[1].toInt()
+        levelData = param[3]
 
         val levelImages = levelData.map { char -> tileImage(char) }
 
@@ -345,14 +354,17 @@ open class LevelPlayActivity : AppCompatActivity() {
                 val item = queueClone.dequeue()
                 list.addAll(when (item) {
                     Move.FORWARD, Move.LEFT, Move.RIGHT -> {
+                        numMainCalls++
                         moveCounter++
                         listOf(SubroutinePointer(item, newIndex, defRoutine))
                     }
                     Move.S1 -> {
+                        numSubOneCalls++
                         resolveCounter++
                         resolveQueue(queues[1], newIndex, Subroutine.ONE)
                     }
                     Move.S2 -> {
+                        numSubTwoCalls++
                         resolveCounter++
                         resolveQueue(queues[2], newIndex, Subroutine.TWO)
                     }
@@ -411,9 +423,12 @@ open class LevelPlayActivity : AppCompatActivity() {
         if(board.isGameWon() && !isGameWon){
             isGameWon = true
             // Determine score
-            val movesMade = board.robot.totalMoves
+            //val movesMade = board.robot.totalMoves
+            val movesMade = numMainCalls+(numSubOneCalls*5+numSubTwoCalls*5)-
+                    (numSubOneCalls+numSubTwoCalls)
             // What sorcery is this
-            val playerScore = 65*(-3*(movesNeededToComplete - movesMade)) + 35*(movesMade/movesNeededToComplete)
+            val playerScore = 65*(-3*(movesNeededToComplete - movesMade)) +
+                    35*(numMainCalls/mainCallsNeededToComplete)
 
             // Determine where in the level data file this level is from and how many
             // easy and medium levels there are
