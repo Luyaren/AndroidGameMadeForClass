@@ -42,7 +42,7 @@ class TutorialActivity : LevelPlayActivity() {
             }
         }
         scoreView.tvInstruction.setText(instructions[instructionNum])
-        scoreView.tvInstructionNum.setText("Instruction" + instructionNum.toString())
+        scoreView.tvInstructionNum.setText("Instruction " + instructionNum.toString())
         scoreView.ivPic.setImageDrawable(instructImage)
 
         builder.setView(scoreView)

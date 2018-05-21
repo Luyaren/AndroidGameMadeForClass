@@ -8,6 +8,7 @@ import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
 import co.zsmb.materialdrawerkt.draweritems.divider
 import io.robotbois.robotboisapp.activities.MainActivity
 import io.robotbois.robotboisapp.activities.LevelSelectActivity
+import io.robotbois.robotboisapp.activities.OptionsActvity
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -63,7 +64,7 @@ object NavbarManager {
                 divider {}
                 primaryItem("Settings") {
                     onClick { _ ->
-                        toast("Goes to Settings!")
+                        startActivity<OptionsActvity>()
                         true
                     }
                 }
