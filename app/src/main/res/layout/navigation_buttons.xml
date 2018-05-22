@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#772014"
         android:textColor="#ffffff"
         android:text="Main"
         android:textSize="12sp" />
@@ -19,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#772014"
         android:textColor="#ffffff"
         android:text="Sub 1"
         android:textSize="12sp" />
@@ -30,7 +28,6 @@
         android:layout_height="wrap_content"
         android:textColor="#ffffff"
         android:layout_weight="1"
-        android:background="#772014"
         android:text="SUB 2"
         android:textSize="12sp" />
 

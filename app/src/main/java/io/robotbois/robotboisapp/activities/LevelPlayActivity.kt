@@ -159,9 +159,9 @@ open class LevelPlayActivity : AppCompatActivity() {
 
         buttons.forEach {
             it.background.clearColorFilter()
+            it.background.setColorFilter(Color.rgb(139,69,19), PorterDuff.Mode.DARKEN)
         }
-
-        buttons[activeQueueIndex].background.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY)
+        buttons[activeQueueIndex].background.setColorFilter(Color.RED, PorterDuff.Mode.DARKEN)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -424,11 +424,11 @@ open class LevelPlayActivity : AppCompatActivity() {
             isGameWon = true
             // Determine score
             //val movesMade = board.robot.totalMoves
-            val movesMade = numMainCalls+(numSubOneCalls*5+numSubTwoCalls*5)-
-                    (numSubOneCalls+numSubTwoCalls)
+            val movesMade = numMainCalls + (numSubOneCalls * queues[1].size + numSubTwoCalls * queues[2].size) -
+                    (numSubOneCalls + numSubTwoCalls)
             // What sorcery is this
-            val playerScore = 65*(-3*(movesNeededToComplete - movesMade)) +
-                    35*(numMainCalls/mainCallsNeededToComplete)
+            val playerScore = 65 + ( 3 * (movesNeededToComplete - movesMade)) +
+                    35 *(mainCallsNeededToComplete / numMainCalls)
 
             // Determine where in the level data file this level is from and how many
             // easy and medium levels there are
