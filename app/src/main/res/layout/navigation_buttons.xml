@@ -26,19 +26,18 @@
         android:id="@+id/bSubTwoList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
         android:layout_weight="1"
         android:text="SUB 2"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
     <Button
         android:id="@+id/bDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#772014"
         android:layout_weight="1"
-        android:textColor="#ffffff"
         android:text="Delete"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
 </LinearLayout>

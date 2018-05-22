@@ -98,8 +98,4 @@ class Board(boardInfo: String){
         return false
     }
 
-    fun runScore(): Int {
-
-        return 100000000
-    }
 }

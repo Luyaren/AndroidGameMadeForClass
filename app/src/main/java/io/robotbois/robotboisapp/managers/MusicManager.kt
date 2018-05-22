@@ -12,6 +12,7 @@ object MusicManager{
     lateinit var gameMusic: MediaPlayer
     lateinit var optionsSelectMusic: MediaPlayer
     var hasStarted = 0
+    var musicOnOff = false
 
     fun intializer(cont: Context){
         if(hasStarted == 0) {
@@ -23,7 +24,7 @@ object MusicManager{
     }
 
     fun playMenuMusic(cont: Context): Unit {
-        if(!menuMusic.isPlaying) {
+        if(!menuMusic.isPlaying && musicOnOff == false) {
                 menuMusic = MediaPlayer.create(cont, R.raw.automaton)
                 menuMusic.setLooping(true)
                 menuMusic.start()
@@ -43,13 +44,13 @@ object MusicManager{
     }
 
     fun resumeMenuMusic(): Unit {
-        if(!menuMusic.isPlaying) {
+        if(!menuMusic.isPlaying && musicOnOff == false) {
             menuMusic.start()
         }
     }
 
     fun playGameMusic(cont: Context): Unit {
-        if(!gameMusic.isPlaying) {
+        if(!gameMusic.isPlaying && musicOnOff == false) {
             gameMusic = MediaPlayer.create(cont, R.raw.gearbox)
             gameMusic.setLooping(true)
             gameMusic.start()
@@ -63,7 +64,7 @@ object MusicManager{
     }
 
     fun playOptionsSelectMusic(cont: Context): Unit {
-        if(!optionsSelectMusic.isPlaying) {
+        if(!optionsSelectMusic.isPlaying && musicOnOff == false) {
             optionsSelectMusic = MediaPlayer.create(cont, R.raw.chill)
             optionsSelectMusic.setLooping(true)
             optionsSelectMusic.start()

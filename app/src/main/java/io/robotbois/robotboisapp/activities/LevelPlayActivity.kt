@@ -139,14 +139,14 @@ open class LevelPlayActivity : AppCompatActivity() {
 
     private fun colorActiveGridCell() {
         if (currentMove.index > 0) {
-            lGrid[currentMove.index - 1][0].background = ColorDrawable(Color.TRANSPARENT)
+            lGrid[currentMove.index - 1][0].background = ColorDrawable(GRID_COLOR)
         }
-        lGrid[currentMove.index][0].background = ColorDrawable(Color.LTGRAY)
+        lGrid[currentMove.index][0].background = ColorDrawable(GRID_SELECTED)
     }
 
     private fun clearGridColors() {
         lGrid.childrenSequence().forEach {
-            it[0].background = ColorDrawable(Color.TRANSPARENT)
+            it[0].background = ColorDrawable(GRID_COLOR)
         }
     }
 
@@ -154,14 +154,20 @@ open class LevelPlayActivity : AppCompatActivity() {
         val buttons = listOf(
                 bNavigationButtons.bMainList,
                 bNavigationButtons.bSubOneList,
-                bNavigationButtons.bSubTwoList
+                bNavigationButtons.bSubTwoList,
+                bNavigationButtons.bDelete,
+                bForward,
+                bRight,
+                bLeft,
+                bSubOne,
+                bSubTwo
         )
 
         buttons.forEach {
             it.background.clearColorFilter()
-            it.background.setColorFilter(Color.rgb(139,69,19), PorterDuff.Mode.DARKEN)
+            it.background.setColorFilter(0xff772014.toInt(), PorterDuff.Mode.SRC_ATOP)
         }
-        buttons[activeQueueIndex].background.setColorFilter(Color.RED, PorterDuff.Mode.DARKEN)
+        buttons[activeQueueIndex].background.setColorFilter(0xffBD3320.toInt(), PorterDuff.Mode.SRC_ATOP)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -169,7 +175,7 @@ open class LevelPlayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_level_play)
         setSupportActionBar(my_toolbar)
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         MusicManager.stopMenuMusic()
         MusicManager.stopOptionsSelectMusic()
@@ -200,28 +206,6 @@ open class LevelPlayActivity : AppCompatActivity() {
         game = GameGUI(levelImages, robotImage, this)
         resetAnimation()
         lBoard.addView(game)
-
-        /*
-        bHints.onClick {
-            val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
-            val levelScoreEditor = levelScores.edit()
-            val hintsLeft = levelScores.getInt("Hints", 5)
-            if(tvHints.text.equals(" ")) {
-                if (hintsLeft > 0) {
-                    var hintMessage = ""
-                    for (i in 3 until param.size) {
-                        hintMessage += param[i] + " "
-                    }
-                    tvHints.setText(hintMessage)
-                    levelScoreEditor.putInt("Hints", hintsLeft - 1)
-                    levelScoreEditor.commit()
-                } else {
-                    tvHints.setText("You do not have enough hint points.")
-                }
-            }
-        }*/
-
-
 
         lGrid.apply {
             columnCount = GRID_COLS
@@ -269,7 +253,7 @@ open class LevelPlayActivity : AppCompatActivity() {
     }
 
     override fun onPause(){
-        super.onPause();
+        super.onPause()
         MusicManager.stopGameMusic()
     }
 
@@ -292,11 +276,12 @@ open class LevelPlayActivity : AppCompatActivity() {
                 // A cell in the grid
                 val rel = relativeLayout {
                     textView {
+                        textColor = Color.WHITE
                         text = " "
-                        width = 100
-                        height = 100
+                        width = 175
+                        height = 200
                         gravity = Gravity.CENTER
-                        background = ColorDrawable(Color.WHITE)
+                        background = ColorDrawable(GRID_COLOR)
                     }
                     lparams {
                         margin = 5
@@ -319,6 +304,9 @@ open class LevelPlayActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_play -> {
+                numMainCalls = 0
+                numSubTwoCalls = 0
+                numSubOneCalls = 0
                 startAnimation()
                 true
             }
@@ -389,8 +377,6 @@ open class LevelPlayActivity : AppCompatActivity() {
                     board.robot.moveForward()
                     game.push(board.robot.position)
 
-                    // Logic for handling water tiles
-
                     when(board.robot.tile) {
                         'H' -> { // Puddle
                             val turnAmount = (1..4).random()
@@ -433,7 +419,7 @@ open class LevelPlayActivity : AppCompatActivity() {
             // Determine where in the level data file this level is from and how many
             // easy and medium levels there are
             //val thisLevel = GameStateManager.levelData.find { it.split(" ")[2] == levelData }
-            val thisLevel = GameStateManager.levelData.indexOfFirst { it.split(" ")[2] == levelData }
+            val thisLevel = GameStateManager.levelData.indexOfFirst { it.split(" ")[3] == levelData }
 
             // Write new score to be saved
             updateScoreRecords(playerScore, thisLevel)
@@ -460,6 +446,11 @@ open class LevelPlayActivity : AppCompatActivity() {
             dialog = builder.create()
             dialog.show()
         }
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        resetAnimation()
     }
 
     fun highlightNext() {
@@ -501,7 +492,9 @@ open class LevelPlayActivity : AppCompatActivity() {
                 position -= GameStateManager.easyLevels.size + GameStateManager.mediumLevels.size
                 writeStuff('H')
             }
-            else -> writeStuff('E')
+            else -> {
+                writeStuff('E')
+            }
         }
 
     }
@@ -509,6 +502,8 @@ open class LevelPlayActivity : AppCompatActivity() {
     companion object {
         private const val GRID_ROWS = 4
         private const val GRID_COLS = 4
+        private const val GRID_COLOR = Color.DKGRAY
+        private const val GRID_SELECTED = Color.LTGRAY
     }
 
 }

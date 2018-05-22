@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#772014"
-        android:textColor="#ffffff"
         android:text="Forward"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
     <Button
@@ -20,9 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#772014"
-        android:textColor="#ffffff"
         android:text="Turn Right"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
     <Button
@@ -30,9 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#772014"
-        android:textColor="#ffffff"
         android:text="Turn Left"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
     <Button
@@ -40,18 +37,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#772014"
-        android:textColor="#ffffff"
         android:text="S1"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
     <Button
         android:id="@+id/bSubTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#772014"
-        android:textColor="#ffffff"
         android:layout_weight="1"
-        android:text="S2" />
+        android:text="S2"
+        android:textColor="#ffffff" />
 
 </LinearLayout>

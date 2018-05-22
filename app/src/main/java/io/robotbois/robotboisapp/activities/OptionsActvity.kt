@@ -23,7 +23,15 @@ class OptionsActvity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         setContentView(R.layout.activity_options_actvity)
+
+        bSound.text = when(MusicManager.musicOnOff) {
+            true -> "SOUND: OFF"
+            false -> "SOUND: ON"
+        }
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -37,7 +45,15 @@ class OptionsActvity : AppCompatActivity() {
             startActivity<MainActivity>()
         }
         bSound.onClick {
-            toast("Change the sound option")
+            if (!MusicManager.musicOnOff) {
+                MusicManager.musicOnOff = true
+                MusicManager.optionsSelectMusic.stop()
+                bSound.text = "SOUND: OFF"
+            } else {
+                MusicManager.musicOnOff = false
+                MusicManager.playOptionsSelectMusic(applicationContext)
+                bSound.text = "SOUND: ON"
+            }
         }
         bRobotSkin.onClick {
             val robotImages = getSharedPreferences("robotskin", Context.MODE_PRIVATE)
