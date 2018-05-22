@@ -37,37 +37,38 @@ class MainActivity : AppCompatActivity() {
         bStartGame.setOnClickListener {
             var theNextLevel = GameStateManager.levelData[0]
             val levelScores = getSharedPreferences("scoredata", Context.MODE_PRIVATE)
-            var endLoop = false
-            for(x in 0 until levelData.size){
-                when (levelData[x][0]) {
-                    'E' -> {
-                        if(levelScores.getInt("E"+(x-1).toString(),0) == 0){
-                            theNextLevel = levelData[x]
-                            endLoop = true
-                        }
-                    }
-                    'M' -> {
-                        if(levelScores.getInt("M"+(x-GameStateManager.easyLevels.size-1).toString(),0) == 0){
-                            theNextLevel = levelData[x]
-                            endLoop = true
-                        }
-                    }
-                    'H' -> {
-                        if(levelScores.getInt("H"+(x-GameStateManager.easyLevels.size-
-                                        GameStateManager.mediumLevels.size-1).toString(),0) == 0){
-                            theNextLevel = levelData[x]
-                            endLoop = true
-                        }
-                    }
-                }
-                if(endLoop){
-                    break
-                }
-            }
-            if(theNextLevel[0] == 'T'){
+
+            if(levelScores.getInt("H"+(-11).toString(), 0) == 0) { // Check if the tutorial level has been completed
                 startActivity<TutorialActivity>("ID" to GameStateManager.levelData[0])
             }
             else {
+                var endLoop = false
+                for (x in 0 until levelData.size) {
+                    when (levelData[x][0]) {
+                        'E' -> {
+                            if (levelScores.getInt("E" + (x - 1).toString(), 0) == 0) {
+                                theNextLevel = levelData[x]
+                                endLoop = true
+                            }
+                        }
+                        'M' -> {
+                            if (levelScores.getInt("M" + (x - GameStateManager.easyLevels.size - 1).toString(), 0) == 0) {
+                                theNextLevel = levelData[x]
+                                endLoop = true
+                            }
+                        }
+                        'H' -> {
+                            if (levelScores.getInt("H" + (x - GameStateManager.easyLevels.size -
+                                            GameStateManager.mediumLevels.size - 1).toString(), 0) == 0) {
+                                theNextLevel = levelData[x]
+                                endLoop = true
+                            }
+                        }
+                    }
+                    if (endLoop) {
+                        break
+                    }
+                }
                 startActivity<LevelPlayActivity>("ID" to theNextLevel)
             }
         }

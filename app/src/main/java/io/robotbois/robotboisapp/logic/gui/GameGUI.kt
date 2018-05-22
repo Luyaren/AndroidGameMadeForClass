@@ -8,6 +8,7 @@ import io.robotbois.robotboisapp.logic.poko.MoveType.*
 import io.robotbois.robotboisapp.logic.poko.Queue
 import io.robotbois.robotboisapp.logic.poko.MoveType
 import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.sqrt
 
 
@@ -30,6 +31,12 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
     private val boardSize = sqrt(bitmaps.size.toDouble()).toInt()
     private var queue = Queue<MoveType>()
     private var transformation = TransformationType.MOVE
+
+    private val TILE_SIZE: Int
+        get() {
+            return min(width, height) / boardSize - TILE_PADD
+        }
+
 
     private val boardPixelWidth: Int
         get() = (boardSize * (TILE_SIZE + TILE_PADD)) - TILE_PADD
@@ -129,6 +136,8 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
 
     // Magic! (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
     private fun drawPlayer(canvas: Canvas) {
+        //TILE_SIZE = min(width, height) / boardSize - TILE_PADD
+
         robotCoord = (robotCoord.toDouble() + ((targetCoord - robotCoord) * MOVE_SPEED)).toInt()
         robotAngle = (robotAngle + ((targetAngle - robotAngle) * TURN_SPEED))
         timer += delta
@@ -143,6 +152,7 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
         drawBackground(canvas)
         drawTiles(canvas)
         updatePlayerTarget()
@@ -157,7 +167,8 @@ class GameGUI(tiles: List<Drawable>, player: Drawable, val act: LevelPlayActivit
     }
 
     companion object {
-        const val TILE_SIZE = 150
+        //const val TILE_SIZE = 150
+
         const val TILE_PADD = 5
         const val MOVE_SPEED = 0.1
         const val TURN_SPEED = 0.1
